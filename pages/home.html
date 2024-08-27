@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mercury</title>
     <link rel="stylesheet" href="../css/stylesHomes.css">
+    <link rel="icon" href="../images/logo.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../scripts/home.js"></script>
+
+    
 </head>
 <body>
     <div id="container">
@@ -12,7 +17,9 @@
             <nav>
                 <ul class="navbar">
                     <li class="navbar-item logo">
-                        <a id="logo_of_page" href="#">Logo</a>
+                        <a id="logo_of_page" href="#">
+                            <img src="../images/logo.png" alt="">
+                        </a>
                     </li>
                     <li class="navbar-item search-bar">
                         <div class="search-container">
@@ -96,7 +103,65 @@
 
 
             <footer>
-              ass
+              <div id="playlistR1"> <!--Playlist Recomended 1-->
+                    <div id="imgplaylistR1">
+                        <img src="../images/Dark_Side_of_the_Moon.png" >
+                    </div>
+                    <div id="namePlaylistR1">
+                            Dark Side of The Moon<br>
+                            <span>Album * Pink Floyd</span>
+                    </div>
+              </div>
+              <div id="playlistR2">
+                    <div id="imgplaylistR2">
+                        <img src="../images/theRiseAndFallOfZiggyStardustAndTheSpidersFromMars.png" >
+
+                    </div>
+                    <div id="namePlaylistR2">
+                            The Rise and Fall of Ziggy...<br>
+                            <span>Album * David Bowie</span>
+                    </div>
+              </div>
+              <div id="playlistR3">
+                    <div id="imgplaylistR3">
+                        <img src="../images/led_Zeppelin.png" >
+
+                    </div>
+                    <div id="namePlaylistR3">
+                        Led Zeppelin IV<br>
+                            <span>Album * Led Zeppelin</span>
+                    </div>
+              </div>
+              <div id="playlistR4">
+                    <div id="imgplaylistR4">
+                        <img src="../images/paraonid.png" >
+
+                    </div>
+                    <div id="namePlaylistR4">
+                        Paranoid<br>
+                            <span>Album * Black Sabbath</span>
+                    </div>
+              </div>
+              <div id="playlistR5">
+                    <div id="imgplaylistR5">
+                        <img src="../images/Queen_A_Night_At_The_Opera.png" >
+
+                    </div>
+                    <div id="namePlaylistR5">
+                        A night at the Opera<br>
+                            <span>Album * Queen</span>
+                    </div>
+              </div>
+              <div id="playlistR6">
+                    <div id="imgplaylistR6">
+                        <img src="../images/SystemofaDownToxicityalbumcover.png" >
+
+                    </div>
+                    <div id="namePlaylistR6">
+                        Toxicity<br>
+                            <span>Album * System of Down</span>
+                    </div>
+              </div>
             </footer>
         </main>
 
@@ -110,70 +175,26 @@
                         </svg>
                     </div>
                 </li>
-                <ul class="playlist">
-                    <li>
-                        <img src="../images/nada.png" alt="PlayList #1">
-                        <div>
-                            PlayList #1<br>
-                            <span>Santiago</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/nada.png" alt="PlayList #2">
-                        <div>
-                            PlayList #2<br>
-                            <span>Santiago</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/nevermind.png" alt="Nevermind">
-                        <div>
-                            Nevermind<br>
-                            <span>Nirvana</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/inUtero.png" alt="In Utero">
-                        <div>
-                            In Utero<br>
-                            <span>Nirvana</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/hybridTheory.png" alt="Hybrid Theory">
-                        <div>
-                            Hybrid Theory<br>
-                            <span>Linkin Park</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/meteora.png" alt="Meteora">
-                        <div>
-                            Meteora<br>
-                            <span>Linkin Park</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/davidBowie.png" alt="David Bowie">
-                        <div>
-                            David Bowie<br>
-                            <span>Artista</span>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="../images/dream.png" alt="Dream">
-                        <div>
-                            Dream<br>
-                            <span>Fleetwood Mac</span>
-                        </div>
-                    </li>
+        
+                <ul class="playlist" id="playlistContainer">
+                <!-- Playlists -->
                 </ul>
+        
+                <div id="addPlaylist">
+                    <li>
+                        <img src="../images/addPlaylist_.png">
+                        <div>
+                            <button onclick="createAlert()">Agregar Playlist</button>
+                        </div>
+                    </li>
+                </div>
             </div>
         </aside>
         
         
+        
     </div>
 
-    <script src="main.js"></script>
+    
 </body>
 </html>
