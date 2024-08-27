@@ -3,11 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mercury</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/stylesHomes.css">
 </head>
 <body>
+    <div id="container">
+        <header>
+            <nav>
+                <ul class="navbar">
+                    <li class="navbar-item logo">
+                        <a id="logo_of_page" href="#">Logo</a>
+                    </li>
+                    <li class="navbar-item search-bar">
+                        <div class="search-container">
+                            <input id="search" type="text" placeholder="¿Qué quieres reproducir?">
+                            <!-- Icono SVG dentro del input -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="search-icon" style="width: 24px; height: 24px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 3 10.5a7.5 7.5 0 0 0 13.65 6.15z" />
+                            </svg>
+                        </div>
 
-    
-    
+                    </li>
+                    <li class="navbar-item user-menu">
+                        <a id="profile" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" style="width: 24px; height: 24px;">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                        </a>
+                        <a id="exit" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" style="width: 24px; height: 24px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                              </svg>
+                              
+                        </a>
+                    </li>  
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section>
+                <div id="song">
+                    <div id="previousSong">
+                        <img src="../images/nevermind.png" alt="Nevermind">
+                        <div>
+                            Nevermind<br>
+                            <span>Nirvana</span>
+                        </div>
+
+                    </div>
+                    <div id="currentSong">
+                        <img src="../images/dream.png" alt="Dream">
+                    </div>
+                    <div id="nextSong">
+                        <img src="../images/davidBowie.png" alt="David Bowie">
+                        <div>
+                            David Bowie<br>
+                            <span>Artista</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="playMusic">
+                    <div id="bigTime-iconArtist">
+                        <div id="bigTime">
+                            1:20
+                        </div>
+                        <div id="iconArtist">
+                            <img src="../images/Fleetwood-Mac-twister.png" alt="Dream">
+                        </div>
+                    </div>
+                    
+                    <div id="timeBar">
+                        <span id="currentTime">1:20</span>
+                        <input type="range" id="progressBar" value="80" min="0" max="100">
+                        <span id="durationTime">4:20</span>
+                    </div>
+                    
+                    <div id="songName-playPause">
+                        <div id="songInfo">
+                            <span id="songName">The Chain</span><br>
+                            <span id="artistName">Fleetwood Mac</span>
+                        </div>
+                        <div id="controls">
+                            <button id="previousButton">&#9664;</button>
+                            <button id="pauseButton">&#10074;&#10074;</button>
+                            <button id="nextButton">&#9654;</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+
+
+            <footer>
+              ass
+            </footer>
+        </main>
+
+        <aside>
+            <div class="sidebar">
+                <li class="searchplaylist search-bar-playlist">
+                    <div class="search-container-playlist">
+                        <input id="searchPlaylist" type="text" placeholder="¿Qué quieres reproducir?">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="search-icon" style="width: 24px; height: 24px;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 3 10.5a7.5 7.5 0 0 0 13.65 6.15z" />
+                        </svg>
+                    </div>
+                </li>
+                <ul class="playlist">
+                    <li>
+                        <img src="../images/nada.png" alt="PlayList #1">
+                        <div>
+                            PlayList #1<br>
+                            <span>Santiago</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/nada.png" alt="PlayList #2">
+                        <div>
+                            PlayList #2<br>
+                            <span>Santiago</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/nevermind.png" alt="Nevermind">
+                        <div>
+                            Nevermind<br>
+                            <span>Nirvana</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/inUtero.png" alt="In Utero">
+                        <div>
+                            In Utero<br>
+                            <span>Nirvana</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/hybridTheory.png" alt="Hybrid Theory">
+                        <div>
+                            Hybrid Theory<br>
+                            <span>Linkin Park</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/meteora.png" alt="Meteora">
+                        <div>
+                            Meteora<br>
+                            <span>Linkin Park</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/davidBowie.png" alt="David Bowie">
+                        <div>
+                            David Bowie<br>
+                            <span>Artista</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/dream.png" alt="Dream">
+                        <div>
+                            Dream<br>
+                            <span>Fleetwood Mac</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        
+        
+    </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
