@@ -69,7 +69,7 @@
 
             let invalidStartRegex = /^[0-9\W]/;
             if (invalidStartRegex.test(userName)) {
-                userNameError.textContent = "El nombre de usuario no puede comenzar con números o caracteres especiales.";
+                userNameError.textContent = "El nombre de usuario no puede comenzar con números y/o caracteres especiales.";
                 userNameError.style.display = "block";
                 return false; 
             }
@@ -77,7 +77,7 @@
             return true; 
         }
 
-        function validateCharactersUser(){
+        function validateNumberCharactersUser(){
             let userName = document.getElementById('userName').value;
             let userNameError = document.getElementById("userNameError");
 
@@ -92,7 +92,7 @@
             return true;
         }
 
-        function validateCharactersPassword(){
+        function validateNumberCharactersPassword(){
             let password = document.getElementById('password').value;
             let passwordError = document.getElementById("passwordError");
 
@@ -108,21 +108,46 @@
 
         }
 
-        function validateCharactersPassword(){
+
+        function validatePassword(){
             let password = document.getElementById('password').value;
             let passwordError = document.getElementById("passwordError");
 
             passwordError.style.display = "none";
-            
-            if (password.length < 12 || password.length > 20) {
-                passwordError.textContent = "La contraseña debe tener entre 12 y 20 caracteres.";
+
+            let upperCase = /[A-Z]/;
+            let lowerCase = /[a-z]/;
+            let number = /[0-9]/;
+            let special = /[!@#$%^&*(),.?":{}|<>]/;
+
+            if (!upperCase.test(password)) {
+                passwordError.textContent = "La contraseña debe incluir al menos una letra mayúscula.";
                 passwordError.style.display = "block";
-                return false; 
+                return false;
+            }
+
+            if (!lowerCase.test(password)) {
+                passwordError.textContent = "La contraseña debe incluir al menos una letra minúscula.";
+                passwordError.style.display = "block";
+                return false;
+            }
+
+            if (!number.test(password)) {
+                passwordError.textContent = "La contraseña debe incluir al menos un número.";
+                passwordError.style.display = "block";
+                return false;
+            }
+
+            if (!special.test(password)) {
+                passwordError.textContent = "La contraseña debe incluir al menos un caracter especial.";
+                passwordError.style.display = "block";
+                return false;
             }
 
             return true;
-
         }
+
+
 
         
         function register() {              
@@ -150,11 +175,15 @@
                 return;
             }
 
-            if (!validateCharactersUser()) {
+            if (!validateNumberCharactersUser()) {
                 return; 
             }
 
-            if (!validateCharactersPassword()) {
+            if (!validateNumberCharactersPassword()) {
+                return; 
+            }
+
+            if (!validatePassword()) {
                 return; 
             }
 
