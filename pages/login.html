@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="icon" href="../images/logo.png" type="image/png">
+    <script src="../scripts/validations.js"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Noto+Sans+Hanunoo&family=Signika:wght@300..700&display=swap" rel="stylesheet">
@@ -48,36 +49,5 @@
         </ul>
         &copy; Derechos Reservados - Informacion de Contacto
     </footer>
-
-              
-    <script>   /*VALIDACIONES*/
-        function login() {              
-            let userName = document.getElementById('userName').value.trim();
-            let password = document.getElementById('password').value.trim();
-
-            let userNameError = document.getElementById("userNameError");
-            let passwordError = document.getElementById("passwordError");
-            let messageError = document.getElementById("messageError")
-
-            let storedPassword = localStorage.getItem(userName);
-
-            if (userName.trim()=== '' && password.trim()== '') {
-                alert('Los campos no pueden permanecer vacios')
-                return;
-            }
-
-
-            if (storedPassword !== null && storedPassword === password) {
-                alert("Ingreso Exitoso");
-                window.location.href = "home.html";
-            } else {
-                alert("Ingreso Invalido")
-                messageError.textContent = "Ingreso Inválido, Verifica tu nombre de usuario y/o contraseña";
-                messageError.style.display = "block";
-            }
-
-        }
-    </script>
-    
 </body>
 </html>
