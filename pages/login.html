@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/stylesLogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="../images/logo.png" type="image/png">
+    <script src="../scripts/validations.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Noto+Sans+Hanunoo&family=Signika:wght@300..700&display=swap" rel="stylesheet">
+
+
+    <title>Log-In Mercury</title>
+</head>
+<body>
+    <header>
+        <ul>
+            <li><img src="/images/logo_mercury.png" alt=""></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="login-box">
+            <h2>Iniciar Sesión</h2>
+
+            <span id="userNameError" class="error-message"></span>
+            <input id="userName" type="text" class="input_text" placeholder="Nombre de Usuario"/>
+
+            <span id="passwordError" class="error-message"></span>
+            <input id="password" type="password" class="input_text" placeholder="Contraseña"/>
+            <span id="messageError" class="error-message"></span>
+
+            <a onclick="login()" class="primary">Ingresar</a>
+            <hr>
+            <p class="no_account_p">¿No tienes cuenta? Registrate</p>
+            <a href="register.html" class="secondary">Registrarse</a>
+        </div>
+    </main>
+    <aside>
+    </aside>
+    <footer>
+        <ul>
+            <li><i class="fab fa-soundcloud"aria-hidden="true"></i></li>
+            <li><i class="fab fa-facebook" aria-hidden="true"></i></li>
+            <li><i class="fab fa-twitter" aria-hidden="true"></i></li>
+        </ul>
+        &copy; Derechos Reservados - Informacion de Contacto
+    </footer>
+</body>
+</html>
