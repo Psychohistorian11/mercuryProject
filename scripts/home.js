@@ -52,3 +52,5 @@ function addPlaylist(nombrePlaylist) {
     playlists.push({ name: nombrePlaylist, owner: "Santiago", img: "../images/nada.png" });
     renderPlaylists();
 }
+
+

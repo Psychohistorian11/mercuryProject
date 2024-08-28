@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('../images/fondo404.png');
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.container {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.message h1 {
+    font-size: 6rem;
+    margin-bottom: 20px;
+}
+
+.message p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.icon {
+    width: 100px;
+    height: 100px;
+    stroke: #fff;
+}
