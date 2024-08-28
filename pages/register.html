@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/stylesRegister.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="../images/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Noto+Sans+Hanunoo&family=Signika:wght@300..700&display=swap" rel="stylesheet">
+
+
+    <title>Register Mercury</title>
+</head>
+<body>
+    <header>
+        <ul>
+            <li><img src="/images/logo_mercury.png" alt=""></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="register-box">
+            <h2>Registrarse</h2>
+            <span id="emailError" class="errorMessage"></span>
+            <input id="email" type="text" class="input_text" placeholder="Email"/>
+
+            <span id="userNameError" class="errorMessage"></span>
+            <input id="userName" type="text" class="input_text" placeholder="Nombre de Usuario"/>
+
+            <span id="passwordError" class="errorMessage"></span>
+            <input id="password" type="password" class="input_text" placeholder="Contraseña"/>
+
+            <span id="countryError" class="errorMessage"></span>
+            <input id="country" type="text" class="input_text" placeholder="Pais"/>
+
+            <p>Ingrese su fecha de nacimiento</p>
+            <input id="date" type="date" class="input_text" placeholder=""/>
+            <span id="messageError" class="errorMessage"></span>
+
+            <a onclick="register()" class="primary">Ingresar</a>
+            <hr>
+            <div class="account_p">
+                <p>¿Tienes cuenta?</p>
+                <a href="login.html">Inicia Sesión</a>
+            </div>
+        </div>
+    </main>
+    <aside>
+    </aside>
+    <footer>
+        <ul>
+            <li><i class="fab fa-soundcloud"aria-hidden="true"></i></li>
+            <li><i class="fab fa-facebook" aria-hidden="true"></i></li>
+            <li><i class="fab fa-twitter" aria-hidden="true"></i></li>
+        </ul>
+        &copy; Derechos Reservados - Informacion de Contacto
+    </footer>
+
+    <script>
+
+        function validateUserNameStart() {              
+            let userName = document.getElementById('userName').value;
+            let userNameError = document.getElementById("userNameError");
+
+            userNameError.style.display = "none";
+
+            let invalidStartRegex = /^[0-9\W]/;
+            if (invalidStartRegex.test(userName)) {
+                userNameError.textContent = "El nombre de usuario no puede comenzar con números o caracteres especiales.";
+                userNameError.style.display = "block";
+                return false; 
+            }
+
+            return true; 
+        }
+
+        function validateCharactersUser(){
+            let userName = document.getElementById('userName').value;
+            let userNameError = document.getElementById("userNameError");
+
+            userNameError.style.display = "none";
+
+            if (userName.length < 8 || userName.length > 15) {
+                userNameError.textContent = "El nombre de usuario debe tener entre 8 y 15 caracteres.";
+                userNameError.style.display = "block";
+                return false; 
+            }
+
+            return true;
+        }
+
+        function validateCharactersPassword(){
+            let password = document.getElementById('password').value;
+            let passwordError = document.getElementById("passwordError");
+
+            passwordError.style.display = "none";
+            
+            if (password.length < 12 || password.length > 20) {
+                passwordError.textContent = "La contraseña debe tener entre 12 y 20 caracteres.";
+                passwordError.style.display = "block";
+                return false; 
+            }
+
+            return true;
+
+        }
+
+        function validateCharactersPassword(){
+            let password = document.getElementById('password').value;
+            let passwordError = document.getElementById("passwordError");
+
+            passwordError.style.display = "none";
+            
+            if (password.length < 12 || password.length > 20) {
+                passwordError.textContent = "La contraseña debe tener entre 12 y 20 caracteres.";
+                passwordError.style.display = "block";
+                return false; 
+            }
+
+            return true;
+
+        }
+
+        
+        function register() {              
+            let userName = document.getElementById('userName').value;
+            let password = document.getElementById('password').value;
+            let country = document.getElementById('country').value;
+            let email = document.getElementById('email').value;
+
+
+            let userNameError = document.getElementById("userNameError");
+            let passwordError = document.getElementById("passwordError");
+
+            if (userName.trim() === '' || password.trim() == '' || country.trim()== '' || email.trim()== '') {
+                alert("Los campos no pueden permanecer en blanco")
+                return;
+            }
+
+            if (!validateUserNameStart()) {
+                return; 
+            }
+
+            if (userName.includes(' ')) {
+                userNameError.textContent = "El nombre de usuario no puede contener espacios.";
+                userNameError.style.display = "block";
+                return;
+            }
+
+            if (!validateCharactersUser()) {
+                return; 
+            }
+
+            if (!validateCharactersPassword()) {
+                return; 
+            }
+
+            console.log(userName)
+
+            localStorage.setItem(userName, password);
+
+            alert("Registro exitoso.");
+            window.location.href = "home.html";
+        }
+
+    
+    </script>
+    
+</body>
+</html>
