@@ -8,10 +8,9 @@ let playlists = [
     { name: "Dream", owner: "Fleetwood Mac", img: "../images/dream.png"}
 ];  
 
-// Función para renderizar las playlists
 function renderPlaylists() {
     const playlistContainer = document.getElementById('playlistContainer');
-    playlistContainer.innerHTML = '';  // Limpia el contenedor
+    playlistContainer.innerHTML = '';  
 
     playlists.forEach(playlist => {
         const playlistItem = document.createElement('li');
@@ -26,7 +25,6 @@ function renderPlaylists() {
     });
 }
 
-// Llama a renderizar las playlists al cargar la página
 window.onload = renderPlaylists;
 
 function createAlert(){
@@ -51,9 +49,6 @@ function createAlert(){
 }
 
 function addPlaylist(nombrePlaylist) {
-    // Agrega la nueva playlist al array
     playlists.push({ name: nombrePlaylist, owner: "Santiago", img: "../images/nada.png" });
-
-    // Vuelve a renderizar las playlists
     renderPlaylists();
 }
