@@ -148,7 +148,7 @@ function login() {
 
     if (storedPassword !== null && storedPassword === password) {
         alert("Ingreso Exitoso");
-        window.location.href = "home.html";
+        window.location.href = home.html";
     } else {
         alert("Ingreso Invalido")
         messageError.textContent = "Ingreso Inválido, Verifica tu nombre de usuario y/o contraseña";
