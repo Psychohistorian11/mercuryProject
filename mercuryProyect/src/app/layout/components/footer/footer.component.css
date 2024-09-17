@@ -1,0 +1,53 @@
+footer {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 320px;
+    border-radius: 20px;
+}
+
+footer img {
+    width: 100%; 
+    max-width: 230px; 
+    height: auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: all 0.3s ease-in-out;
+
+}
+
+#namePlaylistR1, #namePlaylistR2, 
+#namePlaylistR3, #namePlaylistR4, 
+#namePlaylistR5, #namePlaylistR6 {
+    background-color: #16213e;
+    width: 100%;
+    height: 30%;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#namePlaylistR1 span, #namePlaylistR2 span, 
+#namePlaylistR3 span, #namePlaylistR4 span, 
+#namePlaylistR5 span, #namePlaylistR6 span {
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+}
+
+#playlistR1, #playlistR2, #playlistR3, 
+#playlistR4, #playlistR5, #playlistR6 {
+    width: 250px;
+    height: 300px;
+    margin-right: 40px;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
