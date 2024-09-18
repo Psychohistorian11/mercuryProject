@@ -1,0 +1,24 @@
+
+<div id="song">
+    <div id="previousSong" class="song-item">
+            <img [src]="leftSong().image" >
+            <div>{{leftSong().name}}<br>
+                <span>{{leftSong().nameArtist}}</span>
+            </div>
+    </div>
+
+    <div id="currentSong" class="song-item">
+            <img [src]="currentSong().image" >
+            <div>{{currentSong().name}}<br>
+            <span>{{currentSong().nameArtist}}</span>
+            </div>
+    </div>
+
+    <div id="nextSong" class="song-item">
+            <img [src]="rightSong().image" >
+            <div>{{rightSong().name}}<br>
+            <span>{{rightSong().nameArtist}}</span>
+            </div>
+    </div>
+
+</div>

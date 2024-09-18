@@ -1,0 +1,133 @@
+main {
+    float: right;
+    width: 80%;
+    min-height: 500px;
+    background-color: #2B2D42;
+    color: white;
+}
+
+section{
+    width: 98%;
+    min-height: 480px;
+    background-color: #2e2e38;
+    color: white;
+    border-radius: 20px;
+    margin-left: 10px;
+    font-family:'Courier New', Courier, monospace;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}   
+
+
+/*---- MENÚ DE MÚSICA -----*/
+
+#playMusic{
+    width: 30%;
+    text-align: right;
+    justify-content: space-between;
+    text-align: center;
+    
+}
+#bigTime-iconArtist {
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#bigTime {
+    font-size: 3em;
+    font-weight: bold;
+    color: #fff
+}
+
+#iconArtist img {
+    width: 200px; 
+    height: 200px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 2px solid #fff; 
+    transition: all 0.3s ease-in-out;
+
+}
+
+/* ---------Time Bar-------------- */
+#timeBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    color: #ffffff;
+    
+}
+
+#timeBar span {
+    padding: 10px;
+    font-size: 1em;
+}
+
+#progressBar {
+    flex-grow: 1;
+    margin: 0 10px;
+    height: 10px;
+    background-color: #555;
+    appearance: none;
+    border-radius: 10px;
+
+}
+
+#progressBar::-webkit-slider-runnable-track {
+    background-color: #b429f9;
+    height: 5px;
+}
+
+#progressBar::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    appearance: none;
+    ;
+}
+
+/* ---------Song Info and Controls----------- */
+#songName-playPause {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    padding: 30px;
+}
+
+#songInfo {
+    font-size: 1em;
+}
+
+#controls {
+    display: flex;
+    gap: 10px;
+}
+
+#controls button {
+    background-color: #b429f9;
+    border: none;
+    color: white;
+    font-size: 1em;
+    padding: 15px;
+    border-radius: 20%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#controls button:hover {
+    background-color: #666;
+}
+
+#artistName{
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchComponent } from '../../../shared/components/search/search.component';
 
 @Component({
@@ -9,5 +9,11 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+    // Definimos un evento que puede ser escuchado desde fuera del componente
+    @Output() profileClick = new EventEmitter<void>();
+    onProfileClick(){
+      this.profileClick.emit(); 
+    }
+    
+  }
 
-}

@@ -17,9 +17,7 @@ footer img {
 
 }
 
-#namePlaylistR1, #namePlaylistR2, 
-#namePlaylistR3, #namePlaylistR4, 
-#namePlaylistR5, #namePlaylistR6 {
+#nameType_and_artist{
     background-color: #16213e;
     width: 100%;
     height: 30%;
@@ -32,16 +30,13 @@ footer img {
     text-align: center;
 }
 
-#namePlaylistR1 span, #namePlaylistR2 span, 
-#namePlaylistR3 span, #namePlaylistR4 span, 
-#namePlaylistR5 span, #namePlaylistR6 span {
+#nameType_and_artist span {
     font-size: 12px;
     color: #bbb;
     margin-top: 5px;
 }
 
-#playlistR1, #playlistR2, #playlistR3, 
-#playlistR4, #playlistR5, #playlistR6 {
+#recomendation {
     width: 250px;
     height: 300px;
     margin-right: 40px;
