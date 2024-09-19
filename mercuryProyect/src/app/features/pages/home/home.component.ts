@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FooterComponent } from '../../../layout/components/footer/footer.component';
 import { HeaderComponent } from "../../../layout/components/header/header.component";
 import { AsideComponent } from "../../../layout/components/aside/aside.component";
-import { MainComponent } from "../../../layout/components/main/main.component";
 import { Router, RouterOutlet } from '@angular/router';
+import { MainComponent } from '../main/main.component';
 
 
 @Component({
@@ -19,9 +19,12 @@ export class HomeComponent {
   
     constructor(private router: Router) {}
 
-  navigateToProfile(){
-    // Navegar hacia la página de perfil
-    this.router.navigate(['home/profile']);
-  }
+    navigateToProfile(){
+      this.router.navigate(['profile']);
+    }
+
+    navigateToAlbum(){
+      this.router.navigate(['album']);
+    }
   }
 

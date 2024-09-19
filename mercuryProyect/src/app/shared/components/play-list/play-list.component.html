@@ -1,11 +1,13 @@
-<ul class="playlist" id="playlistContainer">
-    </ul>
+<ul class="playlist list-none p-0 w-full" id="playlistContainer">
+</ul>
 
-    <div id="addPlaylist">
-        <li>
-            <img src="../../../../assets/songs/addPlaylist_.png">
-            <div>
-                <button onclick="createAlert()">Agregar Playlist</button>
-            </div>
-        </li>
-    </div>
+<div id="addPlaylist">
+    <li class="flex items-center">
+        <img src="../../../../assets/songs/addPlaylist_.png" class="w-[60px] h-[60px] mr-5 object-cover rounded-lg">
+        <div>
+            <button onclick="createAlert()" class="bg-transparent text-white text-lg font-mono cursor-pointer transition duration-300 hover:bg-gray-700">
+                Agregar Playlist
+            </button>
+        </div>
+    </li>
+</div>

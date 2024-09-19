@@ -5,8 +5,7 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
   selector: 'app-header',
   standalone: true,
   imports: [SearchComponent],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent {
     // Definimos un evento que puede ser escuchado desde fuera del componente

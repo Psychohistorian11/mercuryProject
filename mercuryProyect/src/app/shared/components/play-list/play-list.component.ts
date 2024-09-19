@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './play-list.component.html',
-  styleUrl: './play-list.component.css'
 })
 export class PlayListComponent {
 

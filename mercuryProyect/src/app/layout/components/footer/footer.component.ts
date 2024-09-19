@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { Recommendations } from '../../../auth/interfaces/Recommendations.interface';
 import { NgFor } from '@angular/common';
 
@@ -6,10 +6,10 @@ import { NgFor } from '@angular/common';
   selector: 'app-footer',
   standalone: true,
   imports: [NgFor],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
+  templateUrl: './footer.component.html'
 })
 export class FooterComponent {
+    @Output() albumClick = new EventEmitter<void>();
 
       listOfRecomentadions =  signal<Recommendations[]>([
           { name: 'Dark Side of The Moon', nameArtist: 'Pink Floyd', type: 'Album', image: '../../../../assets/songs/Dark_Side_of_the_Moon.png'},
@@ -19,4 +19,8 @@ export class FooterComponent {
           { name: 'A night at the Opera', nameArtist: 'Queen', type: 'Album', image: '../../../../assets/songs/Queen_A_Night_At_The_Opera.png'},
           { name: 'Toxicity', nameArtist: 'System of Down', type: 'Album', image: '../../../../assets/songs/SystemofaDownToxicityalbumcover.png'},
       ])
+
+      onAlbumClick(){
+        this.albumClick.emit(); 
+      }
 }

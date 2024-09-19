@@ -1,24 +1,26 @@
-
-<div id="song">
-    <div id="previousSong" class="song-item">
-            <img [src]="leftSong().image" >
-            <div>{{leftSong().name}}<br>
-                <span>{{leftSong().nameArtist}}</span>
-            </div>
-    </div>
-
-    <div id="currentSong" class="song-item">
-            <img [src]="currentSong().image" >
-            <div>{{currentSong().name}}<br>
-            <span>{{currentSong().nameArtist}}</span>
-            </div>
-    </div>
-
-    <div id="nextSong" class="song-item">
-            <img [src]="rightSong().image" >
-            <div>{{rightSong().name}}<br>
-            <span>{{rightSong().nameArtist}}</span>
-            </div>
-    </div>
-
-</div>
+<div class="bg-[#67676b] w-100 p-5 text-left flex justify-between items-center gap-2 rounded-2xl overflow-hidden" id="song">
+        <div id="previousSong" class="song-item flex flex-col items-center">
+          <img [src]="leftSong().image" class="w-full max-w-[230px] rounded-2xl" alt="Previous Song">
+          <div>
+            {{leftSong().name}}<br>
+            <span class="text-[12px] text-[#bbb] mt-1">{{leftSong().nameArtist}}</span>
+          </div>
+        </div>
+      
+        <div id="currentSong" class="song-item flex flex-col items-center">
+          <img [src]="currentSong().image" class="w-full max-w-[420px] object-contain rounded-2xl" alt="Current Song">
+          <div>
+            {{currentSong().name}}<br>
+            <span class="text-[12px] text-[#bbb] mt-1">{{currentSong().nameArtist}}</span>
+          </div>
+        </div>
+      
+        <div id="nextSong" class="song-item flex flex-col items-center">
+          <img [src]="rightSong().image" class="w-full max-w-[230px] rounded-2xl" alt="Next Song">
+          <div>
+            {{rightSong().name}}<br>
+            <span class="text-[12px] text-[#bbb] mt-1">{{rightSong().nameArtist}}</span>
+          </div>
+        </div>
+      </div>
+      

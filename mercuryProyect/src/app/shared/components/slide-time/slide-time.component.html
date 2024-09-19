@@ -1,0 +1,17 @@
+<div class="flex items-center justify-between mb-[70px] text-white">
+    <span class="px-5 text-base">{{beginTime}}</span>
+    <input type="range" class="flex-grow h-[10px] bg-[#555] rounded-full appearance-none" id="progressBar" value="80" min="0" max="100">
+    <span class="px-5 text-base">{{endTime}}</span>
+  </div>
+  
+  <style>
+    #progressBar::-webkit-slider-thumb {
+      width: 12px;
+      height: 12px;
+      background-color: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      appearance: none;
+    }
+  </style>
+  

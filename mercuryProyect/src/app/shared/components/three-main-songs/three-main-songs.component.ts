@@ -6,8 +6,7 @@ import { NgFor } from '@angular/common';
   selector: 'app-three-main-songs',
   standalone: true,
   imports: [NgFor],
-  templateUrl: './three-main-songs.component.html',
-  styleUrl: './three-main-songs.component.css'
+  templateUrl: './three-main-songs.component.html'
 })
 export class ThreeMainSongsComponent {
       leftSong = signal<threeSongs>({ name: 'Smells like teen spirit', nameArtist: 'Nirvana', type: 'Artista', image: '../../../../assets/songs/nevermind.png'})

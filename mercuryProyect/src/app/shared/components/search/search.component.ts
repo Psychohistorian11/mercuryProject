@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-search',
   standalone: true,
   imports: [],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+  templateUrl: './search.component.html'
 })
 export class SearchComponent {
 
