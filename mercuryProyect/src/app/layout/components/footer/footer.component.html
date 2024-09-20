@@ -1,5 +1,7 @@
-<footer class="w-[78%] float-right flex justify-between items-center p-2.5 text-white min-h-[320px] rounded-2xl border border-white">
-    <div id="recomendation" class="w-[250px] h-[300px] mr-10 font-mono flex flex-col justify-between items-center" *ngFor="let recomendation of listOfRecomentadions()">
+<footer class="w-[80%] float-right flex justify-between items-center 
+p-2.5 text-white  rounded-2xl ">
+    <div id="recomendation" class="w-[250px] h-[300px] mr-10 font-mono flex 
+    flex-col justify-between items-center" *ngFor="let recomendation of listOfRecomentadions()">
         <button (click)="onAlbumClick()" class="bg-transparent border-none cursor-pointer">
             <div id="img">
                 <img [src]="recomendation.image" class="w-full max-w-[230px] h-auto rounded-2xl transition-all duration-300 ease-in-out">

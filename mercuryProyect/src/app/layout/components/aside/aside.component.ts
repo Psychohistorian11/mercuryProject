@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-aside',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, NgIf],
   templateUrl: './aside.component.html',
   styleUrls: ['./aside.component.css']
 })

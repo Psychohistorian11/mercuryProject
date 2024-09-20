@@ -9,3 +9,7 @@ export interface Recommendations{
 export interface threeSongs extends Recommendations{
     
 }
+
+export interface Song extends Recommendations{
+        time: string    
+}

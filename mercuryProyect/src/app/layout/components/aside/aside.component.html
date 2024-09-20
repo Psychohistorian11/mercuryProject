@@ -1,25 +1,19 @@
-<div class="flex h-screen">
+<div class="flex flex-col  ">
+  <div class="flex flex-grow">
     <!-- Vertical sidebar with buttons -->
-    <aside class="bg-gray-800 w-20 min-h-screen text-white flex flex-col justify-between p-4">
-      <!-- Buttons aligned vertically -->
-      <button class="mb-4" (click)="toggleMenu(1)">
-        Button 1
+    <aside class="bg-black min-h-full text-white flex flex-col p-4 rounded-r-lg" (mouseenter)="toggleMenu(1)">
+      <button class="mb-4 p-2 rounded-lg" (click)="toggleMenu(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+        </svg>        
       </button>
-      <button class="mb-4" (click)="toggleMenu(2)">
+      <button class="mb-4 rounded-lg" (click)="toggleMenu(2)">
         Button 2
       </button>
-      <button class="mb-4" (click)="toggleMenu(3)">
-        Button 3
-      </button>
-      <button (click)="toggleMenu(4)">
-        Button 4
-      </button>
     </aside>
-  
-    <!-- Expanded sidebar content -->
     <div [ngClass]="{ 'hidden': !openMenu }" class="bg-gray-600/50 min-h-screen w-full fixed top-0 left-20 backdrop-blur-sm" (click)="closeMenu()"></div>
-  
-    <div [ngClass]="{ 'w-80': openMenu, 'w-0': !openMenu }" class="bg-slate-600/50 min-h-screen fixed top-0 left-20 transition-all duration-300">
+
+    <div [ngClass]="{ 'w-72': openMenu, 'w-0': !openMenu }" class="bg-slate-900 min-h-screen fixed top-0 left-20 transition-all duration-300">
       <div *ngIf="openMenu === 1" class="p-4 text-white">
         <h2>Details for Button 1</h2>
         <p>Here you can place additional information related to Button 1.</p>
@@ -28,14 +22,4 @@
         <h2>Details for Button 2</h2>
         <p>Here you can place additional information related to Button 2.</p>
       </div>
-      <div *ngIf="openMenu === 3" class="p-4 text-white">
-        <h2>Details for Button 3</h2>
-        <p>Here you can place additional information related to Button 3.</p>
-      </div>
-      <div *ngIf="openMenu === 4" class="p-4 text-white">
-        <h2>Details for Button 4</h2>
-        <p>Here you can place additional information related to Button 4.</p>
-      </div>
     </div>
-  </div>
-  

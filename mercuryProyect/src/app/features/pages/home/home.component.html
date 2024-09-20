@@ -1,9 +1,12 @@
-<app-header (profileClick)="navigateToProfile()"></app-header>
+<app-header (profileClick)="navigateToProfile()"
+            (artistSongsClick)="navigateToArtistSongs()"></app-header>
+ 
+@if(isMainRoute()){
+    
+    <app-main/>
+    <app-aside></app-aside>
+    <app-footer></app-footer>
+
+}
 
 <router-outlet></router-outlet>
-<app-aside></app-aside>  
-<app-footer></app-footer>
-
-
-
-
