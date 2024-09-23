@@ -1,1 +1,32 @@
-<p>sign-up works!</p>
+<div class="login-box" [formGroup]="userForm">
+  <h2>Registrarse</h2>
+  <input
+    formControlName="userName"
+    type="text"
+    class="input_text"
+    placeholder="Nombre de Usuario"
+  />
+
+  <input
+    formControlName="email"
+    type="text"
+    class="input_text"
+    placeholder="Correo"
+  />
+
+  <input
+    formControlName="password"
+    class="input_text"
+    placeholder="Contraseña"
+    type="password"
+  />
+  <input
+    formControlName="passwordValidation"
+    type="password"
+    class="input_text"
+    placeholder="Validar Contraseña"
+  />
+
+  <a class="primary" (click)="register()">Registrarse</a>
+  <a class="secondary" routerLink="/login">Volver atras</a>
+</div>

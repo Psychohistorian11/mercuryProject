@@ -1,0 +1,56 @@
+.login-box{
+  max-width: 400px;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px rgb(0,0,0,0.8);
+
+}
+.login-box h2{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-box input{
+  background-color: #fff;
+  border: 2px solid #219edc;
+  color: #023047;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+/* Eventos */
+.login-box input:focus{
+  border-color: #fb8500;
+  outline: none;
+}
+
+.login-box a{
+  /*display: block; Convertir en bloque*/
+  padding: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-box a:hover{
+  opacity: 0.7;
+}
+
+.primary {
+  background-color: #ffb703;
+}
+
+.secondary{
+  background-color: #fb8500;
+}
+

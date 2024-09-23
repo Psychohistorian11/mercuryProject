@@ -1,1 +1,19 @@
-<p>login works!</p>
+<div class="login-box" [formGroup]="userForm">
+  <h2>Ingresar</h2>
+  <input
+    formControlName="email"
+    type="text"
+    class="input_text"
+    placeholder="Correo"
+  />
+
+  <input
+    formControlName="password"
+    class="input_text"
+    placeholder="Contraseña"
+    type="password"
+  />
+
+  <a class="primary" (click)="login()">Ingresar</a>
+  <a  routerLink="/sign-up" class="secondary">Registrarse</a>
+</div>
