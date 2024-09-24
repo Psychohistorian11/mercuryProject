@@ -21,7 +21,7 @@ export class HomeComponent {
     constructor(private router: Router) {}
 
     isMainRoute(){
-      return this.router.url === '/';
+      return this.router.url === '/home';
     }
 
     navigateToProfile(){
