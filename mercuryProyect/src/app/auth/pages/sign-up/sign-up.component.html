@@ -26,6 +26,20 @@
     class="input_text"
     placeholder="Validar Contraseña"
   />
+  <label for="role">Rol</label>
+  <select id="role" formControlName="role" class="input_text">
+    <option value="" disabled selected>Selecciona tu rol</option>
+    <option value="artista">Artista</option>
+    <option value="oyente">Oyente</option>
+  </select>
+  <label for="birthDate">Fecha de Nacimiento</label>
+  <input
+    formControlName="birthDate"
+    type="date"
+    class="input_text"
+    placeholder="Fecha de Nacimiento"
+    [max]="maxDate"
+  />
 
   <a class="primary" (click)="register()">Registrarse</a>
   <a class="secondary" routerLink="/login">Volver atras</a>

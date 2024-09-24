@@ -8,11 +8,12 @@ export class UserService {
 
   login(email: string, password: string) {
     if (this.isUserAndPasswordCorrect(email, password)) {
+      const user = this.findUserinUsersWithEmail(email);
       localStorage.setItem(
         'user',
-        email
+        JSON.stringify({ userName: user.userName, email: user.email, role: user.role })
       );
-      return true;
+      return user.role;
     } else {
       localStorage.removeItem('user');
       return false;
@@ -51,7 +52,7 @@ export class UserService {
 
   private findUserinUsersWithEmail(email: string) {
     const users = this.getUsers();
-    return users.find((user: User) => user.userName === email);
+    return users.find((user: User) => user.email === email);
   }
 
   private mailIsRepeated(email: string) {

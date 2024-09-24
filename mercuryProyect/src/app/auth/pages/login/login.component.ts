@@ -30,8 +30,16 @@ export class LoginComponent {
     if(this.userForm.valid){
       const email = this.userForm.get('email')?.value;
       const password = this.userForm.get('password')?.value;
-      if(this.userService.login(email,password)){
+      if(this.userService.login(email,password) === 'hearer'){
         this.router.navigate(['/home']);
+      }
+      else if(this.userService.login(email,password) === 'artist'){
+        Swal.fire({
+          title: "You are an artist :) ",
+          text: "Welcome to our platform",
+          icon: "success",
+        })
+        return;
       }
       else{
         Swal.fire({
