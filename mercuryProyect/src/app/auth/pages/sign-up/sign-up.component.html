@@ -1,1 +1,55 @@
-<p>sign-up works!</p>
+<main class="flex justify-center  p-4">
+<div class="login-box " [formGroup]="userForm">
+
+  <div class="flex  flex-col gap-2.5 justify-center mr-12">
+    <h3>Registrarse</h3>
+    <input
+    formControlName="userName"
+    type="text"
+    class="input_text"
+    placeholder="Nombre de Usuario"
+  />
+
+  <input
+    formControlName="email"
+    type="text"
+    class="input_text"
+    placeholder="Correo"
+  />
+
+  <input
+    formControlName="password"
+    class="input_text"
+    placeholder="Contraseña"
+    type="password"
+  />
+  <input
+    formControlName="passwordValidation"
+    type="password"
+    class="input_text"
+    placeholder="Validar Contraseña"
+  />
+  </div>
+  <div class="flex  flex-col gap-2.5 justify-center mt-8">
+    <label for="role">Rol</label>
+  <select id="role" formControlName="role" class="input_text">
+    <option value="" disabled selected>Selecciona tu rol</option>
+    <option value="artista">Artista</option>
+    <option value="oyente">Oyente</option>
+  </select>
+  <label for="birthDate">Fecha de Nacimiento</label>
+  <input
+    formControlName="birthDate"
+    type="date"
+    class="input_text"
+    placeholder="Fecha de Nacimiento"
+    [max]="maxDate"
+  />
+
+  <a class="primary" (click)="register()">Registrarse</a>
+  <a class="secondary" routerLink="/login">Volver atras</a>
+  </div>
+
+</div>
+
+</main>
