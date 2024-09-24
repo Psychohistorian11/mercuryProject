@@ -2,12 +2,14 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule , Validators,FormBuilder} from '@angular/forms';
 import { Router, RouterLinkWithHref, RouterOutlet } from '@angular/router';
 import { UserService } from '../../services/user.service';
+
 import Swal from 'sweetalert2';
+import { WelcomeComponent } from '../../../static/welcome/welcome.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterLinkWithHref,RouterOutlet],
+  imports: [ReactiveFormsModule,RouterLinkWithHref,RouterOutlet, WelcomeComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

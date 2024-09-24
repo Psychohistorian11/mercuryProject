@@ -1,6 +1,9 @@
-<div class="login-box" [formGroup]="userForm">
-  <h2>Registrarse</h2>
-  <input
+<main class="flex justify-center  p-4">
+<div class="login-box " [formGroup]="userForm">
+
+  <div class="flex  flex-col gap-2.5 justify-center mr-12">
+    <h3>Registrarse</h3>
+    <input
     formControlName="userName"
     type="text"
     class="input_text"
@@ -26,7 +29,9 @@
     class="input_text"
     placeholder="Validar Contraseña"
   />
-  <label for="role">Rol</label>
+  </div>
+  <div class="flex  flex-col gap-2.5 justify-center mt-8">
+    <label for="role">Rol</label>
   <select id="role" formControlName="role" class="input_text">
     <option value="" disabled selected>Selecciona tu rol</option>
     <option value="artista">Artista</option>
@@ -43,4 +48,8 @@
 
   <a class="primary" (click)="register()">Registrarse</a>
   <a class="secondary" routerLink="/login">Volver atras</a>
+  </div>
+
 </div>
+
+</main>

@@ -1,19 +1,24 @@
-<div class="login-box" [formGroup]="userForm">
-  <h2>Ingresar</h2>
-  <input
-    formControlName="email"
-    type="text"
-    class="input_text"
-    placeholder="Correo"
-  />
+<main class="flex justify-center items-center p-4">
+  <div class="login-box " [formGroup]="userForm">
+    <h2>Ingresar</h2>
+    <input
+      formControlName="email"
+      type="text"
+      class="input_text"
+      placeholder="Correo"
+    />
 
-  <input
-    formControlName="password"
-    class="input_text"
-    placeholder="Contraseña"
-    type="password"
-  />
+    <input
+      formControlName="password"
+      class="input_text"
+      placeholder="Contraseña"
+      type="password"
+    />
 
-  <a class="primary" (click)="login()">Ingresar</a>
-  <a  routerLink="/sign-up" class="secondary">Registrarse</a>
-</div>
+    <a class="primary" (click)="login()">Ingresar</a>
+    <a  routerLink="/sign-up" class="secondary">Registrarse</a>
+  </div>
+  <app-welcome></app-welcome>
+</main>
+
+

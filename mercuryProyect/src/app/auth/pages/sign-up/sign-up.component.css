@@ -1,10 +1,40 @@
-.login-box{
-  max-width: 400px;
-  background-color: #fff;
+.login-box {
+  font-family: 'Antic', sans-serif;
+  width: auto;
+  height: 100vh;
+  margin-left: 4rem;
+  max-width: 800px;
+  min-height: auto;
+  background-color: whitesmoke;
+  color: black;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 10px 10px 20px rgb(0,0,0,0.8);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.8);
+  opacity: 0; /* Inicialmente invisible */
+  transform: translateY(30px); /* Inicialmente desplazado hacia abajo */
+  animation: fadeInUp 1s ease-out forwards; /* Animación de desvanecimiento y desplazamiento */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para efectos hover */
 
+  display: flex;
+  flex-direction: row; /* Alinea los elementos de forma vertical */
+  justify-content: center; /* Centra verticalmente el contenido dentro */
+  align-items: center; /* Centra horizontalmente el contenido dentro */
+  text-align: center; /* Alinea el texto en el centro */
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px); /* Empieza un poco más abajo */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Llega a su posición original */
+  }
+}
+
+.login-box:hover {
+  background-color: rgba(245, 245, 245, 0.9); /* Cambia ligeramente el color al hacer hover */
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 1); /* Hace el sombreado más pronunciado */
 }
 .login-box h2{
   text-align: center;
@@ -13,8 +43,8 @@
 
 .login-box input{
   background-color: #fff;
-  border: 2px solid #219edc;
-  color: #023047;
+  border: 2px solid black;
+  color: black;
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
@@ -24,7 +54,7 @@
 }
 .login-box select{
   background-color: #fff;
-  border: 2px solid #219edc;
+  border: 2px solid black;
   color: #023047;
   padding: 10px;
   font-size: 16px;
@@ -36,7 +66,7 @@
 
 /* Eventos */
 .login-box input:focus{
-  border-color: #fb8500;
+  border-color: whitesmoke;
   outline: none;
 }
 
@@ -58,10 +88,13 @@
 }
 
 .primary {
-  background-color: #ffb703;
+  background-color: black;
+  width: 100%;
 }
 
 .secondary{
-  background-color: #fb8500;
+  background-color: white;
+  color: black !important;
+  width: 100%;
 }
 
