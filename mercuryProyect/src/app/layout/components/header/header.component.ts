@@ -1,28 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchComponent } from '../../../shared/generalComponents/search/search.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ActivateLaboratoryService } from '../../../auth/services/activate-laboratory.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [SearchComponent, RouterLink],
+  imports: [SearchComponent, RouterLink, NgIf],
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-<<<<<<< HEAD
-    
-    
-=======
+
+  showLaboratory = false;
+  constructor(private activate: ActivateLaboratoryService, private router: Router) {
+    this.activate.decision$.subscribe((decision: boolean) => {
+      this.showLaboratory = decision;
+    })
+  }
+  
+
   onExitClick(){
     localStorage.removeItem('user');
-    window.location.reload();
+ 
+    this.router.navigate(['/login'])
   }
-    // Definimos un evento que puede ser escuchado desde fuera del componente
+
+
     @Output() profileClick = new EventEmitter<void>();
     onProfileClick(){
       this.profileClick.emit();
     }
 
->>>>>>> origin/login-signUp-Angular
   }
 

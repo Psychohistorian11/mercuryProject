@@ -5,19 +5,19 @@ import { UserService } from '../../services/user.service';
 
 import Swal from 'sweetalert2';
 import { WelcomeComponent } from '../../../static/welcome/welcome.component';
+import { ActivateLaboratoryService } from '../../services/activate-laboratory.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule,RouterLinkWithHref,RouterOutlet, WelcomeComponent],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
   protected userForm!: FormGroup;
   private userService = inject(UserService);
   constructor(
-
+    private activateLaboratory : ActivateLaboratoryService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
@@ -28,20 +28,19 @@ export class LoginComponent {
 
     })
   }
+
   login(){
     if(this.userForm.valid){
       const email = this.userForm.get('email')?.value;
       const password = this.userForm.get('password')?.value;
       if(this.userService.login(email,password) === 'hearer'){
         this.router.navigate(['/home']);
+        this.makeDecision(false)
       }
       else if(this.userService.login(email,password) === 'artist'){
-        Swal.fire({
-          title: "You are an artist :) ",
-          text: "Welcome to our platform",
-          icon: "success",
-        })
-        return;
+
+        this.router.navigate(['/home/artist']);
+        this.makeDecision(true)
       }
       else{
         Swal.fire({
@@ -59,6 +58,11 @@ export class LoginComponent {
         icon: "warning"
       })
     }
+  }
+
+  makeDecision(value: boolean) {
+    // Enviar la decisión al servicio
+    this.activateLaboratory.setDecision(value);
   }
 
 

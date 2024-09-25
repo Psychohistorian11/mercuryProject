@@ -76,10 +76,6 @@ export class CreateSongComponent {
   onSubmit() {
 
     if (this.registerForm.valid) {
-      console.log("file: ", this.registerForm.value.file)
-      console.log("image: ", this.registerForm.value.image)
-      console.log("audio: ", this.audioUrl)
-
 
       const songData = {
         name: this.registerForm.value.name,

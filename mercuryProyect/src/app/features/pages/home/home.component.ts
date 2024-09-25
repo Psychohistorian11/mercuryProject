@@ -21,19 +21,7 @@ export class HomeComponent {
     constructor(private router: Router) {}
 
     isMainRoute(){
-      return this.router.url === '/home';
-    }
-
-    navigateToProfile(){
-      this.router.navigate(['profile']);
-    }
-
-    navigateToAlbum(){
-      this.router.navigate(['album']);
-    }
-
-    navigateToArtistSongs(){
-      this.router.navigate(['my-songs']);
+      return this.router.url === '/home' || this.router.url === '/home/artist';
     }
   }
 

@@ -1,55 +1,94 @@
-<main class="flex justify-center  p-4">
-<div class="login-box " [formGroup]="userForm">
+<main class="flex flex-auto bg-white font-['Antic']">
+  <div class="ml-10 mr-20 mt-24 mb-40 pl-10 pt-10 pr-10 justify-between " [formGroup]="userForm">
+    
+    <div class="mb-6 mr-4">
+      <h3 class="mb-4 text-black text-2xl border-b-2 border-black hover:text-gray-600 transition-colors duration-300">Registro</h3>
 
-  <div class="flex  flex-col gap-2.5 justify-center mr-12">
-    <h3>Registrarse</h3>
-    <input
-    formControlName="userName"
-    type="text"
-    class="input_text"
-    placeholder="Nombre de Usuario"
-  />
 
-  <input
-    formControlName="email"
-    type="text"
-    class="input_text"
-    placeholder="Correo"
-  />
+      <div class="flex mb-2 p-2">
+        <label class="relative w-full">
+          <input formControlName="userName" type="text" required class="text-black bg-white px-12 py-2 mr-10 text-xl outline-none border-2 border-black rounded duration-200 peer w-full hover:border-white focus:border-gray-500 focus:shadow-lg">
 
-  <input
-    formControlName="password"
-    class="input_text"
-    placeholder="Contraseña"
-    type="password"
-  />
-  <input
-    formControlName="passwordValidation"
-    type="password"
-    class="input_text"
-    placeholder="Validar Contraseña"
-  />
+          <span class="bg-white flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm rounded-2xl ml-2 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+            Nombre de Usuario
+          </span>
+        </label>
+      </div>
+
+      <div class="flex mb-2 p-2">
+        <label class="relative w-full">
+          <input formControlName="email" type="email" required class="text-black bg-white px-12 py-2 mr-10 text-xl outline-none border-2 border-black rounded duration-200 peer w-full hover:border-white focus:border-gray-500 focus:shadow-lg">
+          <span class="bg-white flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm rounded-2xl ml-2 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25" />
+            </svg>
+            Correo electrónico
+          </span>
+        </label>
+      </div>
+
+      <div class="flex mb-2 p-2">
+        <label class="relative w-full">
+          <input formControlName="password" type="password" required class="text-black bg-white px-12 py-2 mr-10 text-xl outline-none border-2 border-black rounded duration-200 peer w-full hover:border-white focus:border-gray-500 focus:shadow-lg">
+          <span class="bg-white flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm rounded-2xl ml-2 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" />
+            </svg>            
+            Contraseña
+          </span>
+        </label>
+      </div>
+
+      <div class="flex mb-2 p-2">
+        <label class="relative w-full">
+          <input formControlName="passwordValidation" type="password" required class="text-black bg-white px-12 py-2 mr-10 text-xl outline-none border-2 border-black rounded duration-200 peer w-full hover:border-white focus:border-gray-500 focus:shadow-lg">
+          <span class="bg-white flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm rounded-2xl ml-2 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" />
+            </svg>            
+            Validar contraseña
+          </span>
+        </label>
+      </div>
+
+      
+      <div class="flex flex-col mb-2 p-2">
+        <label for="role" class="mb-4 text-black text-2xl border-b-2 border-black hover:text-gray-600 transition-colors duration-300">Rol</label>
+        <select id="role" formControlName="role" class="text-black bg-white border-2 border-black rounded px-4 py-2 outline-none w-full">
+          <option value="" disabled selected>Selecciona tu rol</option>
+          <option value="artista">Artista</option>
+          <option value="oyente">Oyente</option>
+        </select>
+      </div>
+
+      
+      <div class="flex flex-col mb-2 p-2">
+        <label for="birthDate" class="mb-4 text-black text-2xl  hover:text-gray-600 transition-colors duration-300">Fecha de Nacimiento</label>
+        <input id="birthDate" formControlName="birthDate" type="date" class="text-black bg-white border-2 border-black rounded px-4 py-2 outline-none w-full">
+      </div>
+
+     
+      <div class="flex mt-6 space-x-4">
+        <a class="bg-black text-white rounded px-4 py-2 cursor-pointer hover:bg-blue-400 hover:scale-105 hover:shadow-xl transition-all duration-300" (click)="register()">Registrarse</a>
+        <a class="text-black py-2 underline cursor-pointer hover:text-blue-400 hover:underline-offset-4 transition-all duration-300" routerLink="/login">Volver atrás</a>
+
+      </div>
+    </div>
+
   </div>
-  <div class="flex  flex-col gap-2.5 justify-center mt-8">
-    <label for="role">Rol</label>
-  <select id="role" formControlName="role" class="input_text">
-    <option value="" disabled selected>Selecciona tu rol</option>
-    <option value="artista">Artista</option>
-    <option value="oyente">Oyente</option>
-  </select>
-  <label for="birthDate">Fecha de Nacimiento</label>
-  <input
-    formControlName="birthDate"
-    type="date"
-    class="input_text"
-    placeholder="Fecha de Nacimiento"
-    [max]="maxDate"
-  />
 
-  <a class="primary" (click)="register()">Registrarse</a>
-  <a class="secondary" routerLink="/login">Volver atras</a>
+  <div class="relative w-full h-screen bg-cover bg-center" style="background-image: url('./../../../../assets/songs/mercurySignUp.jpg');">
+    
+     <div class="flex">
+      <img src="./../../../../assets/songs/logo.png"  class="p-10 w-52 h-52 rounded-full">
+      <h2 class="py-16 text-7xl ">Mercury</h2>
+     </div>
+    
+    
   </div>
-
-</div>
-
+  
+  
 </main>
