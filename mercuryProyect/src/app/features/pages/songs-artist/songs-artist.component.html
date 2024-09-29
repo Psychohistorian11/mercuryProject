@@ -1,34 +1,33 @@
-<div
-  class="mx-auto w-ful mt-4 mr-10 ml-10 min-h-[830px] rounded-md text-white overflow-hidden flex justify-between p-10">
-  <div id="menuMusic" class="w-1/2 p-10 ">
-    <div class="flex justify-between">
-      <a  routerLink="/home/my-songs"
-        class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6">
+<div class="container mx-auto flex justify-between mt-16 px-10 min-h-[700px] ">
+  <div id="menuMusic" class="w-1/2 p-5 overflow-y-auto max-h-[830px] mr-10">
+    <div class="flex justify-between space-x-4">
+      <a (click)="onMySongsClick()"
+         class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
         MUSICA
       </a>
-      <a routerLink="/home/my-songs/my-albums"
-        class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6">
+      <a (click)="onMyAlbumsClick()"
+         class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
         ÁLBUMES
       </a>
       <a (click)="whatKindOfNewContent()"
-        class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6">
+         class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6">
         CREAR
       </a>
     </div>
 
-    <div class="mt-10 min-h-[595px]">
+
+    <div class="mt-10">
       @if(isMainRoute()){
-        <app-song-list (songSelect)="onSongSelect($event)"></app-song-list>
+        <app-song-list></app-song-list>
       }
 
       <router-outlet (albumForSeeSongsClick)="onSeeSongsOfAlbum()"></router-outlet>
-      
     </div>
-
   </div>
 
-  <div id="song-album" class="w-1/2 p-10 border border-white">
-    <img [src]="selectedSong.image || './../../../../assets/songs/logo_mercury.png'"
-    class="w-full max-w-[800px] max-h-[690px]">
+  <div id="song-album" class=" sticky top-0">
+    <img [src]="selectedSong || './../../../../assets/songs/logo.png'"
+         class="w-[800px] h-[690px] object-cover border border-white">
   </div>
+  
 </div>

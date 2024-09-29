@@ -17,19 +17,21 @@ export const routes: Routes = [
     { 
       path: 'sign-up', component: SignUpComponent
     },
-    {
-      path: 'home', component: HomeComponent, children: [   
-        { path: 'profile', component: ProfileComponent },
-        { path: 'album', component: AlbumComponent },
-        { path: 'artist', component: ArtistComponent },
-        { path: 'my-songs', component: SongsArtistComponent, children:[
-          { path: 'my-albums', component: AlbumListComponent},
-          { path: 'create-song', component: CreateSongComponent},
-          { path: 'create-album', component: CreateAlbumComponent}
-        ]},
-        
-      ]
-    },
+    { path: 'home/artist/:id', component: HomeComponent, children: [
+      { path: 'profile', component: ProfileComponent},
+      { path: 'my-songs', component: SongsArtistComponent, children: [
+        { path: 'my-albums', component: AlbumListComponent},
+        { path: 'create-song', component: CreateSongComponent},
+        { path: 'create-album', component: CreateAlbumComponent}
+      ]}
+    ]},
+
+    { path: 'home/:id', component: HomeComponent, children: [   
+      { path: 'profile', component: ProfileComponent },
+      { path: 'album', component: AlbumComponent },
+
+    
+    ]},
     { 
       path: '**', redirectTo: 'login', pathMatch: 'full'
     }

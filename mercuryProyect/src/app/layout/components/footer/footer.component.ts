@@ -18,6 +18,8 @@ export class FooterComponent {
           { name: 'Paranoid', nameArtist: 'Black Sabbath', type: 'Album', image: '../../../../assets/songs/paraonid.png'},
           { name: 'A night at the Opera', nameArtist: 'Queen', type: 'Album', image: '../../../../assets/songs/Queen_A_Night_At_The_Opera.png'},
           { name: 'Toxicity', nameArtist: 'System of Down', type: 'Album', image: '../../../../assets/songs/SystemofaDownToxicityalbumcover.png'},
+          { name: 'Toxicity', nameArtist: 'System of Down', type: 'Album', image: '../../../../assets/songs/SystemofaDownToxicityalbumcover.png'},
+
       ])
 
       onAlbumClick(){

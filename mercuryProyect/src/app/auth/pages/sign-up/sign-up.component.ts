@@ -3,6 +3,7 @@ import { FormGroup, ReactiveFormsModule , Validators,FormBuilder} from '@angular
 import { Router, RouterLinkWithHref, RouterOutlet } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user-register';
+import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -52,6 +53,7 @@ export class SignUpComponent {
       const role = this.userForm.get('role')?.value;
       console.log(role);
       const user: User = {
+        id: this.generateId(),
         userName: this.userForm.get('userName')?.value,
         email: this.userForm.get('email')?.value,
         password: this.userForm.get('password')?.value,
@@ -69,6 +71,10 @@ export class SignUpComponent {
         })
       }
     }
+  }
+
+  private generateId(): string {
+    return uuidv4();
   }
 
 }

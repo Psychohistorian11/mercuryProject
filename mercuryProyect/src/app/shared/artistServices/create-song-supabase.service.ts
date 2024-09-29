@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { enviroment } from '../../enviroments/enviroment';
-import { SongSecondContent } from '../../auth/interfaces/CreateSong.interface';
+import { CreateNewSongSupabase } from '../../auth/interfaces/CreateSong.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +16,13 @@ export class CreateSongSupabaseService {
     );
   }
 
-  async addSongSupabase(song: SongSecondContent){
+  async addSongSupabase(song: CreateNewSongSupabase){
     const { id, file, image } = song;
 
     const bucket = 'Songs'; 
 
     try {
-      // Subir archivo de audio
+      // Subir archivo de audioCreateNewSongSupabase
       const { error: fileError } = await this.supabase.storage.from(bucket).upload(`audios/${id}/${file.name}`, file);
         
       if (fileError) throw fileError;

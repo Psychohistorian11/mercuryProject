@@ -4,6 +4,10 @@ import { SongListComponent } from '../../../shared/artistComponents/song-list/so
 import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+import { PlaySongService } from '../../../shared/generalServices/play-song.service';
+import { GetUserService } from '../../../shared/generalServices/get-user.service';
+import {User} from './../../../auth/interfaces/user-register'
 
 
 @Component({
@@ -14,16 +18,23 @@ import Swal from 'sweetalert2';
 })
 export class SongsArtistComponent {
   currentView: 'music' | 'album' | 'create' = 'music';
-  selectedSong: Song = { name: '', nameArtist: '', type: '', image: '', time: '' };
+  selectedSong: string | null;
   seeSongs = false;
+  private imageSubscription: Subscription | null = null;
+  private actualUser: User
 
-  constructor(private router: Router) { }
-
-  onSongSelect(song: Song) {
-    this.selectedSong = song;
-    this.seeSongs = false;
-    
+  constructor(private router: Router, private playSongService: PlaySongService, private user: GetUserService) { 
+    this.selectedSong = this.playSongService.getImage();
+    this.actualUser = this.user.getUser()
+    console.log("papi: ", this.actualUser.id)
   }
+
+  ngOnInit() {
+    this.imageSubscription = this.playSongService.getImageObservable().subscribe(image => {
+      this.selectedSong = image;
+    });
+  }
+
 
   onSeeSongsOfAlbum() {
     this.seeSongs = true;
@@ -62,18 +73,28 @@ export class SongsArtistComponent {
     });
   }
 
+  onMySongsClick(){
+    this.router.navigate([`home/artist/${this.actualUser.id}/my-songs`])
+  }
+
+  onMyAlbumsClick(){
+    this.router.navigate([`home/artist/${this.actualUser.id}/my-songs/my-albums`])
+  }
+
   selectSencillo() {
     Swal.close();
-    this.router.navigate(['/home/my-songs/create-song']);
+    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-song`]);
 
   }
 
   selectAlbum() {
     Swal.close();
-    this.router.navigate(['/home/my-songs/create-album']);
+    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-album`]);
   }
 
   isMainRoute() {
-    return this.router.url === '/home/my-songs';
+    return this.router.url === `/home/artist/${this.actualUser.id}/my-songs`;
   }
+
+
 }

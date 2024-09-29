@@ -1,32 +1,42 @@
 import { Injectable } from '@angular/core';
 import { enviroment } from '../../enviroments/enviroment';
-import { SongFirstContent  } from '../../auth/interfaces/CreateSong.interface';
+import { CreateNewSong } from '../../auth/interfaces/CreateSong.interface';
 import { CreateSongSupabaseService } from './create-song-supabase.service';
 import { v4 as uuidv4 } from 'uuid';
 import { AddSongArtistService } from './add-song-artist.service';
+import { GetUserService } from '../generalServices/get-user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateSongService {
   private readonly SONG_STORAGE_KEY = enviroment.songsConfig.key;
-  private idArtist = '24354rfgbhu65edfggj6768';
+  private idArtist
 
-  constructor(private CreateSongServiceSupabase: CreateSongSupabaseService,private addSongArtist:AddSongArtistService) { }
+  constructor(private CreateSongServiceSupabase: CreateSongSupabaseService,
+              private addSongArtist:AddSongArtistService,
+              private user : GetUserService) { 
+    this.idArtist = this.user.getUser().id
+              }
 
-  getSongs(): SongFirstContent[] {
+  getSongs(): CreateNewSong[] {
     const storedSongs = localStorage.getItem(this.SONG_STORAGE_KEY);
     return storedSongs ? JSON.parse(storedSongs) : [];
   }
 
-  configSong(songData: {name: string, file: File, image: File, time:string }) {
-    const id = this.generateId(); // ID compartido para luego obtener la canción completa
+  configSong(songData: {name: string, time: string, role: string, type: string, file: File, image:File}) {
+    const id = this.generateId(); 
 
     // Crear la canción para el localStorage
-    const songFirstContent: Omit<SongFirstContent, 'id' | 'datePublished'> = {
+    const songFirstContent: Omit<CreateNewSong, 'id' | 'datePublished'> = {
       name: songData.name,
-      time: songData.time
+      time: songData.time,
+      role: songData.role,
+      type: songData.type,
+      nameFile: songData.file.name, // Valor por defecto
+      nameImage: songData.image.name
     };
+    
 
     // Guardar en localStorage
     this.addSongLocalStorage(songFirstContent, id);
@@ -40,10 +50,10 @@ export class CreateSongService {
   }
 
  
-  private addSongLocalStorage(song: Omit<SongFirstContent, 'id' | 'datePublished'>, id: string) {
+  private addSongLocalStorage(song: Omit<CreateNewSong, 'id' | 'datePublished'>, id: string) {
     const currentSongs = this.getSongs();
     
-    const createSong: SongFirstContent = {
+    const createSong: CreateNewSong = {
       ...song,
       id,
       datePublished: new Date().toISOString(), 
@@ -54,7 +64,7 @@ export class CreateSongService {
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(currentSongs));
   }
   
-  // Generar ID autoincremental
+
   private generateId(): string {
     return uuidv4();
   }

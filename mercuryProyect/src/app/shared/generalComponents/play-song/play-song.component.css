@@ -1,0 +1,10 @@
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;  /* Ancho de la bolita */
+    height: 12px; /* Alto de la bolita */
+    border-radius: 50%;  /* Forma circular */
+    background: white; 
+    cursor: pointer;
+  }
+  

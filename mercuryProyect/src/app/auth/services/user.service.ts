@@ -11,7 +11,7 @@ export class UserService {
       const user = this.findUserinUsersWithEmail(email);
       localStorage.setItem(
         'user',
-        JSON.stringify({ userName: user.userName, email: user.email, role: user.role })
+        JSON.stringify({ id: user.id, userName: user.userName, email: user.email, role: user.role })
       );
       return user.role;
     } else {

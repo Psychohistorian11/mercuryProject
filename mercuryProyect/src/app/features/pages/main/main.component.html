@@ -1,11 +1,13 @@
-<main class="float-right w-4/5 min-h-[500px] bg-[#2B2D42] text-white overflow-hidden border border-white" style="font-family: 'Antic', sans-serif;">
-    <section class="float-right w-full min-h-[480px] bg-[#2e2e38] text-white rounded-2xl ml-2.5  flex justify-between items-center overflow-hidden">
-        <app-three-main-songs></app-three-main-songs>
+<main class="float-right bg-[#2B2D42] mr-4 mt-4 flex flex-col sm:flex-row " style="font-family: 'Antic', sans-serif;">
 
-        <div id="playMusic">
-            <app-song-info-icon-artist></app-song-info-icon-artist>
-            <app-slide-time></app-slide-time>
-            <app-play-pause></app-play-pause>
+        <div class="mr-44">
+            <app-three-main-songs></app-three-main-songs>
         </div>
-    </section>
+      
+      <div  class="sm:w-1/3 flex flex-col  mr-40">
+        <app-song-info-icon-artist></app-song-info-icon-artist>
+        <app-slide-time></app-slide-time>
+        <app-play-pause></app-play-pause>
+      </div>
 </main>
+  

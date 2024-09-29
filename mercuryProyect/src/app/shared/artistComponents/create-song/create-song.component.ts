@@ -2,6 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateSongService } from '../../artistServices/create-song.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register-song',
@@ -14,6 +15,8 @@ export class CreateSongComponent {
   registerForm: FormGroup;
   audioUrl: string | ArrayBuffer | null | undefined = null;
   time: string = '';
+  role: string = "Autoria";
+  type: string = "Sencillo";
   
   constructor(private fb: FormBuilder, private CreateSongService: CreateSongService) {
     this.registerForm = this.fb.group({
@@ -29,17 +32,12 @@ export class CreateSongComponent {
       const file = input.files[0];
       const reader = new FileReader();
       
-      // Leer el archivo y asignar la URL de previsualización
       reader.onload = (e) => {
         this.audioUrl = e.target?.result;
-
-        // Crear un objeto Audio para calcular la duración
         const audio = new Audio();
         audio.src = this.audioUrl as string;
-
-        // Calcular la duración del archivo de audio
         audio.onloadedmetadata = () => {
-          const timeInSecons = audio.duration; // Duración en segundos
+          const timeInSecons = audio.duration; 
           this.time = this.formatTime(timeInSecons)
 
         };
@@ -81,11 +79,26 @@ export class CreateSongComponent {
         name: this.registerForm.value.name,
         file: this.registerForm.value.file,
         image: this.registerForm.value.image,
-        time: this.time
+        time: this.time,
+        role: this.role,
+        type: this.type
       };
       
-      this.CreateSongService.configSong(songData); //servicio para guardar la canción
-      console.log('Sencillo guardado con éxito en localStorage!');
+      this.CreateSongService.configSong(songData);
+      
+      Swal.fire({
+        html: `
+          <div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
+            <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
+              Sencillo publicado con exito
+            </div>
+          </div>
+        `,
+        background: 'rgb(75 85 99 / var(--tw-border-opacity))',
+        showConfirmButton: false,
+        showCancelButton: false,
+      });
+  
     }
   }
 }

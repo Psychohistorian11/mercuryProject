@@ -5,6 +5,7 @@ import { AsideComponent } from "../../../layout/components/aside/aside.component
 import { Router, RouterOutlet } from '@angular/router';
 import { MainComponent } from '../main/main.component';
 import { NgIf } from '@angular/common';
+import { GetUserService } from '../../../shared/generalServices/get-user.service';
 
 
 @Component({
@@ -15,13 +16,13 @@ import { NgIf } from '@angular/common';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  /*Yo se que a home le llegará un id qu es el identificador del usuario porque
-    tras el proceso de login me llegará el id a este componente  */
   
-    constructor(private router: Router) {}
+    constructor(private router: Router, private getUser: GetUserService) {}
 
-    isMainRoute(){
-      return this.router.url === '/home' || this.router.url === '/home/artist';
+    isMainRoute() {
+        const user = this.getUser.getUser();
+        return this.router.url === `/home/${user.id}` || this.router.url === `/home/artist/${user.id}`;
+      
     }
   }
 
