@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../interfaces/user-register';
+import { User } from '../interfaces/user.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +11,7 @@ export class UserService {
       const user = this.findUserinUsersWithEmail(email);
       localStorage.setItem(
         'user',
-        JSON.stringify({ id: user.id, userName: user.userName, email: user.email, role: user.role })
+        JSON.stringify({ id: user.id, userName: user.userName, email: user.email, role: user.role, dateOfBirth: user.dateOfBirth})
       );
       return user.role;
     } else {

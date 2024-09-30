@@ -5,7 +5,7 @@ import { ActivateLaboratoryService } from '../../../auth/services/activate-labor
 import { NgIf } from '@angular/common';
 import { PlaySongComponent } from '../../../shared/generalComponents/play-song/play-song.component';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
-import {User} from './../../../auth/interfaces/user-register'
+import {User} from '../../../auth/interfaces/user.interface'
 
 @Component({
   selector: 'app-header',

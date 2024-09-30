@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { PlaySongService } from '../../../shared/generalServices/play-song.service';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
-import {User} from './../../../auth/interfaces/user-register'
+import {User} from '../../../auth/interfaces/user.interface'
 
 
 @Component({
@@ -26,7 +26,6 @@ export class SongsArtistComponent {
   constructor(private router: Router, private playSongService: PlaySongService, private user: GetUserService) { 
     this.selectedSong = this.playSongService.getImage();
     this.actualUser = this.user.getUser()
-    console.log("papi: ", this.actualUser.id)
   }
 
   ngOnInit() {
@@ -85,7 +84,7 @@ export class SongsArtistComponent {
     Swal.close();
     this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-song`]);
 
-  }
+  } 
 
   selectAlbum() {
     Swal.close();

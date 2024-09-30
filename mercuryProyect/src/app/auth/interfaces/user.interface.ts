@@ -3,9 +3,14 @@ export interface User {
   userName : string;
   email : string;
   password: string,
-  profilePicture?: string,
-  biography?: string,
-  location?: string,
+  profilePicture?: File,
   dateOfBirth?: Date
   role: string
+  location?: string,
+}
+
+export interface Artist extends User{
+  biography: string,
+
+  
 }

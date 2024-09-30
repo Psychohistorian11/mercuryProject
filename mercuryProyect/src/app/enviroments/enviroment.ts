@@ -1,10 +1,17 @@
 export const enviroment = {
-    songsConfig:{
-        key : 'songs'
-    },
-
-    songs_ArtistConfig:{
-        key : 'songsArtist'
+    localStorageConfig:{
+         songs: {
+            key: 'songs'
+         },
+         songsArtist:{
+            key: 'songsArtist'
+         },
+         users: {
+            key: 'users'
+         },
+         currentUser: {
+            key: 'user'
+         }
     },
 
     supabaseConfig: {
@@ -14,9 +21,18 @@ export const enviroment = {
     },
 
     supabaseBucket:{
-        name: "Songs",
+        Songs:{
+            name: "Songs",
         audios: "audios",
         images: "images"
-    } 
+        },
+
+        Users: {
+            name: "Users",
+            profilePicture: "profilePicture"
+        }
+        
+    }
+
 }
 

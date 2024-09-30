@@ -8,7 +8,7 @@ import { enviroment } from '../../enviroments/enviroment';
 export class AddSongArtistService {
 
   constructor() { }
-  private readonly SONG_ARTIST_STORAGE_KEY = enviroment.songs_ArtistConfig.key
+  private readonly SONG_ARTIST_STORAGE_KEY = enviroment.localStorageConfig.songsArtist.key
 
     getSongsArtist(): songsArtist[]{
       const storedSongsArtist = localStorage.getItem(this.SONG_ARTIST_STORAGE_KEY);

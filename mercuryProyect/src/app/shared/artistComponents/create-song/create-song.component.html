@@ -2,7 +2,11 @@
   
   <div class="flex mb-8 p-2">
     <label class="relative w-full">
-      <input formControlName="name" type="text" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer focus:border-firstColor bg-inherit w-full">
+      <input formControlName="name" 
+      type="text" 
+      required 
+      placeholder=""
+      class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer focus:border-firstColor bg-inherit w-full">
       <span class="flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide peer-focus:text-firstColor pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm bg-slate-950 rounded-2xl ml-2 text-white">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -23,12 +27,8 @@
         
         Sencillo
       </div>  
-      <input type="file" (change)="onFileSongSelect($event)" accept="audio/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer bg-inherit w-full">
+      <input type="file" formControlName="file" (change)="onFileSongSelect($event)" accept="audio/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer bg-inherit w-full">
     </label>
-  </div>
-
-  <div *ngIf="audioUrl">
-    <audio controls [src]="audioUrl" class="mt-4 w-full mb-6"></audio>
   </div>
 
   <div class="flex mb-8 p-2">  
@@ -46,7 +46,8 @@
 
 
   <div class="w-full flex justify-end p-4">
-    <button type="submit" class="px-4 py-2 bg-slate-300 text-black rounded-2xl shadow hover:bg-teal-600 transition-colors">Publicar sencillo</button>
+    <button type="submit" class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-400 hover:scale-105 hover:shadow-xl transition-all duration-300">
+      Publicar sencillo</button>
   </div>
 
   

@@ -1,16 +1,16 @@
 <div class="container mx-auto flex justify-between mt-16 px-10 min-h-[700px] ">
-  <div id="menuMusic" class="w-1/2 p-5 overflow-y-auto max-h-[830px] mr-10">
+  <div class="w-1/2 p-5 overflow-y-auto max-h-[830px] mr-10">
     <div class="flex justify-between space-x-4">
       <a (click)="onMySongsClick()"
-         class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
+        class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
         MUSICA
       </a>
       <a (click)="onMyAlbumsClick()"
-         class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
+        class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
         ÁLBUMES
       </a>
       <a (click)="whatKindOfNewContent()"
-         class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6">
+        class="button hvr-underline-from-center text-2xl border-b-2 border-gray-600 w-full text-center pb-6 cursor-pointer">
         CREAR
       </a>
     </div>
@@ -18,16 +18,25 @@
 
     <div class="mt-10">
       @if(isMainRoute()){
-        <app-song-list></app-song-list>
+      <app-song-list></app-song-list>
       }
 
       <router-outlet (albumForSeeSongsClick)="onSeeSongsOfAlbum()"></router-outlet>
     </div>
   </div>
 
-  <div id="song-album" class=" sticky top-0">
-    <img [src]="selectedSong || './../../../../assets/songs/logo.png'"
-         class="w-[800px] h-[690px] object-cover border border-white">
+  <div class=" sticky top-0 pt-5">
+
+    <div>
+      <a
+        class=" hvr-underline-from-center text-3xl font-bold uppercase border-b-2 border-gray-600 w-full text-center pb-6 ">
+        Fotografía del sencillo
+      </a>
+    </div>
+    <div>
+      <img [src]="selectedSong || './../../../../assets/songs/logo.png'"
+        class="w-[800px] h-[670px] object-cover border border-white">
+    </div>
+
   </div>
-  
 </div>

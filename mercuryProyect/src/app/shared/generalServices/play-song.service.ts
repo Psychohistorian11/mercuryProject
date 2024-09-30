@@ -11,10 +11,14 @@ export class PlaySongService {
 
   constructor() { }
 
-  setFileAndImage(file: string, image: string) {
+  setFile(file: string) {
     localStorage.setItem('currentFile', file);
-    localStorage.setItem('currentImage', image);
     this.fileSubject.next(file); 
+  }
+
+  setImage(image: string){
+    console.log("imagennnnn: ", image)
+    localStorage.setItem('currentImage', image);
     this.imageSubject.next(image);
   }
 

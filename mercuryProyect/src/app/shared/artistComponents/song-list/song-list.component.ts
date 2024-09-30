@@ -4,7 +4,7 @@ import { NgFor } from '@angular/common';
 import { GetSongsService } from '../../artistServices/get-songs.service';
 import { GetSongs } from '../../../auth/interfaces/CreateSong.interface';
 import { GetUserService } from '../../generalServices/get-user.service';
-import {User} from './../../../auth/interfaces/user-register'
+import {User} from '../../../auth/interfaces/user.interface'
 
 
 @Component({

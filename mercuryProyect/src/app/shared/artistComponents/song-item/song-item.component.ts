@@ -4,6 +4,8 @@ import { PlaySongService } from '../../generalServices/play-song.service';
 import { NgClass } from '@angular/common';
 import Swal from 'sweetalert2';
 import { DeleteSongService } from '../../artistServices/delete-song.service';
+import { Router } from '@angular/router';
+import { GetUserService } from '../../generalServices/get-user.service';
 
 @Component({
   selector: 'app-song-item',
@@ -32,7 +34,7 @@ import { DeleteSongService } from '../../artistServices/delete-song.service';
       
       <!-- Controles adicionales y duración -->
       <div class="flex items-center ml-auto mr-8 space-x-4 text-xl text-white">
-        <a (click)="onDeleteSong(song)" class="hover:text-red-400 transition-colors duration-200">
+        <a (click)="onDeleteSong(song)" class="hover:text-red-400 transition-colors duration-200 cursor-pointer">
           <!-- Icono de borrar -->
           <svg xmlns="http://www.w3.org/2000/svg" 
           fill="none" 
@@ -44,7 +46,7 @@ import { DeleteSongService } from '../../artistServices/delete-song.service';
           </svg>
         </a>
 
-        <a (click)="onEditSong(song)" class="hover:text-blue-400 transition-colors duration-200">
+        <a (click)="onEditSong(song)" class="hover:text-blue-400 transition-colors duration-200 cursor-pointer">
           <!-- Icono de editar -->
           <svg xmlns="http://www.w3.org/2000/svg" 
           fill="none" 
@@ -64,10 +66,14 @@ export class SongItemComponent {
   @Input() song!: GetSongs;
   @Input() isSelected = false;
 
-  constructor(private playSongService: PlaySongService, private deleteSongService: DeleteSongService) {}
+  constructor(private playSong: PlaySongService, 
+    private deleteSongService: DeleteSongService,
+    private router: Router,
+    private user: GetUserService ) {}
 
   handleDblClick() {
-    this.playSongService.setFileAndImage(this.song.file!, this.song.image!);
+    this.playSong.setFile(this.song.file!)
+    this.playSong.setImage(this.song.image!)
   }
 
   onDeleteSong(song: DeleteSong) {
@@ -103,6 +109,6 @@ confirmDelete() {
 }
 
   onEditSong(song: EditSong){
-
+    this.router.navigate([`/home/artist/${this.user.getUser().id}/my-songs/edit-song/${song.id}`])
   }
 }

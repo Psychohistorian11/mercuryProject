@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-import { getSongLocalstorage} from '../../auth/interfaces/CreateSong.interface';
+import { getSongLocalstorage } from '../../auth/interfaces/CreateSong.interface';
 import { enviroment } from '../../enviroments/enviroment';
 
 @Injectable({
@@ -9,11 +9,11 @@ import { enviroment } from '../../enviroments/enviroment';
 })
 export class GetSongsService {
 
-  private readonly SONG_STORAGE_KEY = enviroment.songsConfig.key;
-  private readonly SONG_ARTIST_STORAGE_KEY = enviroment.songs_ArtistConfig.key;
+  private readonly SONG_STORAGE_KEY = enviroment.localStorageConfig.songs.key;
+  private readonly SONG_ARTIST_STORAGE_KEY = enviroment.localStorageConfig.songsArtist.key;
   private supabase: SupabaseClient;
 
-  constructor() { 
+  constructor() {
     this.supabase = createClient(
       enviroment.supabaseConfig.url,
       enviroment.supabaseConfig.apikey
@@ -52,35 +52,59 @@ export class GetSongsService {
     return [];
   }
 
-async getImageFileSupabase(songs: getSongLocalstorage[]) {
-  const bucket = 'Songs'; 
-  const songList = [];
+  async getImageFileSupabase(songs: getSongLocalstorage[]) {
+    const bucket = enviroment.supabaseBucket.Songs;
+    const songList = [];
 
-  try {
-    for (const song of songs) {
-      const { id, nameFile, nameImage} = song;
+    try {
+      for (const song of songs) {
+        const { id, nameFile, nameImage } = song;
 
-      // Obtener el archivo (audio)
-      const { data: file } = this.supabase.storage.from(bucket).getPublicUrl('audios/'+ id + '/' + nameFile);
-
-
-      const { data: image } = this.supabase.storage.from(bucket).getPublicUrl('images/'+ id + '/' + nameImage);
+        // Obtener el archivo (audio)
+        const { data: file } = this.supabase.storage.from(bucket.name).getPublicUrl(`audios/${id}/${nameFile}`);
+        const { data: image } = this.supabase.storage.from(bucket.name).getPublicUrl(`images/${id}/${nameImage}`);
 
 
-      songList.push({
-        id: id,
-        file: file.publicUrl,
-        image: image.publicUrl
-      })
+        songList.push({
+          id: id,
+          file: file.publicUrl,
+          image: image.publicUrl
+        })
 
+      }
+      return songList;
+
+    } catch (error) {
+      console.error('Error recuperando archivos desde Supabase:', error);
+      return [];
     }
-    return songList;
-
-  } catch (error) {
-    console.error('Error recuperando archivos desde Supabase:', error);
-    return [];
   }
-}
 
-  
+  async getSongById(id: string) {
+    const bucket = enviroment.supabaseBucket.Songs;
+    const songs = JSON.parse(localStorage.getItem('songs') || '[]');
+    const song = songs.find((song: any) => song.id === id);
+
+    let nameSong: string
+    let nameFile: string;
+    let nameImage: string 
+    let time: string
+
+    nameSong =  song.name
+    nameFile = song.nameFile;
+    nameImage = song.nameImage;
+    time = song.time
+    
+
+    const { data: file } = this.supabase.storage.from(bucket.name).getPublicUrl(`audios/${id}/${nameFile}`);
+    const { data: image } = this.supabase.storage.from(bucket.name).getPublicUrl(`images/${id}/${nameImage}`);
+
+    return  {name: nameSong, file: file.publicUrl, image: image.publicUrl, time: time}
+    
+
+  }
+
+
+
+
 }

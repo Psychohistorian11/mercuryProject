@@ -22,6 +22,7 @@ export const routes: Routes = [
       { path: 'my-songs', component: SongsArtistComponent, children: [
         { path: 'my-albums', component: AlbumListComponent},
         { path: 'create-song', component: CreateSongComponent},
+        { path: 'edit-song/:id', component: CreateSongComponent},
         { path: 'create-album', component: CreateAlbumComponent}
       ]}
     ]},

@@ -1,24 +1,32 @@
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateSongService } from '../../artistServices/create-song.service';
+import { PlaySongService } from '../../generalServices/play-song.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register-song',
+  templateUrl: './create-song.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
-  templateUrl: './create-song.component.html'
+  imports: [ReactiveFormsModule],
 })
-export class CreateSongComponent {
-  
+export class CreateSongComponent implements OnInit {
+
   registerForm: FormGroup;
   audioUrl: string | ArrayBuffer | null | undefined = null;
   time: string = '';
   role: string = "Autoria";
   type: string = "Sencillo";
-  
-  constructor(private fb: FormBuilder, private CreateSongService: CreateSongService) {
+  songId: string | null = null;  
+
+  constructor(
+    private fb: FormBuilder,
+    private createSongService: CreateSongService,
+    private playSong: PlaySongService,
+    private route: ActivatedRoute,  
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       file: [null, Validators.required],
@@ -26,55 +34,80 @@ export class CreateSongComponent {
     });
   }
 
+  ngOnInit() {
+    this.songId = this.route.snapshot.paramMap.get('id');
+    if (this.songId) {
+      this.loadSongData(this.songId);
+    }
+  }
+
+  async loadSongData(id: string) {
+    const song: { name: string; file: string; image: string; time: string } = await this.createSongService.getSongById(id);
+  
+    this.registerForm.patchValue({
+      name: song.name,
+      file: song.file,
+      image: song.image
+    });
+  
+    this.time = song.time;
+    this.role = "Autoria";
+    this.type = "Sencillo";
+  }
+
   onFileSongSelect(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       const reader = new FileReader();
-      
+
       reader.onload = (e) => {
         this.audioUrl = e.target?.result;
-        const audio = new Audio();
-        audio.src = this.audioUrl as string;
-        audio.onloadedmetadata = () => {
-          const timeInSecons = audio.duration; 
-          this.time = this.formatTime(timeInSecons)
-
-        };
+        if (typeof this.audioUrl === 'string') { 
+          const audio = new Audio();
+          audio.src = this.audioUrl;
+          audio.onloadedmetadata = () => {
+            const timeInSecons = audio.duration; 
+            this.time = this.formatTime(timeInSecons);
+          };
+        }
       };
       reader.readAsDataURL(file);
-      
+
       this.registerForm.patchValue({
         file: file
       });
     }
   }
 
-  onImageSelect(event: Event){
+  onImageSelect(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const image = input.files[0];
+      const reader = new FileReader();
 
-      this.registerForm.patchValue({
-        image: image
-      });
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result;
+        if (typeof imageUrl === 'string') {
+          this.registerForm.patchValue({
+            image: image
+          });
+        }
+      };
+      reader.readAsDataURL(image);
     }
-
   }
 
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
-  
+
     return `${minutes}:${formattedSeconds}`;
   }
-  
 
   onSubmit() {
-
     if (this.registerForm.valid) {
-
       const songData = {
         name: this.registerForm.value.name,
         file: this.registerForm.value.file,
@@ -83,22 +116,42 @@ export class CreateSongComponent {
         role: this.role,
         type: this.type
       };
-      
-      this.CreateSongService.configSong(songData);
-      
-      Swal.fire({
-        html: `
-          <div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
-            <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
-              Sencillo publicado con exito
-            </div>
-          </div>
-        `,
-        background: 'rgb(75 85 99 / var(--tw-border-opacity))',
-        showConfirmButton: false,
-        showCancelButton: false,
-      });
-  
+
+      if (this.songId) {
+        // Editar la canción existente
+        this.createSongService.updateSong(this.songId, songData)
+
+          Swal.fire({
+            html: `
+              <div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
+                <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
+                  Sencillo actualizado con éxito
+                </div>
+              </div>
+            `,
+            background: 'rgb(75 85 99 / var(--tw-border-opacity))',
+            showConfirmButton: false,
+            showCancelButton: false,
+          });
+
+          this.router.navigate(['/home/artist']); 
+        }else {
+    
+        this.createSongService.configSong(songData)
+          Swal.fire({
+            html: `
+              <div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
+                <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
+                  Sencillo publicado con éxito
+                </div>
+              </div>
+            `,
+            background: 'rgb(75 85 99 / var(--tw-border-opacity))',
+            showConfirmButton: false,
+            showCancelButton: false,
+          });
+        
+      }
     }
   }
 }

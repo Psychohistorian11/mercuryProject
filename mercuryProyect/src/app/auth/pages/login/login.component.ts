@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule , Validators,FormBuilder} from '@angular/forms';
 import { Router, RouterLinkWithHref, RouterOutlet } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import {User} from './../../interfaces/user-register'
+import {User} from '../../interfaces/user.interface'
 import Swal from 'sweetalert2';
 import { WelcomeComponent } from '../../../static/welcome/welcome.component';
 import { ActivateLaboratoryService } from '../../services/activate-laboratory.service';
