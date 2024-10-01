@@ -27,7 +27,7 @@
         
         Sencillo
       </div>  
-      <input type="file" formControlName="file" (change)="onFileSongSelect($event)" accept="audio/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer bg-inherit w-full">
+      <input type="file" formControlName="audio" (change)="onAudioSongSelect($event)" accept="audio/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer bg-inherit w-full">
     </label>
   </div>
 
@@ -40,7 +40,7 @@
         </svg>
         Portada del sencillo 
       </div>  
-      <input type="file" (change)="onImageSelect($event)" accept="file/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer bg-inherit w-full">
+      <input type="file" (change)="onImageSongSelect($event)" accept="file/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer bg-inherit w-full">
     </label>
   </div>
 
@@ -49,6 +49,8 @@
     <button type="submit" class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-400 hover:scale-105 hover:shadow-xl transition-all duration-300">
       Publicar sencillo</button>
   </div>
+
+  <app-loading></app-loading>
 
   
 </form>

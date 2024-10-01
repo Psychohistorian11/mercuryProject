@@ -8,36 +8,39 @@ import { Subscription } from 'rxjs';
 import { PlaySongService } from '../../../shared/generalServices/play-song.service';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
 import {User} from '../../../auth/interfaces/user.interface'
+import { CreateSongComponent } from "../../../shared/artistComponents/create-song/create-song.component";
+import { SearchService } from '../../services/search.service';
 
 
 @Component({
   selector: 'app-songs-artist',
   standalone: true,
-  imports: [ SongListComponent, RouterOutlet, RouterLink],
+  imports: [SongListComponent, RouterOutlet, RouterLink, CreateSongComponent],
   templateUrl: './songs-artist.component.html'
 })
 export class SongsArtistComponent {
   currentView: 'music' | 'album' | 'create' = 'music';
-  selectedSong: string | null;
+  selectedSong: string | null = '';
   seeSongs = false;
   private imageSubscription: Subscription | null = null;
   private actualUser: User
 
-  constructor(private router: Router, private playSongService: PlaySongService, private user: GetUserService) { 
-    this.selectedSong = this.playSongService.getImage();
-    this.actualUser = this.user.getUser()
-  }
+  constructor(private router: Router, 
+              private playSongService: PlaySongService, 
+              private user: GetUserService, 
+              private search: SearchService) 
+              { 
+               this.playSongService.getImage()
+                this.actualUser = this.user.getUser()
+    
+              }
 
-  ngOnInit() {
-    this.imageSubscription = this.playSongService.getImageObservable().subscribe(image => {
-      this.selectedSong = image;
-    });
-  }
 
 
   onSeeSongsOfAlbum() {
     this.seeSongs = true;
   }
+
 
   whatKindOfNewContent() {
     Swal.fire({
@@ -71,7 +74,7 @@ export class SongsArtistComponent {
       }
     });
   }
-
+ 
   onMySongsClick(){
     this.router.navigate([`home/artist/${this.actualUser.id}/my-songs`])
   }

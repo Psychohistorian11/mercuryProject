@@ -50,6 +50,8 @@ export class HeaderComponent {
 
   onExitClick(){
     localStorage.removeItem('user');
+    localStorage.removeItem('currentAudio')
+    localStorage.removeItem('currentImage')
     this.router.navigate(['/login'])
   }
 

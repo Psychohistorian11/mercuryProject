@@ -9,6 +9,7 @@ import { SongsArtistComponent } from './features/pages/songs-artist/songs-artist
 import { AlbumListComponent } from './shared/artistComponents/album-list/album-list.component';
 import { CreateSongComponent } from './shared/artistComponents/create-song/create-song.component';
 import { CreateAlbumComponent } from './shared/artistComponents/create-album/create-album.component';
+import { SearchMenuComponent } from './features/pages/search-menu/search-menu.component';
 
 export const routes: Routes = [
     { 
@@ -18,6 +19,7 @@ export const routes: Routes = [
       path: 'sign-up', component: SignUpComponent
     },
     { path: 'home/artist/:id', component: HomeComponent, children: [
+      { path: 'search/:input', component: SearchMenuComponent},
       { path: 'profile', component: ProfileComponent},
       { path: 'my-songs', component: SongsArtistComponent, children: [
         { path: 'my-albums', component: AlbumListComponent},
@@ -27,7 +29,8 @@ export const routes: Routes = [
       ]}
     ]},
 
-    { path: 'home/:id', component: HomeComponent, children: [   
+    { path: 'home/:id', component: HomeComponent, children: [  
+      { path: 'search/:input', component: SearchMenuComponent}, 
       { path: 'profile', component: ProfileComponent },
       { path: 'album', component: AlbumComponent },
 

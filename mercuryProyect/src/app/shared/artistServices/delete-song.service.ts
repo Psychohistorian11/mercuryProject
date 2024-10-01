@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient } from '@supabase/supabase-js';
-import { DeleteSong } from '../../auth/interfaces/CreateSong.interface';
+import { DeleteSong } from '../../auth/interfaces/song.interface';
 import { enviroment } from './../../enviroments/enviroment';
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class DeleteSongService {
   async deleteSongSupabase(song: DeleteSong) {
     const { error: audioError } = await this.supabase.storage
     .from(enviroment.supabaseBucket.Songs.name).
-    remove([`${enviroment.supabaseBucket.Songs.audios}/${song.id}/${song.nameFile}`]);
+    remove([`${enviroment.supabaseBucket.Songs.audios}/${song.id}/${song.audio}`]);
 
     if (audioError) {
       console.error('Error al eliminar el audio:', audioError);
@@ -40,7 +40,7 @@ export class DeleteSongService {
 
     const { data: imageData, error: imageError } = await this.supabase.storage
     .from(enviroment.supabaseBucket.Songs.name)
-    .remove([`${enviroment.supabaseBucket.Songs.images}/${song.id}/${song.nameImage}`]);
+    .remove([`${enviroment.supabaseBucket.Songs.images}/${song.id}/${song.image}`]);
 
     if (imageError) {
       console.error('Error al eliminar la imagen:', imageError);

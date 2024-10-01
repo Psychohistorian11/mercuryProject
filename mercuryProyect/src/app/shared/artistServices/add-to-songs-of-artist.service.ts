@@ -1,29 +1,33 @@
 import { Injectable } from '@angular/core';
-import { songsArtist } from '../../auth/interfaces/songsArtist.interface';
+import { songsOfArtist } from '../../auth/interfaces/songsArtist.interface';
 import { enviroment } from '../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AddSongArtistService {
+export class AddToSongsOfArtistService {
 
   constructor() { }
   private readonly SONG_ARTIST_STORAGE_KEY = enviroment.localStorageConfig.songsArtist.key
 
-    getSongsArtist(): songsArtist[]{
+  
+
+    getSongsOfArtist(): songsOfArtist[]{
       const storedSongsArtist = localStorage.getItem(this.SONG_ARTIST_STORAGE_KEY);
     return storedSongsArtist ? JSON.parse(storedSongsArtist) : [];
     }
 
-    addSongArtistLocalStorage(idArtist: string, idSong: string){
-      const currentSongsArtist = this.getSongsArtist()
 
-      const addSongArtist: songsArtist = {
+
+    addSongArtistLocalStorage(idArtist: string, idSong: string){
+      const currentSongsArtist = this.getSongsOfArtist()
+
+      const songOfArtist: songsOfArtist = {
           idArtist: idArtist,
           idSong: idSong
       }
 
-      currentSongsArtist.push(addSongArtist)
+      currentSongsArtist.push(songOfArtist)
       localStorage.setItem(this.SONG_ARTIST_STORAGE_KEY, JSON.stringify(currentSongsArtist))
   }
 }

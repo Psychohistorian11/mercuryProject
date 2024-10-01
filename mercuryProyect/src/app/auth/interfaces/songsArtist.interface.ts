@@ -1,4 +1,4 @@
-export interface songsArtist{
+export interface songsOfArtist{
     idArtist: string;
     idSong: string;
 

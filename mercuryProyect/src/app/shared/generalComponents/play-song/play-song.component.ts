@@ -26,16 +26,16 @@ export class PlaySongComponent implements OnInit, OnDestroy {
   constructor(private playSongService: PlaySongService) { }
 
   ngOnInit() {
-    this.songSubscription = this.playSongService.getFileObservable().subscribe(file => {
+    /*this.songSubscription = this.playSongService.getFileObservable().subscribe(file => {
       this.selectedSong = file;
       if (file) {
         this.loadAudio(file);
       }
-    });
+    });*/
 
-    this.imageSuscription = this.playSongService.getImageObservable().subscribe(image => {
+    /*this.imageSuscription = this.playSongService.getImageObservable().subscribe(image => {
       this.selectedImage = image;
-    })
+    })*/
   }
 
   loadAudio(file: string) {

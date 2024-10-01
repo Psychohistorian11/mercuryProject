@@ -1,103 +1,169 @@
 import { Injectable } from '@angular/core';
 import { enviroment } from '../../enviroments/enviroment';
-import { CreateNewSong } from '../../auth/interfaces/CreateSong.interface';
-import { CreateSongSupabaseService } from './create-song-supabase.service';
+import { Song } from '../../auth/interfaces/song.interface';
 import { v4 as uuidv4 } from 'uuid';
-import { AddSongArtistService } from './add-song-artist.service';
+import { AddToSongsOfArtistService } from './add-to-songs-of-artist.service';
 import { GetUserService } from '../generalServices/get-user.service';
 import { GetSongsService } from './get-songs.service';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateSongService {
   private readonly SONG_STORAGE_KEY = enviroment.localStorageConfig.songs.key;
-  private idArtist
+  private idArtist: string;
+  private supabase: SupabaseClient;
+  private bucket = enviroment.supabaseBucket.Songs;
 
-  constructor(private CreateSongServiceSupabase: CreateSongSupabaseService,
-              private addSongArtist:AddSongArtistService,
-              private user : GetUserService,
-              private song: GetSongsService) { 
-    this.idArtist = this.user.getUser().id
-              }
+  constructor(
+    private addToSongsOfArtist: AddToSongsOfArtistService,
+    private user: GetUserService, 
+    private songs: GetSongsService
+  ) { 
+    this.idArtist = this.user.getUser().id;
+    this.supabase = createClient(enviroment.supabaseConfig.url, enviroment.supabaseConfig.apikey);
+  }
 
-  getSongs(): CreateNewSong[] {
+  getSongsLocalStorage(): Song[] {
     const storedSongs = localStorage.getItem(this.SONG_STORAGE_KEY);
     return storedSongs ? JSON.parse(storedSongs) : [];
   }
 
-  getSongById(id: string){
-    return this.song.getSongById(id)
-  }
 
-  configSong(songData: {name: string, time: string, role: string, type: string, file: File, image:File}) {
+  async configSong(songData: { name: string, audio: File, image: File }) {
     const id = this.generateId(); 
-
-    // Crear la canción para el localStorage
-    const songFirstContent: Omit<CreateNewSong, 'id' | 'datePublished'> = {
+    const {audioUrl, imageUrl} = await this.addSongSupabase({ id, audio: songData.audio, image: songData.image });
+    const newSong: Song = {
+      id: id,
       name: songData.name,
-      time: songData.time,
-      role: songData.role,
-      type: songData.type,
-      nameFile: songData.file.name,
-      nameImage: songData.image.name
+      audio: audioUrl,
+      image: imageUrl,
+      by: this.user.getUser().userName,
+      time: await this.getAudioDuration(audioUrl),
+      datePublished: new Date().toISOString().split('T')[0]
     };
+    this.addSongLocalStorage(newSong);
     
-
-
-    this.addSongLocalStorage(songFirstContent, id);
-
-
-    this.CreateSongServiceSupabase.addSongSupabase({
-      id,
-      file: songData.file,
-      image: songData.image
-    });
   }
 
-  updateSong(id: string,songData: {name: string, time: string, role: string, type: string, file: File, image:File}){
-    
-  const songs = this.getSongs();
-
-
-  const updatedSongs = songs.map(song => {
-    if (song.id === id) {
-      return {
-        ...song,
-        name: songData.name,
-        time: songData.time,
-      };
-    }
-    return song; 
-  });
-
-
-  localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(updatedSongs));
-
-    this.CreateSongServiceSupabase.addSongSupabase({
+  async configUpdateSong(id: string, songData: { name: string, audio: File, image: File }) {  
+    const songs = this.getSongsLocalStorage();
+    const oldSong = this.songs.getSongByIdLocalStorage(id);
+    console.log("songs: ", songs, "oldSong: ", oldSong);
+  
+    const { audioUrl, imageUrl } = await this.updateSongSupabase({
       id,
-      file: songData.file,
-      image: songData.image
+      newAudio: songData.audio,
+      newImage: songData.image,
+      currentAudio: oldSong.audio,
+      currentImage: oldSong.image
     });
-  }
-
+  
  
-  private addSongLocalStorage(song: Omit<CreateNewSong, 'id' | 'datePublished'>, id: string) {
-    const currentSongs = this.getSongs();
-    
-    const createSong: CreateNewSong = {
-      ...song,
-      id,
-      datePublished: new Date().toISOString(), 
-    };
 
-    this.addSongArtist.addSongArtistLocalStorage(this.idArtist,id)
-    currentSongs.push(createSong);
-    localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(currentSongs));
+    const updatedSongs = await Promise.all(songs.map(async song => {
+      if (song.id === id) {
+        const duration = await this.getAudioDuration(audioUrl);
+        return {
+          ...song,
+          name: songData.name,
+          time: duration,
+          audio: audioUrl,
+          image: imageUrl
+        };
+      }
+      return song;
+    }));
+  
+    localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(updatedSongs));
   }
   
+
+  private async addSongSupabase(songSupabase: {id: string, audio: File, image: File}) {
+
+      const audioUrl = await this.uploadFileToSupabase(this.bucket.audios, songSupabase.id, songSupabase.audio);
+      const imageUrl = await this.uploadFileToSupabase(this.bucket.images, songSupabase.id, songSupabase.image);
+      return {audioUrl, imageUrl}
+
+  }
+
+  private async updateSongSupabase(data: { id: string, newAudio: File, newImage: File, currentAudio: string, currentImage: string }) {
+
+      await this.deleteFileFromSupabase(this.bucket.audios, data.id, data.currentAudio);
+      await this.deleteFileFromSupabase(this.bucket.images, data.id, data.currentImage);
+
+      const audioUrl = await this.uploadFileToSupabase(this.bucket.audios, data.id, data.newAudio);
+      const imageUrl = await this.uploadFileToSupabase(this.bucket.images, data.id, data.newImage);
+      return {audioUrl, imageUrl}
+    
+  }
+
+  private async uploadFileToSupabase(folder: string, id: string, file: File) {
+    const { error } = await this.supabase.storage
+      .from(this.bucket.name)
+      .upload(`${folder}/${id}/${file.name}`, file);
+
+    if (error) {
+      throw new Error(`Error subiendo archivo: ${error.message}`);
+    }
+
+    const { data: fileUrl } = this.supabase.storage.from(this.bucket.name).getPublicUrl(`${folder}/${id}/${file.name}`);
+    return fileUrl.publicUrl
+  }
+
+  private async deleteFileFromSupabase(folder: string, id: string, fileName: string) {
+    const correctName = this.extractFileName(fileName)
+    const { error } = await this.supabase.storage
+      .from(this.bucket.name)
+      .remove([`${folder}/${id}/${correctName}`]);
+
+    if (error) {
+      throw new Error(`Error eliminando archivo: ${error.message}`);
+    }
+  }
+
+  private addSongLocalStorage(newSong: Song) {
+    const currentSongs = this.getSongsLocalStorage();
+
+    this.addToSongsOfArtist.addSongArtistLocalStorage(this.user.getUser().id, newSong.id);
+    currentSongs.push(newSong);
+    localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(currentSongs));
+  }
 
   private generateId(): string {
     return uuidv4();
   }
+
+  async getAudioDuration(url: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const audio = new Audio(url);
+      
+      audio.addEventListener('loadedmetadata', () => {
+        const minutes = Math.floor(audio.duration / 60);
+        const seconds = Math.floor(audio.duration % 60);
+        const durationString = `${minutes}m ${seconds}s`;
+        resolve(durationString);
+      });
+  
+      audio.addEventListener('error', () => {
+        reject('Error al cargar el archivo de audio.');
+      });
+    });
+  }
+
+  extractFileName(url: string): string | undefined {
+
+    const parts = url.split('/');
+    const encodedFileName = parts.pop(); 
+
+    if (!encodedFileName) {
+      return undefined; 
+    }
+    const decodedFileName = decodeURIComponent(encodedFileName);
+      
+    return decodedFileName;
+  }
+  
+  
 }
