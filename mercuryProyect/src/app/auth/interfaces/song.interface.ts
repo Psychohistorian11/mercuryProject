@@ -12,6 +12,7 @@ export interface Song{
     name: string;
     time: string;
     datePublished: string;
+    idAlbum?: string
 }
 
 export interface DeleteSong extends Song{

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { songsOfArtist } from '../../auth/interfaces/songsArtist.interface';
+import { songsOfArtist } from '../../auth/interfaces/idRelated.interface';
 import { enviroment } from '../../enviroments/enviroment';
 
 @Injectable({
@@ -16,8 +16,6 @@ export class AddToSongsOfArtistService {
       const storedSongsArtist = localStorage.getItem(this.SONG_ARTIST_STORAGE_KEY);
     return storedSongsArtist ? JSON.parse(storedSongsArtist) : [];
     }
-
-
 
     addSongArtistLocalStorage(idArtist: string, idSong: string){
       const currentSongsArtist = this.getSongsOfArtist()

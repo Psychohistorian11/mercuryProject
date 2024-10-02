@@ -6,6 +6,7 @@ import { NgIf } from '@angular/common';
 import { PlaySongComponent } from '../../../shared/generalComponents/play-song/play-song.component';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
 import {User} from '../../../auth/interfaces/user.interface'
+import { SearchService } from '../../../features/services/search.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,10 @@ export class HeaderComponent {
   showLaboratory = false;
   actualUser: User
 
-  constructor(private activate: ActivateLaboratoryService, private router: Router, private user: GetUserService) {
+  constructor(private activate: ActivateLaboratoryService,
+              private router: Router, 
+              private user: GetUserService,
+              private search: SearchService) {
     this.activate.decision$.subscribe((decision: boolean) => {
       this.showLaboratory = decision;
     })
@@ -36,6 +40,7 @@ export class HeaderComponent {
   }
 
   onMysongsClick(){
+    this.search.deactivateAlarm()
     this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs`])
   }
 

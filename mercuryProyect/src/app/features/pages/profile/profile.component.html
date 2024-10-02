@@ -87,7 +87,7 @@
       <div>
 
       <img [src]="profilePicture || './../../../../assets/songs/logo.png'"
-           class="w-[800px] h-[670px] object-cover border border-white cursor-pointer"
+           class="w-[600px] h-[670px] object-cover border border-white cursor-pointer"
            (click)="triggerFileInput()">
       
       <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" hidden>

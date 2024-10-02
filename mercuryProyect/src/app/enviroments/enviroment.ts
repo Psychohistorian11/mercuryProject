@@ -3,8 +3,14 @@ export const enviroment = {
          songs: {
             key: 'songs'
          },
+         albums: {
+            key: 'albums'
+         },
          songsArtist:{
             key: 'songsArtist'
+         },
+         albumsArtist: {
+            key: 'albumsArtist'
          },
          users: {
             key: 'users'
@@ -30,6 +36,11 @@ export const enviroment = {
         Users: {
             name: "Users",
             profilePicture: "profilePicture"
+        },
+
+        Albums: {
+            name:  "Albums",
+            images: "images"
         }
         
     }

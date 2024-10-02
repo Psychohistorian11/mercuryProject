@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Song } from '../../../auth/interfaces/Recommendations.interface';
 import { SongListComponent } from '../../../shared/artistComponents/song-list/song-list.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
@@ -27,12 +26,14 @@ export class SongsArtistComponent {
 
   constructor(private router: Router, 
               private playSongService: PlaySongService, 
-              private user: GetUserService, 
+              private user: GetUserService,
               private search: SearchService) 
               { 
-               this.playSongService.getImage()
+                this.imageSubscription = this.playSongService.image$.subscribe((image) => {
+                  this.selectedSong = image;
+                });
+                
                 this.actualUser = this.user.getUser()
-    
               }
 
 
@@ -47,7 +48,7 @@ export class SongsArtistComponent {
       html: `
         <div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
           <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
-            Ilústranos
+            ¿Qué quieres crear?
           </div>
           <div class="flex justify-around space-x-6">
             <button id="sencillo-button" class="flex items-center px-8 py-4 text-xl bg-slate-100 hover:bg-slate-400 text-black rounded-md transition-all shadow-md hover:shadow-lg">
@@ -76,6 +77,7 @@ export class SongsArtistComponent {
   }
  
   onMySongsClick(){
+    this.search.deactivateAlarm()
     this.router.navigate([`home/artist/${this.actualUser.id}/my-songs`])
   }
 
@@ -91,6 +93,7 @@ export class SongsArtistComponent {
 
   selectAlbum() {
     Swal.close();
+    this.search.activateCreateAlbum()
     this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-album`]);
   }
 

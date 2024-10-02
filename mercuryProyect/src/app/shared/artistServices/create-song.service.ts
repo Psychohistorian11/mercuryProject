@@ -50,7 +50,6 @@ export class CreateSongService {
   async configUpdateSong(id: string, songData: { name: string, audio: File, image: File }) {  
     const songs = this.getSongsLocalStorage();
     const oldSong = this.songs.getSongByIdLocalStorage(id);
-    console.log("songs: ", songs, "oldSong: ", oldSong);
   
     const { audioUrl, imageUrl } = await this.updateSongSupabase({
       id,

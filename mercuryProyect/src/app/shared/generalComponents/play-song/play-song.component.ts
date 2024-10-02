@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './play-song.component.html',
   styleUrl: './play-song.component.css'
 })
-export class PlaySongComponent implements OnInit, OnDestroy {
+export class PlaySongComponent implements OnDestroy {
   private songSubscription: Subscription | null = null;
   private imageSuscription: Subscription | null = null;
   selectedSong: string | null = null;
@@ -21,21 +21,21 @@ export class PlaySongComponent implements OnInit, OnDestroy {
   currentTime: string = '0:00';
   totalTime: string = '0:00';
   progress: number = 0;
-  volume: number = 1;  // Inicialmente volumen completo
+  volume: number = 1; 
 
-  constructor(private playSongService: PlaySongService) { }
 
-  ngOnInit() {
-    /*this.songSubscription = this.playSongService.getFileObservable().subscribe(file => {
-      this.selectedSong = file;
-      if (file) {
-        this.loadAudio(file);
-      }
-    });*/
 
-    /*this.imageSuscription = this.playSongService.getImageObservable().subscribe(image => {
-      this.selectedImage = image;
-    })*/
+  constructor(private playSongService: PlaySongService) { 
+      this.playSongService.audio$.subscribe((audio) => {
+        this.selectedSong = audio
+        if(audio){
+          this.loadAudio(audio)
+        }
+      }),
+  
+      this.playSongService.image$.subscribe((image) => {
+        this.selectedImage = image
+      })
   }
 
   loadAudio(file: string) {

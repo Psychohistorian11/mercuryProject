@@ -3,11 +3,11 @@ export interface Album {
     name: string;
     image: string;
     by: string;
-    genero: Gender;
+    idGenre: string;
     datePublished: string;
 }
 
-export interface Gender{
+export interface Genres{
     id: string;
     name: string;
     description: string;

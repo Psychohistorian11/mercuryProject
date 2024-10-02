@@ -6,17 +6,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GetUserService } from '../../generalServices/get-user.service';
 import { GetSongsService } from '../../artistServices/get-songs.service';
-import { LoadingComponent } from './../../../shared/generalComponents/loading/loading.component'; // Importamos el componente de loading
+import { LoadingComponent } from './../../../shared/generalComponents/loading/loading.component';
 
 @Component({
   selector: 'app-register-song',
   templateUrl: './create-song.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingComponent], // Asegúrate de importar el componente de loading
+  imports: [ReactiveFormsModule, LoadingComponent],
 })
 export class CreateSongComponent implements OnInit {
 
-  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; // Para acceder al componente hijo
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
 
   registerForm: FormGroup;
   songId: string | null = null;  
@@ -50,7 +50,7 @@ export class CreateSongComponent implements OnInit {
       name: song.name,
     });
 
-    this.playSong.setFile(song.audio);
+    this.playSong.setAudio(song.audio);
     this.playSong.setImage(song.image);
   }
 
@@ -81,7 +81,6 @@ export class CreateSongComponent implements OnInit {
 
   async onSubmit() {
     if (this.registerForm.valid) {
-      // Mostrar el componente de loading
       this.loadingComponent.showLoading();
 
       const songData = {
@@ -117,15 +116,13 @@ export class CreateSongComponent implements OnInit {
           });
         }
 
-        // Ocultar el componente de loading
-        this.loadingComponent.hideLoading();
 
-        // Redirigir al usuario
+        this.loadingComponent.hideLoading();
         this.router.navigate([`home/artist/${this.user.getUser().id}/my-songs`]);
       } catch (error) {
-        // Ocultar el componente de loading si hay un error
+
         this.loadingComponent.hideLoading();
-        Swal.fire('Error', 'Hubo un problema al publicar el sencillo', 'error');
+        Swal.fire('Error', ` Hubo un problema al publicar el sencillo error ${error}`);
       }
     }
   }
