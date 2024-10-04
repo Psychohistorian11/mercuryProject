@@ -6,6 +6,7 @@ import { Album } from '../../../auth/interfaces/album.interface';
 import { GetAlbumsService } from '../../artistServices/get-albums.service';
 import { User } from '../../../auth/interfaces/user.interface';
 import { SearchService } from '../../../features/services/search.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,51 +16,104 @@ import { SearchService } from '../../../features/services/search.service';
   templateUrl: './album-list.component.html'
 })
 export class AlbumListComponent {
+  user: User
   albums = signal<Album[]>([]);
-  private searchQuery: string = '';
-  private artist: User;
+  searchQuery: string = '';
+  showThereArentAlbums = true
+  private genreFiltredQuery: string = this.searchService.getGenreFiltredLocalStorage()
+  private publicationDateQuery: string = this.searchService.getPublicationDateFiltredLocalStorage()
+
+  searchTriggeredSubscription: Subscription | null = null
+  genreFiltredTriggeredSubscription: Subscription | null = null;
+  publicationDateFiltredTriggeredSubscription: Subscription | null = null;
 
 
 
-  constructor(private currentUser: GetUserService, 
+  constructor(private currentUserService: GetUserService, 
               private router: Router,
-              private user: GetUserService,
-              private search: SearchService,
-              private getAlbumsService: GetAlbumsService){
+              private userService: GetUserService,
+              private searchService: SearchService,
+              private getAlbumsService: GetAlbumsService,){
               
-              this.artist = this.user.getUser();
-              this.checkSearchQuery();
+              this.user = this.userService.getUser();
+              this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
+                if (triggered) {
+                  this.searchQuery = this.searchService.getInputLocalStorage();
+                  this.searchAlbums(this.searchQuery);    
+                  this.showThereArentAlbums = false
+                }if(!triggered){
+                  this.getAlbumsByCurrentArtist()
+                }
+              });
+              this.searchService.resetSearchTriggered(); 
+
+              this.genreFiltredTriggeredSubscription = this.searchService.genreFiltredTriggered$.subscribe((triggered) => {
+                if (triggered) {
+                  this.genreFiltredQuery = this.searchService.getGenreFiltredLocalStorage();
+                  this.searchAlbumsFiltredGenre(this.genreFiltredQuery); 
+                  this.showThereArentAlbums = false
+                }if(!triggered){
+                  this.getAlbumsByCurrentArtist()
+                }
+              });
+          
+              this.searchService.resetGenreFiltredTriggered()
+          
+              this.publicationDateFiltredTriggeredSubscription = this.searchService.publicationDateFiltredTriggered$.subscribe((triggered) => {
+                if (triggered) {
+                  this.publicationDateQuery = this.searchService.getPublicationDateFiltredLocalStorage();
+                  this.searchAlbumsFiltredPublicationDate(this.publicationDateQuery); 
+                  this.showThereArentAlbums = false
+                }if(!triggered){
+                  this.getAlbumsByCurrentArtist()
+                }
+              });
+          
+              this.searchService.resetPublicationDateFiltredTriggered()
   }
 
   
 
-  checkSearchQuery() {
-    if (this.searchQuery.trim() === '') {
-      this.onAlbumSelect();
-    } else {
-      this.searchAlbums(this.searchQuery);
-    }
-  }
+  
 
-  onAlbumSelect(){
-    const albumsLocal = this.getAlbumsService.getAlbumsByArtist(this.artist.id);
+  getAlbumsByCurrentArtist(){
+    const albumsLocal = this.getAlbumsService.getAlbumsByIdArtist(this.user.id);
     this.albums.set(albumsLocal);
-    console.log(this.albums())
   }
 
-  searchAlbums(query: string){
-    
+  onShowAlbum(album:Album){
+    if(this.user.role === 'artist'){
+      this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
+    }else{
+      this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
+    }
+   
   }
 
-  onShowAlbum(album: Album){
-      this.router.navigate([`/home/artist/${this.artist.id}/my-songs/my-albums/${album.id}`])
+  onShowAlbumLikeArtist(album: Album){
+      this.router.navigate([`/home/artist/${this.user.id}/my-songs/my-albums/${album.id}`])
   }
 
 
   onAddAlbum(){
-    this.search.activateCreateAlbum()
-    this.router.navigate([`/home/artist/${this.currentUser.getUser().id}/my-songs/create-album`])
+    this.searchService.activateCreateAlbum()
+    this.router.navigate([`/home/artist/${this.currentUserService.getUser().id}/my-songs/create-album`])
   }
+
+  searchAlbums(input: string){
+    const albumsByInput = this.getAlbumsService.getAlbumsFilteredByInput(input)
+    this.albums.set(albumsByInput)
+  }
+
+  searchAlbumsFiltredGenre(idGenre: string){
+    const songsFiltredGenre = this.getAlbumsService.getAlbumsFiltredByGenre(idGenre)
+    this.albums.set(songsFiltredGenre)
+}
+
+searchAlbumsFiltredPublicationDate(date: string){
+    const songsFiltredPublicationDate = this.getAlbumsService.getAlbumsFiltredByPublicationDate(date)
+    this.albums.set(songsFiltredPublicationDate)
+}
 
   
 }

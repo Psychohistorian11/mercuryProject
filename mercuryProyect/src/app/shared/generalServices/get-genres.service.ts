@@ -4,7 +4,7 @@ import { Genres } from './../../auth/interfaces/album.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class GetGendersService {
+export class GetGenresService {
   private readonly musicGenres: Genres[] = [
     {
       id: '1',
@@ -82,7 +82,12 @@ export class GetGendersService {
 
   constructor() {}
 
-  getGenders(): Genres[] {
+  getGenres(): Genres[] {
     return this.musicGenres;
+  }
+
+  getGenreByIdGenre(idGenre: string): Genres{
+      const genre = this.musicGenres.find(genre => genre.id === idGenre)
+      return genre!
   }
 }

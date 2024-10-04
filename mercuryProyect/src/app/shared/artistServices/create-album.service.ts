@@ -67,16 +67,26 @@ export class CreateAlbumService {
 
   private addIdAlbumToSong(idAlbum: string, songs: Song[]){
     const storedSongs: Song[] = this.getSongsFromLocalStorage();
-
-      const updatedSongs = storedSongs.map(storedSong => {
+  
+    const updatedSongs = storedSongs.map(storedSong => {
       const songToUpdate = songs.find(song => song.id === storedSong.id);
       
-      return songToUpdate ? { ...storedSong, idAlbum: idAlbum } : storedSong;
+      if (songToUpdate) {
+        const updatedIdAlbum = storedSong.idAlbum ? [...storedSong.idAlbum] : [];
+        
+        if (!updatedIdAlbum.includes(idAlbum)) {
+          updatedIdAlbum.push(idAlbum);
+        }
+        
+        return { ...storedSong, idAlbum: updatedIdAlbum };
+      }
+  
+      return storedSong;
     });
   
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(updatedSongs));
   }
-
+  
 
 
   async addAlbumSupabase(albumSupabase: { id: string, image: File }) {

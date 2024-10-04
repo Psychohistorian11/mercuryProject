@@ -8,9 +8,10 @@ import { SearchService } from '../../../features/services/search.service';
 import { PlaySongService } from '../../generalServices/play-song.service';
 import Swal from 'sweetalert2';
 import { DeleteSongService } from '../../artistServices/delete-song.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingComponent } from '../../generalComponents/loading/loading.component';
 import { Subscription } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-song-list',
@@ -20,47 +21,88 @@ import { Subscription } from 'rxjs';
 })
 export class SongListComponent {
   private artist: User;
-  private searchQuery: string = '';
-  private createAlbumSubscription:  Subscription | null = null
+  private searchQuery: string = this.searchService.getInputLocalStorage();
+  private genreFiltredQuery: string = this.searchService.getGenreFiltredLocalStorage()
+  private publicationDateQuery: string = this.searchService.getPublicationDateFiltredLocalStorage()
+
+  createAlbumSubscription:  Subscription | null = null
+  searchInputSubscription: Subscription | null = null
+  searchTriggeredSubscription: Subscription | null = null;
+  genreFiltredTriggeredSubscription: Subscription | null = null;
+  publicationDateFiltredTriggeredSubscription: Subscription | null = null;
+
 
   createAlbum = false;
   songs = signal<Song[]>([]);
   @Output() songSelectedToAdd = new EventEmitter<Song>();
   @Output() songSelectedToRemove = new EventEmitter<Song>();
+  showArtisComponents = true
   
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
 
   addedSongs = new Set<string>(); 
 
+
+
   constructor(
     private getSongsService: GetSongsService,
-    private userService: GetUserService,
+    private getUserService: GetUserService,
     private searchService: SearchService,
     private playSongService: PlaySongService,
     private deleteSongService: DeleteSongService,
     private router: Router,
+    private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef,
   ){
-    this.artist = this.userService.getUser();
-    this.checkSearchQuery();
+    this.artist = this.getUserService.getUser();
     this.createAlbumSubscription = this.searchService.alarm$.subscribe((bool) => {
     this.createAlbum = bool;
     });
-  }
+    this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
+      if (triggered) {
+        this.searchQuery = this.searchService.getInputLocalStorage();
+        this.searchSongs(this.searchQuery); 
+        this.showArtisComponents = false 
+      }if(!triggered){
+        this.getSongsByCurrentArtist()
+      }
+    });
 
-  
+    this.searchService.resetSearchTriggered()
+
+    this.genreFiltredTriggeredSubscription = this.searchService.genreFiltredTriggered$.subscribe((triggered) => {
+      if (triggered) {
+        this.genreFiltredQuery = this.searchService.getGenreFiltredLocalStorage();
+        this.searchSongsFiltredGenre(this.genreFiltredQuery); 
+        this.showArtisComponents = false 
+      }if(!triggered){
+        this.getSongsByCurrentArtist()
+      }
+    });
+
+    this.searchService.resetGenreFiltredTriggered()
+
+    this.publicationDateFiltredTriggeredSubscription = this.searchService.publicationDateFiltredTriggered$.subscribe((triggered) => {
+      if (triggered) {
+        this.publicationDateQuery = this.searchService.getPublicationDateFiltredLocalStorage();
+        this.searchSongsFiltredPublicationDate(this.publicationDateQuery); 
+        this.showArtisComponents = false 
+      }if(!triggered){
+        this.getSongsByCurrentArtist()
+      }
+    });
+
+    this.searchService.resetPublicationDateFiltredTriggered()
+
+     
+  }
 
   handleDblClick(song: Song) {
     this.playSongService.setAudio(song.audio)
     this.playSongService.setImageSupabase(song.image)
+
   }
 
-  checkSearchQuery() {
-    if (this.searchQuery.trim() === '') {
-      this.onSongSelect();
-    } else {
-      this.searchSongs(this.searchQuery);
-    }
-  } 
 
   onDeleteSong(song: DeleteSong) {
     Swal.fire({
@@ -112,11 +154,11 @@ export class SongListComponent {
   }
 
   onEditSong(song: EditSong) {
-    this.router.navigate([`/home/artist/${this.userService.getUser().id}/my-songs/edit-song/${song.id}`]);
+    this.router.navigate([`/home/artist/${this.getUserService.getUser().id}/my-songs/edit-song/${song.id}`]);
   }
 
   onAddSong(){
-    this.router.navigate([`/home/artist/${this.userService.getUser().id}/my-songs/create-song`]);
+    this.router.navigate([`/home/artist/${this.getUserService.getUser().id}/my-songs/create-song`]);
   }
 
   onAddToAlbumSong(song: Song) {
@@ -133,12 +175,26 @@ export class SongListComponent {
     return this.addedSongs.has(song.id); 
   }
 
-  async onSongSelect() {
-    const songsLocal = this.getSongsService.getSongsByArtist(this.artist.id);
+  getSongsByCurrentArtist() {
+    const songsLocal = this.getSongsService.getSongsByIdArtist(this.artist.id);
     this.songs.set(songsLocal);
   }
 
-  async searchSongs(query: string) {
-    // Implementación de búsqueda de canciones
+  async searchSongs(input: string) {
+    const songsByInput = this.getSongsService.getSongsFilteredByInput(input)
+    this.songs.set(songsByInput)
+
+  }
+
+
+  searchSongsFiltredGenre(idGenre: string){
+      const songsFiltredGenre = this.getSongsService.getSongsFiltredByGenre(idGenre)
+      this.songs.set(songsFiltredGenre)
+      this.cdRef.detectChanges();
+  }
+
+  searchSongsFiltredPublicationDate(date: string){
+      const songsFiltredPublicationDate = this.getSongsService.getSongsFiltredByPublicationDate(date)
+      this.songs.set(songsFiltredPublicationDate)
   }
 }

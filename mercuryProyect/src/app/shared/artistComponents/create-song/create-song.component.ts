@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateSongService } from '../../artistServices/create-song.service';
 import { PlaySongService } from '../../generalServices/play-song.service';
@@ -7,37 +7,50 @@ import Swal from 'sweetalert2';
 import { GetUserService } from '../../generalServices/get-user.service';
 import { GetSongsService } from '../../artistServices/get-songs.service';
 import { LoadingComponent } from './../../../shared/generalComponents/loading/loading.component';
+import { GetGenresService } from '../../generalServices/get-genres.service';
+import { Genres } from '../../../auth/interfaces/album.interface';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-register-song',
   templateUrl: './create-song.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingComponent],
+  imports: [ReactiveFormsModule, LoadingComponent, NgFor],
 })
 export class CreateSongComponent implements OnInit {
 
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
-
-  registerForm: FormGroup;
+   registerForm: FormGroup;
   songId: string | null = null;  
+  genres = signal<Genres[]>([]);
+
 
   constructor(
     private fb: FormBuilder,
-    private songs: GetSongsService,
+    private songsService: GetSongsService,
     private playSong: PlaySongService,
     private createSongService: CreateSongService,
     private route: ActivatedRoute,   
     private router: Router,
-    private user: GetUserService
+    private user: GetUserService,
+    private getGenresService: GetGenresService,
+
   ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       audio: [null, Validators.required],
-      image: [null, Validators.required]
+      image: [null, Validators.required],
+      genre: [null, Validators.required]
     });
   }
 
+  loadGenres() {
+    const genres = this.getGenresService.getGenres();
+    this.genres.set(genres);
+  }
+
   ngOnInit() {
+    this.loadGenres(); 
     this.songId = this.route.snapshot.paramMap.get('id');
     if (this.songId) {
       this.loadSongData(this.songId);
@@ -45,7 +58,7 @@ export class CreateSongComponent implements OnInit {
   }
 
   async loadSongData(id: string) {
-    const song = await this.songs.getSongById(id);
+    const song = await this.songsService.getSongByIdSong(id);
     this.registerForm.patchValue({
       name: song.name,
     });
@@ -85,6 +98,7 @@ export class CreateSongComponent implements OnInit {
 
       const songData = {
         name: this.registerForm.value.name,
+        genre: this.registerForm.value.genre,
         audio: this.registerForm.value.audio,
         image: this.registerForm.value.image
       };

@@ -6,6 +6,7 @@ import { AddToSongsOfArtistService } from './add-to-songs-of-artist.service';
 import { GetUserService } from '../generalServices/get-user.service';
 import { GetSongsService } from './get-songs.service';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Genres } from '../../auth/interfaces/album.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class CreateSongService {
   }
 
 
-  async configSong(songData: { name: string, audio: File, image: File }) {
+  async configSong(songData: { name: string, genre: Genres, audio: File, image: File }) {
     const id = this.generateId(); 
     const {audioUrl, imageUrl} = await this.addSongSupabase({ id, audio: songData.audio, image: songData.image });
     const newSong: Song = {
@@ -41,13 +42,14 @@ export class CreateSongService {
       image: imageUrl,
       by: this.user.getUser().userName,
       time: await this.getAudioDuration(audioUrl),
-      datePublished: new Date().toISOString().split('T')[0]
+      datePublished: new Date().toISOString().split('T')[0],
+      idGenre: songData.genre.id
     };
     this.addSongLocalStorage(newSong);
     
   }
 
-  async configUpdateSong(id: string, songData: { name: string, audio: File, image: File }) {  
+  async configUpdateSong(id: string, songData: { name: string, genre: Genres, audio: File, image: File }) {  
     const songs = this.getSongsLocalStorage();
     const oldSong = this.songs.getSongByIdLocalStorage(id);
   
@@ -69,7 +71,8 @@ export class CreateSongService {
           name: songData.name,
           time: duration,
           audio: audioUrl,
-          image: imageUrl
+          image: imageUrl,
+          idGenre: songData.genre.id
         };
       }
       return song;

@@ -11,8 +11,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './play-song.component.css'
 })
 export class PlaySongComponent implements OnDestroy {
-  private songSubscription: Subscription | null = null;
-  private imageSuscription: Subscription | null = null;
+  songSubscription: Subscription | null = null;
+  imageSuscription: Subscription | null = null;
   selectedSong: string | null = null;
   selectedImage: string | null = null;
 
@@ -23,19 +23,19 @@ export class PlaySongComponent implements OnDestroy {
   progress: number = 0;
   volume: number = 1; 
 
-
-
   constructor(private playSongService: PlaySongService) { 
       this.playSongService.audio$.subscribe((audio) => {
-        this.selectedSong = audio
+        this.selectedSong = audio;
         if(audio){
-          this.loadAudio(audio)
+          this.loadAudio(audio);
+          this.audio?.play()
+          this.isPlaying = true
         }
-      }),
+      });
   
       this.playSongService.image$.subscribe((image) => {
-        this.selectedImage = image
-      })
+        this.selectedImage = image;
+      });
   }
 
   loadAudio(file: string) {
@@ -47,10 +47,13 @@ export class PlaySongComponent implements OnDestroy {
     this.audio.addEventListener('loadedmetadata', () => {
       this.totalTime = this.formatTime(this.audio?.duration || 0);
     });
+
     this.audio.addEventListener('timeupdate', () => {
       this.progress = (this.audio!.currentTime / (this.audio?.duration || 1)) * 100;
       this.currentTime = this.formatTime(this.audio?.currentTime || 0);
     });
+
+
   }
 
   togglePlay() {

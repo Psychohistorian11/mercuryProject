@@ -10,8 +10,7 @@ import Swal from 'sweetalert2';
   selector: 'app-sign-up',
   standalone: true,
   imports: [ReactiveFormsModule,RouterLinkWithHref,RouterOutlet],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css'
+  templateUrl: './sign-up.component.html'
 })
 export class SignUpComponent {
   protected userForm!: FormGroup;

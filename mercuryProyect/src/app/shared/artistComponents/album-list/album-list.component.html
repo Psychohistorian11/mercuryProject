@@ -1,4 +1,4 @@
-<div *ngIf="albums().length === 0" class="border border-white pt-40 flex flex-col pl-40 pb-40">
+<div *ngIf="albums().length === 0 && showThereArentAlbums" class="border border-white pt-40 flex flex-col pl-40 pb-40">
   <div>
     <h2 class="text-2xl mb-4">No has creado ningún álbum</h2>
   </div>
@@ -9,12 +9,36 @@
   </div>
 </div>
 
-<div class="grid grid-cols-3 gap-6">
+
+
+@if(searchQuery != ''){
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div *ngFor="let album of albums()" class="group border border-gray-700 rounded-lg overflow-hidden hover:bg-gray-700 transition-colors duration-300">
+      <a (click)="onShowAlbum(album)" class="cursor-pointer">
+      <img [src]="album.image" alt="{{ album.name }}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+      <div class="p-4">
+        <span class="block text-lg font-semibold text-white">{{ album.name }}</span>
+        <span class="text-sm text-gray-400">{{ album.by }}</span>
+      </div>
+    </a>
+    </div>
+  </div>
+}@else{
+    <div class="grid grid-cols-3 gap-6">
   <div *ngFor="let album of albums()" class="border border-white p-4 m-2 text-center rounded-lg hover:bg-gray-100 hover:shadow-lg transition-transform duration-300 hover:scale-105 group">
-    <a (click)="onShowAlbum(album)" class="cursor-pointer">
+    <a (click)="onShowAlbumLikeArtist(album)" class="cursor-pointer">
       <img [src]="album.image" alt="{{ album.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
       <span class="block text-xl font-semibold text-white group-hover:text-black transition-colors duration-300">{{ album.name }}</span>
       <span class="text-gray-400 group-hover:text-black transition-colors duration-300">{{ album.by }}</span>
     </a>
   </div>
 </div>
+}
+
+
+@if(albums().length === 0 && !showThereArentAlbums){
+  <div class="border border-white pt-40 flex flex-col pl-4 pb-40">
+    <h2 class="text-2xl mb-4 ml-10">No se han encontrado álbumes</h2>
+
+  </div>
+}

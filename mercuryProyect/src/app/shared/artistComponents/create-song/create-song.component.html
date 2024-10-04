@@ -40,6 +40,23 @@
     </label>
   </div>
 
+  <div class="relative mb-8 p-2">
+    <div class="text-lg flex flex-auto text-white">
+      Género del sencillo
+    </div>  
+    <div class="relative">
+      <select formControlName="genre" required class="block appearance-none w-full bg-gray-800 text-white border-2 border-gray-400 hover:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 rounded px-4 py-2 pr-10 leading-tight transition duration-300">
+        <option *ngFor="let genre of genres()" [ngValue]="genre">{{genre.name}}</option>
+      </select>
+  
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
   <div class="w-full flex justify-end p-4">
     <button type="submit" class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-300">
       Publicar sencillo

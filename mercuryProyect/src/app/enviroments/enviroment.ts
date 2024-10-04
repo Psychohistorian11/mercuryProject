@@ -17,6 +17,9 @@ export const enviroment = {
          },
          currentUser: {
             key: 'user'
+         },
+         temporaryDate:{
+            key: 'temporaryData'
          }
     },
 

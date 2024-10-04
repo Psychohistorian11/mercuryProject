@@ -11,6 +11,8 @@ export class PlaySongService {
   public image$ = this.imageSubject.asObservable();
   private audioSubject = new BehaviorSubject<string | null>(null);
   public audio$ = this.audioSubject.asObservable()
+  private audioTriggered = new BehaviorSubject<boolean>(false)
+  audioTriggered$ = this.audioTriggered.asObservable()
 
   constructor() {
 
@@ -28,6 +30,8 @@ export class PlaySongService {
     tempData.currentAudioInPlay = audio
     this.audioSubject.next(audio);
     localStorage.setItem('temporaryData', JSON.stringify(tempData));
+    this.audioTriggered.next(true)
+
   }
 
   setImage(image: string) {
@@ -50,15 +54,19 @@ export class PlaySongService {
     localStorage.setItem('temporaryData', JSON.stringify(tempData));
   }
 
-  getImage(): string {
+  /*getImage(): string {
     let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}');
     return tempData.currentImageInPlay;
-  }
+  }*/
 
   getAudio(): string | null {
     let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}');
     return tempData.currentAudioInPlay;
   }
+
+    resetAudioTriggered(){
+      this.audioTriggered.next(false);
+    } 
 
   resizeBase64Img(base64Str: string, maxWidth: number, maxHeight: number): Promise<string> {
     return new Promise((resolve, reject) => {

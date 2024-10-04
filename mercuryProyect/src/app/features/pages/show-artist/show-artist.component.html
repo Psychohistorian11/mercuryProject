@@ -1,0 +1,62 @@
+<div class="container mx-auto mt-16 min-h-[700px]">
+  <div class="max-w-6xl mx-auto p-8 bg-gray-900 text-white rounded-lg shadow-lg">
+    <div class="flex flex-col lg:flex-row items-center lg:items-start mb-12 space-y-6 lg:space-y-0 lg:space-x-12">
+      <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-gray-700">
+        <img [src]="artist()!.profilePicture" alt="{{ artist()!.userName }}" class="w-full h-full object-cover">
+      </div>
+
+      <div>
+        <h1 class="text-4xl font-bold mb-4">{{ artist()!.userName }}</h1>
+        <p class="text-gray-400 mb-2">{{ artist()!.location || 'Sin lugar de origen' }}</p>
+        <p class="text-sm text-gray-500 mb-6">{{ artist()!.role }}</p>
+        <p class="text-lg text-gray-300">{{ artist()!.biography || 'Sin biografía disponible.' }}</p>
+      </div>
+    </div>
+
+    <div class="mb-12">
+    <h2 class="text-3xl font-semibold mb-6">Álbumes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div (click)="onSelectAlbum(album)" *ngFor="let album of albums()" class="p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 cursor-pointer">
+        
+        <div class="mb-4 w-full h-48 bg-gray-700 flex items-center justify-center rounded-lg overflow-hidden">
+          <img [src]="album.image" alt="{{ album.name }}" class="w-full h-full object-cover">
+        </div>
+
+        <h3 class="text-xl font-semibold mb-2">{{ album.name }}</h3>
+        <p class="text-gray-400">{{ album.datePublished }}</p>
+        <p class="text-gray-500 text-sm">Género: {{ getGenreByIdGenre(album.idGenre).name || 'Desconocido' }}</p>
+      </div>
+    </div>
+  </div> 
+
+    <div>
+      <h2 class="text-3xl font-semibold mb-6">Canciones</h2>
+      <div class="space-y-4">
+        <div *ngFor="let song of songs()"
+          class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-700">
+            <a (dblclick)="onPlaySong(song)" class="cursor-pointer">
+                <div class="flex">
+                  <img [src]="song.image" class="h-[70px] w-[70px] p-2">
+                
+                <div class="ml-5">
+                  <h3 class="text-xl font-medium">{{ song.name }}</h3>
+                  <p class="text-gray-400 text-sm">Duración: {{ song.time }}</p>
+                  <p class="text-gray-500 text-sm">{{ albumNames()[song.id] }}
+                  </p>
+                </div>
+              </div>
+        </a>
+
+          <button (click)="onPlaySong(song)" class="text-white hover:text-indigo-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" class="w-8 h-8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>

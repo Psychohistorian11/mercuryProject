@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SongListComponent } from '../song-list/song-list.component';
-import { GetGendersService } from '../../generalServices/get-genders.service'; 
+import { GetGenresService } from '../../generalServices/get-genres.service';
 import { Genres } from '../../../auth/interfaces/album.interface';
 import { NgFor } from '@angular/common';
 import { LoadingComponent } from '../../generalComponents/loading/loading.component';
@@ -27,7 +27,7 @@ export class CreateAlbumComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private getGendersService: GetGendersService,
+    private getGenresService: GetGenresService,
     private router: Router,
     private route: ActivatedRoute,
     private user: GetUserService,
@@ -39,7 +39,7 @@ export class CreateAlbumComponent implements OnInit {
       image: [null, Validators.required],
       genre: [null, Validators.required], 
       songs: this.fb.array([], Validators.required)
-    });
+    }); 
   }
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class CreateAlbumComponent implements OnInit {
   }
 
   loadGenres() {
-    const genres = this.getGendersService.getGenders();
+    const genres = this.getGenresService.getGenres();
     this.genres.set(genres);
   }
 
@@ -99,17 +99,17 @@ export class CreateAlbumComponent implements OnInit {
         const albumData = {
           name: this.registerForm.value.name,
           genre: this.registerForm.value.genre,
-          image: this.registerForm.value.image,
+          image: this.registerForm.value.image, 
           songs: this.registerForm.value.songs
         };
   
         try {
           if (this.idAlbum) {
-             this.createAlbumService.configUpdateAlbum(this.idAlbum, albumData);
+             await this.createAlbumService.configUpdateAlbum(this.idAlbum, albumData);
             Swal.fire({
               html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
                       <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
-                        Sencillo actualizado con éxito
+                        Album actualizado con éxito
                       </div>
                     </div>`,
               background: 'rgb(75 85 99 / var(--tw-border-opacity))',
@@ -117,11 +117,11 @@ export class CreateAlbumComponent implements OnInit {
               showCancelButton: false,
             });
           } else {
-            this.createAlbumService.configAlbum(albumData);
+            await this.createAlbumService.configAlbum(albumData);
             Swal.fire({
               html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
                       <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
-                        Sencillo publicado con éxito
+                        Album publicado con éxito
                       </div>
                     </div>`,
               background: 'rgb(75 85 99 / var(--tw-border-opacity))',
@@ -132,7 +132,7 @@ export class CreateAlbumComponent implements OnInit {
   
   
           this.loadingComponent.hideLoading();
-          //this.router.navigate([`/home/artist/${this.user.getUser().id}/my-albums`]);
+          this.router.navigate([`/home/artist/${this.user.getUser().id}/my-songs/my-albums`]);
         } catch (error) {
   
           this.loadingComponent.hideLoading();

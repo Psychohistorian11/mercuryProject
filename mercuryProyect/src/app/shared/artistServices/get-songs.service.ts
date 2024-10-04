@@ -3,6 +3,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 import { Song, SongSupabase } from '../../auth/interfaces/song.interface';
 import { enviroment } from '../../enviroments/enviroment';
+import { GetGenresService } from '../generalServices/get-genres.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,16 @@ export class GetSongsService {
       enviroment.supabaseConfig.url,
       enviroment.supabaseConfig.apikey
     );
+
   }
 
-  getSongs(){
-      
+  private getSongsFromLocalStorage(): Song[] {
+    const songsString = localStorage.getItem(this.SONG_STORAGE_KEY);
+    return songsString ? JSON.parse(songsString) : [];
   }
-  getSongsByArtist(idArtist: string): Song[] {
+
+
+  getSongsByIdArtist(idArtist: string): Song[] {
     const songsOfArtistData = localStorage.getItem(this.SONG_ARTIST_STORAGE_KEY);
     const songsData = localStorage.getItem(this.SONG_STORAGE_KEY);
   
@@ -45,7 +50,8 @@ export class GetSongsService {
             by: song.by,  
             name: song.name,
             time: song.time,
-            datePublished: song.datePublished 
+            datePublished: song.datePublished,
+            idAlbum: song.idAlbum ? song.idAlbum  : ''
           }));
   
         return songs;
@@ -57,7 +63,7 @@ export class GetSongsService {
   
 
 
-  async getSongById(id: string) {
+  async getSongByIdSong(id: string) {
     const bucket = enviroment.supabaseBucket.Songs;
     const songs = JSON.parse(localStorage.getItem('songs') || '[]');
     const song: Song = songs.find((song: any) => song.id === id);
@@ -83,6 +89,58 @@ export class GetSongsService {
     
     throw new Error(`Song with id ${id} not found`); 
   }
+
+
+  getSongsFilteredByInput(input: string): Song[] {
+    const songsData = localStorage.getItem(this.SONG_STORAGE_KEY);
+  
+    if (songsData) {
+      const allSongs: Song[] = JSON.parse(songsData);
+      const inputLowerCase = input.toLowerCase();
+  
+      const getRelevance = (song: Song) => {
+        const songNameLowerCase = song.name.toLowerCase();
+  
+        if (songNameLowerCase === inputLowerCase) {
+          return 3; 
+        } else if (songNameLowerCase.startsWith(inputLowerCase)) {
+          return 2; 
+        } else if (songNameLowerCase.includes(inputLowerCase)) {
+          return 1; 
+        } else {
+          return 0; 
+        }
+      };
+  
+      return allSongs
+        .filter(song => getRelevance(song) > 0)
+        .sort((a, b) => getRelevance(b) - getRelevance(a));
+    }
+  
+    return [];
+  }
+
+  getSongsByIdAlbum(idAlbum: string): Song[] {
+    const storedSongs: Song[] = this.getSongsFromLocalStorage();
+  
+    const songsWithAlbum = storedSongs.filter(song => 
+      song.idAlbum && song.idAlbum.includes(idAlbum) 
+    );
+  
+    return songsWithAlbum;
+  }
+
+
+  getSongsFiltredByGenre(idGenre: string): Song[] {
+    const songs: Song[] = JSON.parse(localStorage.getItem(this.SONG_STORAGE_KEY) || '[]');
+    return songs.filter(song => song.idGenre === idGenre);
+  }
+
+  getSongsFiltredByPublicationDate(date: string): Song[]{
+      const songs: Song[] = JSON.parse(localStorage.getItem(this.SONG_STORAGE_KEY) || '[]');
+      return songs.filter(song => song.datePublished === date)
+  }
+  
   
 
 }

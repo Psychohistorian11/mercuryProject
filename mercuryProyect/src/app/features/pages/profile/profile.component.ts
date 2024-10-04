@@ -4,11 +4,12 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
 import { User, Artist } from './../../../auth/interfaces/user.interface';
 import { EditProfileService } from '../../services/edit-profile.service';
 import { NgIf } from '@angular/common';
+import { LoadingComponent } from '../../../shared/generalComponents/loading/loading.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, LoadingComponent],
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
@@ -16,6 +17,8 @@ export class ProfileComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   currentUser: User | Artist;
   profileForm: FormGroup; 
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
+
 
   constructor(
     private userService: GetUserService,
@@ -33,7 +36,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // Método para comprobar si currentUser es un artista
   isArtist(user: User | Artist): user is Artist {
     return (user as Artist).role === 'artist';
   }
@@ -49,7 +51,7 @@ export class ProfileComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  onFileSelected(event: any): void {
+  async onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -57,13 +59,24 @@ export class ProfileComponent implements OnInit {
         this.profilePicture = e.target.result;
       };
       reader.readAsDataURL(file);
-    }
 
-    this.editProfileService.editProfilePicture(file, this.currentUser.id);
+      this.loadingComponent.showLoading();
+      
+      try {
+        const user = this.editProfileService.getUserOfUsersLocalStorage(this.currentUser.id);
+        await this.editProfileService.editProfilePicture(user, file, this.currentUser.id);
+      } catch (error) {
+        console.error("Error actualizando la imagen de perfil:", error);
+      } finally {
+        this.loadingComponent.hideLoading();
+      }
+    }
   }
 
-  editProfile(): void {
+  async editProfile() {
     if (this.profileForm.valid) {
+
+      this.loadingComponent.showLoading();
       const updatedUser = this.profileForm.value;
       
       this.currentUser.userName = updatedUser.userName;
@@ -71,14 +84,20 @@ export class ProfileComponent implements OnInit {
       this.currentUser.dateOfBirth = updatedUser.dateOfBirth; 
       this.currentUser.location = updatedUser.location;
 
-   
-      if (this.isArtist(this.currentUser)) {
-        (this.currentUser as Artist).biography = updatedUser.biography; 
-        console.log(updatedUser.biography)
-        this.editProfileService.updateBiography(updatedUser.biography, this.currentUser.id)
-      }
+      
 
-      this.editProfileService.updateLocalStorage(updatedUser, this.currentUser.id);
+      try {
+        if (this.isArtist(this.currentUser)) {
+          (this.currentUser as Artist).biography = updatedUser.biography; 
+          await this.editProfileService.updateBiography(updatedUser.biography, this.currentUser.id);
+        }
+
+        await this.editProfileService.updateLocalStorage(updatedUser, this.currentUser.id);
+      } catch (error) {
+        console.error("Error actualizando el perfil:", error);
+      } finally {
+        this.loadingComponent.hideLoading();
+      }
     } else {
       // Manejar la validación de campos obligatorios
     }
