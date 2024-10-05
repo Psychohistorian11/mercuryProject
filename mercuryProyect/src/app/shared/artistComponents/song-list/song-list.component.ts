@@ -12,11 +12,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingComponent } from '../../generalComponents/loading/loading.component';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
+import { PlaySongComponent } from "../../generalComponents/play-song/play-song.component";
 
 @Component({
   selector: 'app-song-list',
   standalone: true,
-  imports: [ NgFor, NgIf, NgClass, LoadingComponent],
+  imports: [NgFor, NgIf, NgClass, LoadingComponent, PlaySongComponent],
   templateUrl: './song-list.component.html'
 })
 export class SongListComponent {
@@ -98,9 +99,11 @@ export class SongListComponent {
   }
 
   handleDblClick(song: Song) {
-    this.playSongService.setAudio(song.audio)
-    this.playSongService.setImageSupabase(song.image)
-
+    // Permitir que el reproductor reproduzca una nueva canción
+    //this.playSongService.setAudioPlaying(false);
+    
+    //this.playSongService.setAudio(song.audio);
+    //this.playSongService.setImageSupabase(song.image);
   }
 
 

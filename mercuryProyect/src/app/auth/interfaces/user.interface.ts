@@ -4,7 +4,7 @@ export interface User {
   email : string;
   password: string,
   profilePicture?: string,
-  dateOfBirth?: Date
+  dateOfBirth?: string
   role: string
   location?: string,
 }

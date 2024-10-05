@@ -187,17 +187,23 @@ export class EditProfileService {
 
 
   extractFileName(url: string): string | undefined {
-
+    if (!url) {
+      console.error('URL is undefined or null');
+      return undefined;
+    }
+  
     const parts = url.split('/');
     const encodedFileName = parts.pop();
-
+  
     if (!encodedFileName) {
       return undefined;
     }
+  
     const decodedFileName = decodeURIComponent(encodedFileName);
-
+  
     return decodedFileName;
   }
+  
 
 
 }

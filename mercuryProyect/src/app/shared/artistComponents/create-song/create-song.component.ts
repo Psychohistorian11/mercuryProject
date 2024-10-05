@@ -63,7 +63,7 @@ export class CreateSongComponent implements OnInit {
       name: song.name,
     });
 
-    this.playSong.setAudio(song.audio);
+    //this.playSong.setAudio(song.audio);
     this.playSong.setImage(song.image);
   }
 

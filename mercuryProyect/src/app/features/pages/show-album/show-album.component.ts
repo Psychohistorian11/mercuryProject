@@ -13,7 +13,7 @@ import { PlaySongService } from '../../../shared/generalServices/play-song.servi
   selector: 'app-showAlbum',
   standalone: true,
   imports: [NgFor],
-  templateUrl: './show-album.component.html'
+  templateUrl: './show-album.component.html',
 })
 export class ShowAlbumComponent {
   idAlbum: string = ''
@@ -50,8 +50,8 @@ export class ShowAlbumComponent {
 
 
   onPlaySong(song: Song){
-    this.playSongService.setAudio(song.audio)
-    this.playSongService.setImageSupabase(song.image)
+    //this.playSongService.setAudio(song.audio)
+    //this.playSongService.setImageSupabase(song.image)
   }
 
   getGenreByIdGenre(idGenre: string): Genres{

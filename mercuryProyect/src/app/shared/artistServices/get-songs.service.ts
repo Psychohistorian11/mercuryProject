@@ -141,6 +141,21 @@ export class GetSongsService {
       return songs.filter(song => song.datePublished === date)
   }
   
+  getRandomSongs() {
+    const storedSongs = localStorage.getItem(this.SONG_STORAGE_KEY);
+    
+    if (!storedSongs) {
+      return [];
+    }
+  
+    let songs = JSON.parse(storedSongs);
+      for (let i = songs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [songs[i], songs[j]] = [songs[j], songs[i]];
+    }
+  
+    return songs;
+  }
   
 
 }

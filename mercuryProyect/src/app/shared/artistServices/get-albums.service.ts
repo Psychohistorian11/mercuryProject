@@ -19,6 +19,15 @@ export class GetAlbumsService {
     return songsString ? JSON.parse(songsString) : [];
   }
 
+  getAllAlbums(): Album[] |null{
+      const albums = localStorage.getItem(this.ALBUM_STORAGE_KEY)
+      if(albums){
+        const allAlbums = JSON.parse(albums)
+        return allAlbums || null
+      }
+      return null
+  }
+
   getAlbumsByIdArtist(idArtist: string): Album[]{
     const albumsOfArtistData = localStorage.getItem(this.ALBUM_ARTIST_STORAGE_KEY);
     const albumsData = localStorage.getItem(this.ALBUM_STORAGE_KEY);

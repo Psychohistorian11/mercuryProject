@@ -12,17 +12,22 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
   selector: 'app-home',
   standalone: true,
   imports: [FooterComponent, HeaderComponent, AsideComponent, MainComponent, RouterOutlet, NgIf],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
   
-    constructor(private router: Router, private getUser: GetUserService) {}
+    constructor(private router: Router, 
+                private getUser: GetUserService) {
+           
+
+    }
 
     isMainRoute() {
         const user = this.getUser.getUser();
         return this.router.url === `/home/${user.id}` || this.router.url === `/home/artist/${user.id}`;
       
     }
+
+
   }
 

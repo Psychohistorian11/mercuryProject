@@ -15,6 +15,7 @@ export class ActivateLaboratoryService {
   
     this.decisionSource.next(initialDecision);
   }
+  
   decision$ = this.decisionSource.asObservable();
   
 

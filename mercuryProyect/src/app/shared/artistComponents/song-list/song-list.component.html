@@ -21,6 +21,13 @@
         <img [src]="song.image" alt="song image" class="w-full h-full object-cover">
       </div>
 
+      <ngx-audio-player
+  [audioSource]="song.audio"
+  [title]="'Título de la Canción'"
+  [artist]="'Artista'"
+  [image]="song.image">
+</ngx-audio-player>
+
       <a class="ml-4 flex flex-col justify-center text-xl text-white">
         {{song.name}}<br>
         <span class="text-[14px] text-[#bbb] mt-1">{{song.by}}</span>
@@ -78,3 +85,4 @@
 
   </div>
 }
+

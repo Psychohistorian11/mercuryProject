@@ -1,6 +1,10 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
-import { Recommendations } from '../../../auth/interfaces/Recommendations.interface';
+import { Component, OnInit, signal } from '@angular/core';
 import { NgFor } from '@angular/common';
+import { Album } from '../../../auth/interfaces/album.interface';
+import { GetAlbumsService } from '../../../shared/artistServices/get-albums.service';
+import { GetUserService } from '../../../shared/generalServices/get-user.service';
+import { User } from '../../../auth/interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -8,21 +12,41 @@ import { NgFor } from '@angular/common';
   imports: [NgFor],
   templateUrl: './footer.component.html'
 })
-export class FooterComponent {
-    @Output() albumClick = new EventEmitter<void>();
+export class FooterComponent implements OnInit {
 
-      listOfRecomentadions =  signal<Recommendations[]>([
-          { name: 'Dark Side of The Moon', nameArtist: 'Pink Floyd', type: 'Album', image: '../../../../assets/songs/Dark_Side_of_the_Moon.png'},
-          { name: 'The Rise and Fall of Ziggy...', nameArtist: 'David Bowie', type: 'Album', image: '../../../../assets/songs/theRiseAndFallOfZiggyStardustAndTheSpidersFromMars.png'},
-          { name: 'Led Zeppelin IV', nameArtist: 'Led Zeppelin', type: 'Album', image: '../../../../assets/songs/led_Zeppelin.png'},
-          { name: 'Paranoid', nameArtist: 'Black Sabbath', type: 'Album', image: '../../../../assets/songs/paraonid.png'},
-          { name: 'A night at the Opera', nameArtist: 'Queen', type: 'Album', image: '../../../../assets/songs/Queen_A_Night_At_The_Opera.png'},
-          { name: 'Toxicity', nameArtist: 'System of Down', type: 'Album', image: '../../../../assets/songs/SystemofaDownToxicityalbumcover.png'},
-          { name: 'Toxicity', nameArtist: 'System of Down', type: 'Album', image: '../../../../assets/songs/SystemofaDownToxicityalbumcover.png'},
+  albums = signal<Album[]>([])
+  user: User
 
-      ])
+  constructor(private getAlbumsService: GetAlbumsService,
+              private getUserService: GetUserService,
+              private router: Router,
+  ) {
+        this.user = getUserService.getUser()
+  }
 
-      onAlbumClick(){
-        this.albumClick.emit(); 
-      }
+  ngOnInit() {
+    this.loadAlbums()
+
+  }
+
+  loadAlbums() {
+    const albums = this.getAlbumsService.getAllAlbums();
+    if (albums && albums.length > 0) {
+      const lastSixAlbums = albums.slice(-6);
+      this.albums.set(lastSixAlbums); 
+    } else {
+      console.warn('No hay álbumes disponibles.');
+      this.albums.set([]);
+    }
+  }
+  
+
+  onShowAlbum(album: Album){
+        if(this.user.role === 'artist'){
+          this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
+        }else{
+          this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
+        }
+  }
+
 }

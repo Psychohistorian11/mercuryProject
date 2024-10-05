@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TemporaryData } from '../../auth/interfaces/temporaryData.interface';
+import { Song } from '../../auth/interfaces/song.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaySongService {
 
+  audio = ''
+
   private imageSubject = new BehaviorSubject<string | null>(null);
   public image$ = this.imageSubject.asObservable();
+
   private audioSubject = new BehaviorSubject<string | null>(null);
   public audio$ = this.audioSubject.asObservable()
-  private audioTriggered = new BehaviorSubject<boolean>(false)
-  audioTriggered$ = this.audioTriggered.asObservable()
+
+  private songSubject = new BehaviorSubject<Song | null>(null);
+  public song = this.songSubject.asObservable()
+
 
   constructor() {
 
@@ -20,18 +26,17 @@ export class PlaySongService {
     if (tempData.currentImageInPlay) {
       this.imageSubject.next(tempData.currentImageInPlay);
     }
-    if (tempData.currentAudioInPlay) {
+    /*if (tempData.currentAudioInPlay) {
       this.audioSubject.next(tempData.currentAudioInPlay)
-    }
+    }*/
+  }
+
+  setSong(song: Song){
+    this.songSubject.next(song)
   }
 
   setAudio(audio: string) {
-    let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}')
-    tempData.currentAudioInPlay = audio
     this.audioSubject.next(audio);
-    localStorage.setItem('temporaryData', JSON.stringify(tempData));
-    this.audioTriggered.next(true)
-
   }
 
   setImage(image: string) {
@@ -57,16 +62,20 @@ export class PlaySongService {
   /*getImage(): string {
     let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}');
     return tempData.currentImageInPlay;
-  }*/
+  }
 
   getAudio(): string | null {
     let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}');
     return tempData.currentAudioInPlay;
-  }
+  }*/
 
-    resetAudioTriggered(){
-      this.audioTriggered.next(false);
-    } 
+
+    getAudio(){
+      let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}')
+       return tempData.currentAudioInPlay
+    }
+
+  
 
   resizeBase64Img(base64Str: string, maxWidth: number, maxHeight: number): Promise<string> {
     return new Promise((resolve, reject) => {

@@ -4,7 +4,7 @@ import { Router, RouterLinkWithHref, RouterOutlet } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {User} from '../../interfaces/user.interface'
 import Swal from 'sweetalert2';
-import { WelcomeComponent } from '../../../static/welcome/welcome.component';
+import { WelcomeComponent } from '../../../shared/generalComponents/welcome/welcome.component';
 import { ActivateLaboratoryService } from '../../services/activate-laboratory.service';
 
 @Component({

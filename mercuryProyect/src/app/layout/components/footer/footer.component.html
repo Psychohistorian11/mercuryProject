@@ -1,14 +1,20 @@
-<footer class=" float-right flex items-center  bg-[#16213e] mr-4 mt-4">
-  <div class="flex flex-col items-center mr-3 mt-4 pb-4 pl-2" *ngFor="let recomendation of listOfRecomentadions()">
-    
-      <a (click)="onAlbumClick()" class="bg-transparent border-none cursor-pointer transition-transform duration-300 hover:scale-105">
+<footer class="flex flex-col bg-gray-800 mx-center mr-20 ml-40 mt-4 pb-10 pr-4 pl-4 pt-2 rounded-lg">
+
+  <h2 class="text-white text-2xl font-semibold mb-4">Últimos Albums</h2>
+
+  <div class="flex space-x-6">
+    <div class="flex flex-row space-x-6" *ngFor="let album of albums()">
+      <a (click)="onShowAlbum(album)" class="bg-transparent border-none cursor-pointer transition-transform duration-300 hover:scale-105">
         <div id="img" class="rounded-2xl overflow-hidden shadow-lg">
-          <img [src]="recomendation.image" class="w-[230px] h-auto object-cover rounded-2xl">
+          <img [src]="album.image ? album.image : './../../../../assets/songs/logo2.png'" 
+               class="w-[200px] h-[200px] object-cover rounded-2xl">
         </div>
-        <div id="nameType_and_artist" class="bg-[#16213e] w-full h-[30%] rounded-b-2xl  text-center">
-          <p class="font-bold">{{recomendation.name}}</p>
-          <span class="text-sm text-gray-400">{{recomendation.type}} * {{recomendation.nameArtist}}</span>
+        <div id="nameType_and_artist" class="bg-gray-800 w-full h-[30%] rounded-b-2xl text-center mt-2">
+          <p class="font-bold text-white">{{album.name}}</p>
+          <span class="text-sm text-gray-400">Album • {{album.by}}</span>
         </div>
       </a>
+    </div>
   </div>
+
 </footer>

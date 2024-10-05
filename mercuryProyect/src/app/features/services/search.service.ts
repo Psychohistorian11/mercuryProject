@@ -33,6 +33,7 @@ import { enviroment } from '../../enviroments/enviroment';
     private publicationDateFiltredTriggered = new BehaviorSubject<boolean>(false)
     publicationDateFiltredTriggered$ = this.publicationDateFiltredTriggered.asObservable()
 
+
     constructor(private getSongs: GetSongsService) {
       const tempData: TemporaryData = JSON.parse(localStorage.getItem(this.TEMPORARYDATA_STORAGE_KEY) || '{}');
       if (tempData.isCreateAlbum) {
@@ -79,6 +80,8 @@ import { enviroment } from '../../enviroments/enviroment';
        this.publicationDateFiltredTriggered.next(true)
     }
 
+
+
     resetSearchTriggered() {
       this.searchTriggered.next(false);
     }
@@ -90,6 +93,7 @@ import { enviroment } from '../../enviroments/enviroment';
     resetPublicationDateFiltredTriggered(){
       this.publicationDateFiltredTriggered.next(false)
     }
+
 
     getInputLocalStorage(): string{
       let tempData: TemporaryData = JSON.parse(localStorage.getItem(this.TEMPORARYDATA_STORAGE_KEY) || '{}')

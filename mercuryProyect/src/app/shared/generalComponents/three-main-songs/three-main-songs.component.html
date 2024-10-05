@@ -1,26 +1,33 @@
-<div class="bg-[#67676b]  p-5 text-left flex  items-center gap-10" >
-        <div id="previousSong" class="song-item flex flex-col items-center">
-          <img [src]="leftSong().image" class="w-full max-w-[230px] rounded-2xl" alt="Previous Song">
-          <div>
-            {{leftSong().name}}<br>
-            <span class="text-[12px] text-[#bbb] mt-1">{{leftSong().nameArtist}}</span>
-          </div>
-        </div>
-      
-        <div id="currentSong" class="song-item flex flex-col items-center">
-          <img [src]="currentSong().image" class="w-full max-w-[420px] object-contain rounded-2xl" alt="Current Song">
-          <div>
-            {{currentSong().name}}<br>
-            <span class="text-[12px] text-[#bbb] mt-1">{{currentSong().nameArtist}}</span>
-          </div>
-        </div>
-      
-        <div id="nextSong" class="song-item flex flex-col items-center">
-          <img [src]="rightSong().image" class="w-full max-w-[230px] rounded-2xl" alt="Next Song">
-          <div>
-            {{rightSong().name}}<br>
-            <span class="text-[12px] text-[#bbb] mt-1">{{rightSong().nameArtist}}</span>
-          </div>
-        </div>
+  <div class="bg-white p-5 flex items-center gap-10 rounded-2xl">
+
+    <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-all" (click)="moveLeft()" (click)="playSong(currentSong())">
+      <img [src]="leftSong()?.image ?? './../../../../assets/songs/logo2.png'" 
+          class="w-[200px] h-[200px] object-cover rounded-2xl transition-all duration-500 ease-in-out" 
+          alt="Left Song Image">
+      <div class="text-black text-center mt-2">
+        <p class="font-bold text-xl">{{leftSong()?.name ?? 'Unknown Song'}}</p>
+        <span class="text-[12px]">{{leftSong()?.by ?? 'Unknown Artist'}}</span>
       </div>
-      
+    </div>
+
+    <div class="flex flex-col items-center">
+      <img [src]="currentSong()?.image ?? './../../../../assets/songs/logo2.png'" 
+          class="w-[320px] h-[320px] object-cover rounded-2xl transition-all duration-500 ease-in-out" 
+          alt="Current Song Image">
+      <div class="text-black text-center mt-2">
+        <p class="font-bold text-xl">{{currentSong()?.name ?? 'Unknown Song'}}</p>
+        <span class="text-[12px]">{{currentSong()?.by ?? 'Unknown Artist'}}</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-all" (click)="moveRight()" (click)="playSong(currentSong())">
+      <img [src]="rightSong()?.image ?? './../../../../assets/songs/logo2.png'" 
+          class="w-[200px] h-[200px] object-cover rounded-2xl transition-all duration-500 ease-in-out" 
+          alt="Right Song Image">
+      <div class="text-black text-center mt-2">
+        <p class="font-bold text-xl">{{rightSong()?.name ?? 'Unknown Song'}}</p>
+        <span class="text-[12px]">{{rightSong()?.by ?? 'Unknown Artist'}}</span>
+      </div>
+    </div>
+
+  </div>

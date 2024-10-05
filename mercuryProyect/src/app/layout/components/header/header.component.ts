@@ -25,7 +25,8 @@ export class HeaderComponent {
               private search: SearchService) {
     this.activate.decision$.subscribe((decision: boolean) => {
       this.showLaboratory = decision;
-    })
+      console.log("eeeeoscddv: ", this.showLaboratory)
+    })  
     this.actualUser = this.user.getUser()
   }
 

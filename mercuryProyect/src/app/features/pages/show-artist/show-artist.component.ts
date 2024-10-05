@@ -84,8 +84,8 @@ export class ShowArtistComponent implements OnInit {
 
 
   onPlaySong(song: Song){
-    this.playSongService.setAudio(song.audio)
-    this.playSongService.setImageSupabase(song.image)
+    //this.playSongService.setAudio(song.audio)
+    //this.playSongService.setImageSupabase(song.image)
   }
 
   onSelectAlbum(album: Album){
