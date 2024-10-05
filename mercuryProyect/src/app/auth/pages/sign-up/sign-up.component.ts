@@ -10,8 +10,7 @@ import Swal from 'sweetalert2';
   selector: 'app-sign-up',
   standalone: true,
   imports: [ReactiveFormsModule,RouterLinkWithHref,RouterOutlet],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css'
+  templateUrl: './sign-up.component.html'
 })
 export class SignUpComponent {
   protected userForm!: FormGroup;
@@ -24,17 +23,14 @@ export class SignUpComponent {
     const today = new Date();
     this.maxDate = today.toISOString().split('T')[0];
     this.userForm = this.formBuilder.group({
-      userName: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(15),Validators.pattern(/^[a-zA-Z][a-zA-Z0-9]*$/),Validators.pattern(/^\S*$/)]],
+      userName: ['',[Validators.required,Validators.maxLength(20)]],
       email: ['',[Validators.required,Validators.email,Validators.maxLength(42)]],
-      password: ['',[Validators.required,Validators.minLength(12),Validators.maxLength(20),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,20}$/)  // Debe tener al menos una minúscula, una mayúscula, un número y un carácter especial
-      ]],
+      password: ['',[Validators.required,Validators.maxLength(20)]],
       passwordValidation: ['',[Validators.required]],
       birthDate: ['', Validators.required],
       role: ['', Validators.required]
     });
   }
-
   register() {
     if(this.userForm.invalid) {
         if(this.userForm.get('userName')?.errors) {
@@ -119,6 +115,7 @@ export class SignUpComponent {
 
     const role = this.userForm.get('role')?.value;
     const user: User = {
+        id: this.generateId(),
         userName: this.userForm.get('userName')?.value,
         email: this.userForm.get('email')?.value,
         password: this.userForm.get('password')?.value,
@@ -135,7 +132,11 @@ export class SignUpComponent {
             icon: "warning"
         });
     }
-}
 
+    }
+
+  private generateId(): string {
+    return uuidv4();
+  }
 
 }
