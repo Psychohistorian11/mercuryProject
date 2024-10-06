@@ -19,9 +19,9 @@ export class CreateSongService {
 
   constructor(
     private addToSongsOfArtist: AddToSongsOfArtistService,
-    private user: GetUserService, 
+    private user: GetUserService,
     private songs: GetSongsService
-  ) { 
+  ) {
     this.idArtist = this.user.getUser().id;
     this.supabase = createClient(enviroment.supabaseConfig.url, enviroment.supabaseConfig.apikey);
   }
@@ -33,8 +33,8 @@ export class CreateSongService {
 
 
   async configSong(songData: { name: string, genre: Genres, audio: File, image: File }) {
-    const id = this.generateId(); 
-    const {audioUrl, imageUrl} = await this.addSongSupabase({ id, audio: songData.audio, image: songData.image });
+    const id = this.generateId();
+    const { audioUrl, imageUrl } = await this.addSongSupabase({ id, audio: songData.audio, image: songData.image });
     const newSong: Song = {
       id: id,
       name: songData.name,
@@ -46,13 +46,13 @@ export class CreateSongService {
       idGenre: songData.genre.id
     };
     this.addSongLocalStorage(newSong);
-    
+
   }
 
-  async configUpdateSong(id: string, songData: { name: string, genre: Genres, audio: File, image: File }) {  
+  async configUpdateSong(id: string, songData: { name: string, genre: Genres, audio: File, image: File }) {
     const songs = this.getSongsLocalStorage();
     const oldSong = this.songs.getSongByIdLocalStorage(id);
-  
+
     const { audioUrl, imageUrl } = await this.updateSongSupabase({
       id,
       newAudio: songData.audio,
@@ -60,8 +60,8 @@ export class CreateSongService {
       currentAudio: oldSong.audio,
       currentImage: oldSong.image
     });
-  
- 
+
+
 
     const updatedSongs = await Promise.all(songs.map(async song => {
       if (song.id === id) {
@@ -77,28 +77,28 @@ export class CreateSongService {
       }
       return song;
     }));
-  
+
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(updatedSongs));
   }
-  
 
-  private async addSongSupabase(songSupabase: {id: string, audio: File, image: File}) {
 
-      const audioUrl = await this.uploadFileToSupabase(this.bucket.audios, songSupabase.id, songSupabase.audio);
-      const imageUrl = await this.uploadFileToSupabase(this.bucket.images, songSupabase.id, songSupabase.image);
-      return {audioUrl, imageUrl}
+  private async addSongSupabase(songSupabase: { id: string, audio: File, image: File }) {
+
+    const audioUrl = await this.uploadFileToSupabase(this.bucket.audios, songSupabase.id, songSupabase.audio);
+    const imageUrl = await this.uploadFileToSupabase(this.bucket.images, songSupabase.id, songSupabase.image);
+    return { audioUrl, imageUrl }
 
   }
 
   private async updateSongSupabase(data: { id: string, newAudio: File, newImage: File, currentAudio: string, currentImage: string }) {
 
-      await this.deleteFileFromSupabase(this.bucket.audios, data.id, data.currentAudio);
-      await this.deleteFileFromSupabase(this.bucket.images, data.id, data.currentImage);
+    await this.deleteFileFromSupabase(this.bucket.audios, data.id, data.currentAudio);
+    await this.deleteFileFromSupabase(this.bucket.images, data.id, data.currentImage);
 
-      const audioUrl = await this.uploadFileToSupabase(this.bucket.audios, data.id, data.newAudio);
-      const imageUrl = await this.uploadFileToSupabase(this.bucket.images, data.id, data.newImage);
-      return {audioUrl, imageUrl}
-    
+    const audioUrl = await this.uploadFileToSupabase(this.bucket.audios, data.id, data.newAudio);
+    const imageUrl = await this.uploadFileToSupabase(this.bucket.images, data.id, data.newImage);
+    return { audioUrl, imageUrl }
+
   }
 
   private async uploadFileToSupabase(folder: string, id: string, file: File) {
@@ -127,9 +127,11 @@ export class CreateSongService {
 
   private addSongLocalStorage(newSong: Song) {
     const currentSongs = this.getSongsLocalStorage();
+    console.log("las canciones: ", currentSongs)
 
     this.addToSongsOfArtist.addSongArtistLocalStorage(this.user.getUser().id, newSong.id);
     currentSongs.push(newSong);
+    console.log("las nuevas canciones: ", currentSongs)
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(currentSongs));
   }
 
@@ -140,14 +142,14 @@ export class CreateSongService {
   async getAudioDuration(url: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const audio = new Audio(url);
-      
+
       audio.addEventListener('loadedmetadata', () => {
         const minutes = Math.floor(audio.duration / 60);
         const seconds = Math.floor(audio.duration % 60);
         const durationString = `${minutes}m ${seconds}s`;
         resolve(durationString);
       });
-  
+
       audio.addEventListener('error', () => {
         reject('Error al cargar el archivo de audio.');
       });
@@ -157,15 +159,15 @@ export class CreateSongService {
   extractFileName(url: string): string | undefined {
 
     const parts = url.split('/');
-    const encodedFileName = parts.pop(); 
+    const encodedFileName = parts.pop();
 
     if (!encodedFileName) {
-      return undefined; 
+      return undefined;
     }
     const decodedFileName = decodeURIComponent(encodedFileName);
-      
+
     return decodedFileName;
   }
-  
-  
+
+
 }

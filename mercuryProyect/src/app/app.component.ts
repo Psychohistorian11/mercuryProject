@@ -7,7 +7,6 @@ import { Album } from './auth/interfaces/album.interface';
 import { songsOfArtist } from './auth/interfaces/idRelated.interface';
 import { albumsOfArtist } from './auth/interfaces/idRelated.interface';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -16,18 +15,27 @@ import { albumsOfArtist } from './auth/interfaces/idRelated.interface';
 })
 export class AppComponent {
   title = 'Mercury';
+
   constructor(private burnedFilesService: BurnedFilesService) {
-    this.loadUsers(this.burnedFilesService.getBurnedUsers())
-    this.loadArtists(this.burnedFilesService.getBurnedArtist())
-    this.loadSongs(this.burnedFilesService.getBurnedSongs())
-    this.loadAlbums(this.burnedFilesService.getBurnedAlbums())
-    this.loadSongsOfArtist(this.burnedFilesService.getBurnedSongsArtist())
-    this.loadAlbumsOfArtist(this.burnedFilesService.getBurnedAlbumsArtist())
+    const isDataLoaded = localStorage.getItem('isDataLoaded');
+
+    if (!isDataLoaded) {
+      this.loadUsers(this.burnedFilesService.getBurnedUsers());
+      this.loadArtists(this.burnedFilesService.getBurnedArtist());
+      this.loadSongs(this.burnedFilesService.getBurnedSongs());
+      this.loadAlbums(this.burnedFilesService.getBurnedAlbums());
+      this.loadSongsOfArtist(this.burnedFilesService.getBurnedSongsArtist());
+      this.loadAlbumsOfArtist(this.burnedFilesService.getBurnedAlbumsArtist());
+
+      localStorage.setItem('isDataLoaded', 'true');
+    }
+
   }
 
-
   loadUsers(users: User[]) {
-    localStorage.setItem('users', JSON.stringify(users));
+    let allUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+    allUsers = allUsers.concat(users);
+    localStorage.setItem('users', JSON.stringify(allUsers));
   }
 
   loadArtists(artists: Artist[]) {
@@ -37,21 +45,26 @@ export class AppComponent {
   }
 
   loadSongs(songs: Song[]) {
-    localStorage.setItem('songs', JSON.stringify(songs));
+    let allSongs: Song[] = JSON.parse(localStorage.getItem('songs') || '[]');
+    allSongs = allSongs.concat(songs);
+    localStorage.setItem('songs', JSON.stringify(allSongs));
   }
 
   loadAlbums(albums: Album[]) {
-    localStorage.setItem('albums', JSON.stringify(albums));
+    let allAlbums: Album[] = JSON.parse(localStorage.getItem('albums') || '[]');
+    allAlbums = allAlbums.concat(albums);
+    localStorage.setItem('albums', JSON.stringify(allAlbums));
   }
 
   loadSongsOfArtist(songsArtist: songsOfArtist[]) {
-    localStorage.setItem('songsArtist', JSON.stringify(songsArtist));
+    let allSongsArtist: songsOfArtist[] = JSON.parse(localStorage.getItem('songsArtist') || '[]');
+    allSongsArtist = allSongsArtist.concat(songsArtist);
+    localStorage.setItem('songsArtist', JSON.stringify(allSongsArtist));
   }
 
   loadAlbumsOfArtist(albumsArtist: albumsOfArtist[]) {
-    localStorage.setItem('albumsArtist', JSON.stringify(albumsArtist));
+    let allAlbumsArtist: albumsOfArtist[] = JSON.parse(localStorage.getItem('albumsArtist') || '[]');
+    allAlbumsArtist = allAlbumsArtist.concat(albumsArtist);
+    localStorage.setItem('albumsArtist', JSON.stringify(allAlbumsArtist));
   }
-
-
-
 }

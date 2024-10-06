@@ -18,10 +18,10 @@ export class FooterComponent implements OnInit {
   user: User
 
   constructor(private getAlbumsService: GetAlbumsService,
-              private getUserService: GetUserService,
-              private router: Router,
+    private getUserService: GetUserService,
+    private router: Router,
   ) {
-        this.user = getUserService.getUser()
+    this.user = getUserService.getUser()
   }
 
   ngOnInit() {
@@ -32,21 +32,21 @@ export class FooterComponent implements OnInit {
   loadAlbums() {
     const albums = this.getAlbumsService.getAllAlbums();
     if (albums && albums.length > 0) {
-      const lastSixAlbums = albums.slice(-6);
-      this.albums.set(lastSixAlbums); 
+      const lastSixAlbums = albums.slice(-7);
+      this.albums.set(lastSixAlbums);
     } else {
       console.warn('No hay álbumes disponibles.');
       this.albums.set([]);
     }
   }
-  
 
-  onShowAlbum(album: Album){
-        if(this.user.role === 'artist'){
-          this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
-        }else{
-          this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
-        }
+
+  onShowAlbum(album: Album) {
+    if (this.user.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
+    } else {
+      this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
+    }
   }
 
 }

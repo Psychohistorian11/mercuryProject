@@ -19,9 +19,9 @@ import { NgFor } from '@angular/common';
 })
 export class CreateSongComponent implements OnInit {
 
-  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
-   registerForm: FormGroup;
-  songId: string | null = null;  
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
+  registerForm: FormGroup;
+  songId: string | null = null;
   genres = signal<Genres[]>([]);
 
 
@@ -30,7 +30,7 @@ export class CreateSongComponent implements OnInit {
     private songsService: GetSongsService,
     private playSong: PlaySongService,
     private createSongService: CreateSongService,
-    private route: ActivatedRoute,   
+    private route: ActivatedRoute,
     private router: Router,
     private user: GetUserService,
     private getGenresService: GetGenresService,
@@ -50,7 +50,7 @@ export class CreateSongComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadGenres(); 
+    this.loadGenres();
     this.songId = this.route.snapshot.paramMap.get('id');
     if (this.songId) {
       this.loadSongData(this.songId);
@@ -117,6 +117,7 @@ export class CreateSongComponent implements OnInit {
             showCancelButton: false,
           });
         } else {
+          console.log(songData)
           await this.createSongService.configSong(songData);
           Swal.fire({
             html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
