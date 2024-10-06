@@ -27,19 +27,33 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
     this.loadAlbums()
 
+    window.addEventListener('resize', this.checkScreenSize.bind(this));
+    this.checkScreenSize();
   }
 
-  loadAlbums() {
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.checkScreenSize.bind(this));
+  }
+
+  loadAlbums(numAlbums: number = 7) {
     const albums = this.getAlbumsService.getAllAlbums();
     if (albums && albums.length > 0) {
-      const lastSixAlbums = albums.slice(-7);
-      this.albums.set(lastSixAlbums);
+      const lastAlbums = albums.slice(-numAlbums);
+      this.albums.set(lastAlbums);
     } else {
       console.warn('No hay álbumes disponibles.');
       this.albums.set([]);
     }
   }
 
+  checkScreenSize() {
+    const width = window.innerWidth;
+    if (width < 640) {
+      this.loadAlbums(4);
+    } else {
+      this.loadAlbums(7);
+    }
+  }
 
   onShowAlbum(album: Album) {
     if (this.user.role === 'artist') {

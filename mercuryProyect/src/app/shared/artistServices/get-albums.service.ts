@@ -102,7 +102,6 @@ export class GetAlbumsService {
       const allAlbums: Album[] = JSON.parse(albumsData);
       const inputLowerCase = input.toLowerCase();
 
-      //elevancia que evalúa el título del álbum según el input
       const getRelevance = (album: Album) => {
         const albumNameLowerCase = album.name.toLowerCase();
 

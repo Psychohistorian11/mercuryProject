@@ -2,7 +2,6 @@ import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PlaySongService } from '../../generalServices/play-song.service';
 import { Subscription } from 'rxjs';
-import { Song } from '../../../auth/interfaces/song.interface';
 
 @Component({
   selector: 'app-play-song',
@@ -19,7 +18,7 @@ export class PlaySongComponent implements OnInit, OnDestroy {
   currentTime: string = '0:00';
   totalTime: string = '0:00';
   progress: number = 0;
-  volume: number = 1; 
+  volume: number = 1;
 
   constructor(private playSongService: PlaySongService) { }
 
@@ -34,8 +33,8 @@ export class PlaySongComponent implements OnInit, OnDestroy {
 
   loadAudio(file: string) {
     if (this.audio) {
-      this.audio.pause(); // Pausar audio anterior si existe
-      this.audio.currentTime = 0; // Reiniciar el tiempo actual
+      this.audio.pause();
+      this.audio.currentTime = 0;
     }
 
     this.audio = new Audio(file);
@@ -48,12 +47,11 @@ export class PlaySongComponent implements OnInit, OnDestroy {
       this.currentTime = this.formatTime(this.audio?.currentTime || 0);
     });
 
-    // Reproducir automáticamente la nueva canción
     this.audio.play().then(() => {
       this.isPlaying = true;
     }).catch((error) => {
       console.error('Error al reproducir audio:', error);
-      this.isPlaying = false; // Actualiza el estado si hay un error
+      this.isPlaying = false;
     });
   }
 
@@ -94,7 +92,7 @@ export class PlaySongComponent implements OnInit, OnDestroy {
     }
     if (this.audio) {
       this.audio.pause();
-      this.audio = null; // Limpieza
+      this.audio = null;
     }
   }
 }

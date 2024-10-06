@@ -52,7 +52,7 @@ export class BurnedFilesService {
             email: "mora@gmail.com",
             location: "Colombia",
             password: "123",
-            profilePicture: "https://qgjoyydixskkohmjmcme.supabase.co/storage/v1/object/public/Users/profilePicture/123e4567-e89b-12d3-a456-426614174003/SofiaElectro.jpg",
+            profilePicture: "https://qgjoyydixskkohmjmcme.supabase.co/storage/v1/object/public/Users/profilePicture/123e4567-e89b-12d3-a456-426614174003/JuanPerez.jpg",
             role: "artist",
             userName: "Mora"
         },

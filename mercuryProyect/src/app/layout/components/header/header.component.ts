@@ -17,53 +17,60 @@ import { SearchService } from '../../../features/services/search.service';
 export class HeaderComponent {
 
   showLaboratory = false;
-  actualUser: User
+  actualUser: User;
+  menuOpen = false; // Estado del menú hamburguesa
 
-  constructor(private activate: ActivateLaboratoryService,
+  constructor(
+    private activate: ActivateLaboratoryService,
     private router: Router,
     private user: GetUserService,
-    private search: SearchService) {
+    private search: SearchService
+  ) {
     this.activate.decision$.subscribe((decision: boolean) => {
       this.showLaboratory = decision;
-      console.log("eeeeoscddv: ", this.showLaboratory)
-    })
-    this.actualUser = this.user.getUser()
+      console.log("Laboratorio activado: ", this.showLaboratory);
+    });
+    this.actualUser = this.user.getUser();
   }
 
   onBackMenu() {
     if (this.actualUser.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.actualUser.id}`])
+      this.router.navigate([`/home/artist/${this.actualUser.id}`]);
     } else {
-      this.router.navigate([`/home/${this.actualUser.id}`])
-
+      this.router.navigate([`/home/${this.actualUser.id}`]);
     }
-
   }
 
   onMysongsClick() {
-    this.search.deactivateAlarm()
-    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs`])
+    this.search.deactivateAlarm();
+    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs`]);
+    this.closeMenu(); // Cerrar menú al hacer clic en una opción
   }
 
   onProfileClick() {
     if (this.actualUser.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.actualUser.id}/profile`])
+      this.router.navigate([`/home/artist/${this.actualUser.id}/profile`]);
     } else {
-      this.router.navigate([`/home/${this.actualUser.id}/profile`])
-
+      this.router.navigate([`/home/${this.actualUser.id}/profile`]);
     }
+    this.closeMenu(); // Cerrar menú al hacer clic en una opción
   }
 
   onExitClick() {
     localStorage.removeItem('user');
-    localStorage.removeItem('currentAudio')
-    localStorage.removeItem('currentImage')
-    this.router.navigate(['/login'])
+    localStorage.removeItem('currentAudio');
+    localStorage.removeItem('currentImage');
+    this.router.navigate(['/login']);
+    this.closeMenu(); // Cerrar menú al hacer clic en una opción
   }
 
+  // Método para alternar el estado del menú hamburguesa
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 
-
-
-
+  // Método para cerrar el menú
+  closeMenu() {
+    this.menuOpen = false;
+  }
 }
-
