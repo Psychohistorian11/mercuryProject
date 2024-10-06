@@ -13,11 +13,11 @@ import { PlaySongService } from '../../generalServices/play-song.service';
 export class ThreeMainSongsComponent implements OnInit {
 
   constructor(private getSongsService: GetSongsService,
-              private playSongService: PlaySongService
-  ){}
+    private playSongService: PlaySongService
+  ) { }
 
-  songs: Song[] = []; 
-  currentIndex = 1;  
+  songs: Song[] = [];
+  currentIndex = 1;
 
   leftSong = signal<Song | null>(null);
   currentSong = signal<Song | null>(null);
@@ -27,14 +27,14 @@ export class ThreeMainSongsComponent implements OnInit {
     this.loadSongs();
   }
 
-  loadSongs(){
-    this.songs = this.getSongsService.getRandomSongs();  
+  loadSongs() {
+    this.songs = this.getSongsService.getRandomSongs();
     if (this.songs.length >= 3) {
       this.updateDisplayedSongs();
     }
   }
 
-  updateDisplayedSongs(){
+  updateDisplayedSongs() {
     const total = this.songs.length;
 
     const leftIndex = (this.currentIndex - 1 + total) % total;
@@ -60,14 +60,12 @@ export class ThreeMainSongsComponent implements OnInit {
     };
   }
 
-  // Desplazar hacia la izquierda
   moveLeft() {
     const total = this.songs.length;
     this.currentIndex = (this.currentIndex - 1 + total) % total;
     this.updateDisplayedSongs();
   }
 
-  // Desplazar hacia la derecha
   moveRight() {
     const total = this.songs.length;
     this.currentIndex = (this.currentIndex + 1) % total;
@@ -77,7 +75,7 @@ export class ThreeMainSongsComponent implements OnInit {
   playSong(song: Song | null) {
     if (song) {
       this.playSongService.setSong(song)
- 
+
     }
   }
 }

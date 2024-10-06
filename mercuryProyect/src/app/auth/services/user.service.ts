@@ -4,14 +4,14 @@ import { User } from '../interfaces/user.interface';
   providedIn: 'root',
 })
 export class UserService {
-  constructor() {}
+  constructor() { }
 
   login(email: string, password: string) {
     if (this.isUserAndPasswordCorrect(email, password)) {
       const user = this.findUserinUsersWithEmail(email);
       localStorage.setItem(
         'user',
-        JSON.stringify({ id: user.id, userName: user.userName, email: user.email, role: user.role, dateOfBirth: user.dateOfBirth})
+        JSON.stringify({ id: user.id, userName: user.userName, email: user.email, role: user.role, dateOfBirth: user.dateOfBirth })
       );
       return user.role;
     } else {

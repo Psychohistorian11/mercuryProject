@@ -19,40 +19,40 @@ export class GetAlbumsService {
     return songsString ? JSON.parse(songsString) : [];
   }
 
-  getAllAlbums(): Album[] |null{
-      const albums = localStorage.getItem(this.ALBUM_STORAGE_KEY)
-      if(albums){
-        const allAlbums = JSON.parse(albums)
-        return allAlbums || null
-      }
-      return null
+  getAllAlbums(): Album[] | null {
+    const albums = localStorage.getItem(this.ALBUM_STORAGE_KEY)
+    if (albums) {
+      const allAlbums = JSON.parse(albums)
+      return allAlbums || null
+    }
+    return null
   }
 
-  getAlbumsByIdArtist(idArtist: string): Album[]{
+  getAlbumsByIdArtist(idArtist: string): Album[] {
     const albumsOfArtistData = localStorage.getItem(this.ALBUM_ARTIST_STORAGE_KEY);
     const albumsData = localStorage.getItem(this.ALBUM_STORAGE_KEY);
 
     if (albumsOfArtistData && albumsData) {
-      const allsongsOfArtist = JSON.parse(albumsOfArtistData); 
-      const allAlbums = JSON.parse(albumsData); 
-  
+      const allsongsOfArtist = JSON.parse(albumsOfArtistData);
+      const allAlbums = JSON.parse(albumsData);
+
       const artistEntries = allsongsOfArtist.filter((entry: any) => entry.idArtist === idArtist);
-  
+
       if (artistEntries.length > 0) {
         const albumIds = artistEntries.map((entry: any) => entry.idAlbum);
 
         const albums: Album[] = allAlbums
-          .filter((album: any) => albumIds.includes(album.id)) 
+          .filter((album: any) => albumIds.includes(album.id))
           .map((album: any) => ({
             id: album.id,
-            image: album.image, 
-            by: album.by,  
+            image: album.image,
+            by: album.by,
             name: album.name,
             datePublished: album.datePublished,
             idGenre: album.idGenre
-          
+
           }));
-  
+
         return albums;
       }
     }
@@ -62,7 +62,7 @@ export class GetAlbumsService {
 
   getAlbumById(id: string): Album | null {
     const albumsString = localStorage.getItem(this.ALBUM_STORAGE_KEY);
-    
+
     if (!albumsString) {
       return null;
     }
@@ -73,45 +73,45 @@ export class GetAlbumsService {
 
   getAlbumsByIds(ids: string[]): Album[] | null {
     const albumsString = localStorage.getItem(this.ALBUM_STORAGE_KEY);
-  
+
     if (!albumsString) {
       return null;
     }
-  
+
     const albums: Album[] = JSON.parse(albumsString);
     const matchingAlbums = albums.filter(album => ids.includes(album.id));
     return matchingAlbums.length > 0 ? matchingAlbums : null;
   }
-  
-  
+
+
 
   getSongByAlbumId(idAlbum: string): Song[] {
     const storedSongs: Song[] = this.getSongsFromLocalStorage();
-    
-    const songsWithAlbum = storedSongs.filter(song => 
-      song.idAlbum && song.idAlbum.includes(idAlbum)  
+
+    const songsWithAlbum = storedSongs.filter(song =>
+      song.idAlbum && song.idAlbum.includes(idAlbum)
     );
-    
+
     return songsWithAlbum;
   }
 
   getAlbumsFilteredByInput(input: string): Album[] {
     const albumsData = localStorage.getItem(this.ALBUM_STORAGE_KEY);
-  
+
     if (albumsData) {
       const allAlbums: Album[] = JSON.parse(albumsData);
       const inputLowerCase = input.toLowerCase();
-  
-     //elevancia que evalúa el título del álbum según el input
+
+      //elevancia que evalúa el título del álbum según el input
       const getRelevance = (album: Album) => {
         const albumNameLowerCase = album.name.toLowerCase();
-  
+
         if (albumNameLowerCase === inputLowerCase) {
           return 3;
         } else if (albumNameLowerCase.startsWith(inputLowerCase)) {
-          return 2; 
+          return 2;
         } else if (albumNameLowerCase.includes(inputLowerCase)) {
-          return 1; 
+          return 1;
         } else {
           return 0;
         }
@@ -119,20 +119,20 @@ export class GetAlbumsService {
 
       return allAlbums
         .filter(album => getRelevance(album) > 0)
-        .sort((a, b) => getRelevance(b) - getRelevance(a)); 
+        .sort((a, b) => getRelevance(b) - getRelevance(a));
     }
-  
+
     return [];
   }
 
-  getAlbumsFiltredByGenre(idGenre: string){
+  getAlbumsFiltredByGenre(idGenre: string) {
     const albums: Album[] = JSON.parse(localStorage.getItem(this.ALBUM_STORAGE_KEY) || '[]');
     return albums.filter(album => album.idGenre === idGenre);
   }
 
-  getAlbumsFiltredByPublicationDate(date: string){
+  getAlbumsFiltredByPublicationDate(date: string) {
     const albums: Album[] = JSON.parse(localStorage.getItem(this.ALBUM_STORAGE_KEY) || '[]');
-      return albums.filter(album => album.datePublished == date)
+    return albums.filter(album => album.datePublished == date)
   }
-  
+
 }

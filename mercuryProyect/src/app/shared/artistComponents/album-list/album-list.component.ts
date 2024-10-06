@@ -29,91 +29,91 @@ export class AlbumListComponent {
 
 
 
-  constructor(private currentUserService: GetUserService, 
-              private router: Router,
-              private userService: GetUserService,
-              private searchService: SearchService,
-              private getAlbumsService: GetAlbumsService,){
-              
-              this.user = this.userService.getUser();
-              this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
-                if (triggered) {
-                  this.searchQuery = this.searchService.getInputLocalStorage();
-                  this.searchAlbums(this.searchQuery);    
-                  this.showThereArentAlbums = false
-                }if(!triggered){
-                  this.getAlbumsByCurrentArtist()
-                }
-              });
-              this.searchService.resetSearchTriggered(); 
+  constructor(private currentUserService: GetUserService,
+    private router: Router,
+    private userService: GetUserService,
+    private searchService: SearchService,
+    private getAlbumsService: GetAlbumsService,) {
 
-              this.genreFiltredTriggeredSubscription = this.searchService.genreFiltredTriggered$.subscribe((triggered) => {
-                if (triggered) {
-                  this.genreFiltredQuery = this.searchService.getGenreFiltredLocalStorage();
-                  this.searchAlbumsFiltredGenre(this.genreFiltredQuery); 
-                  this.showThereArentAlbums = false
-                }if(!triggered){
-                  this.getAlbumsByCurrentArtist()
-                }
-              });
-          
-              this.searchService.resetGenreFiltredTriggered()
-          
-              this.publicationDateFiltredTriggeredSubscription = this.searchService.publicationDateFiltredTriggered$.subscribe((triggered) => {
-                if (triggered) {
-                  this.publicationDateQuery = this.searchService.getPublicationDateFiltredLocalStorage();
-                  this.searchAlbumsFiltredPublicationDate(this.publicationDateQuery); 
-                  this.showThereArentAlbums = false
-                }if(!triggered){
-                  this.getAlbumsByCurrentArtist()
-                }
-              });
-          
-              this.searchService.resetPublicationDateFiltredTriggered()
+    this.user = this.userService.getUser();
+    this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
+      if (triggered) {
+        this.searchQuery = this.searchService.getInputLocalStorage();
+        this.searchAlbums(this.searchQuery);
+        this.showThereArentAlbums = false
+      } if (!triggered) {
+        this.getAlbumsByCurrentArtist()
+      }
+    });
+    this.searchService.resetSearchTriggered();
+
+    this.genreFiltredTriggeredSubscription = this.searchService.genreFiltredTriggered$.subscribe((triggered) => {
+      if (triggered) {
+        this.genreFiltredQuery = this.searchService.getGenreFiltredLocalStorage();
+        this.searchAlbumsFiltredGenre(this.genreFiltredQuery);
+        this.showThereArentAlbums = false
+      } if (!triggered) {
+        this.getAlbumsByCurrentArtist()
+      }
+    });
+
+    this.searchService.resetGenreFiltredTriggered()
+
+    this.publicationDateFiltredTriggeredSubscription = this.searchService.publicationDateFiltredTriggered$.subscribe((triggered) => {
+      if (triggered) {
+        this.publicationDateQuery = this.searchService.getPublicationDateFiltredLocalStorage();
+        this.searchAlbumsFiltredPublicationDate(this.publicationDateQuery);
+        this.showThereArentAlbums = false
+      } if (!triggered) {
+        this.getAlbumsByCurrentArtist()
+      }
+    });
+
+    this.searchService.resetPublicationDateFiltredTriggered()
   }
 
-  
 
-  
 
-  getAlbumsByCurrentArtist(){
+
+
+  getAlbumsByCurrentArtist() {
     const albumsLocal = this.getAlbumsService.getAlbumsByIdArtist(this.user.id);
     this.albums.set(albumsLocal);
   }
 
-  onShowAlbum(album:Album){
-    if(this.user.role === 'artist'){
+  onShowAlbum(album: Album) {
+    if (this.user.role === 'artist') {
       this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
-    }else{
+    } else {
       this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
     }
-   
+
   }
 
-  onShowAlbumLikeArtist(album: Album){
-      this.router.navigate([`/home/artist/${this.user.id}/my-songs/my-albums/${album.id}`])
+  onShowAlbumLikeArtist(album: Album) {
+    this.router.navigate([`/home/artist/${this.user.id}/my-songs/my-albums/${album.id}`])
   }
 
 
-  onAddAlbum(){
+  onAddAlbum() {
     this.searchService.activateCreateAlbum()
     this.router.navigate([`/home/artist/${this.currentUserService.getUser().id}/my-songs/create-album`])
   }
 
-  searchAlbums(input: string){
+  searchAlbums(input: string) {
     const albumsByInput = this.getAlbumsService.getAlbumsFilteredByInput(input)
     this.albums.set(albumsByInput)
   }
 
-  searchAlbumsFiltredGenre(idGenre: string){
+  searchAlbumsFiltredGenre(idGenre: string) {
     const songsFiltredGenre = this.getAlbumsService.getAlbumsFiltredByGenre(idGenre)
     this.albums.set(songsFiltredGenre)
-}
+  }
 
-searchAlbumsFiltredPublicationDate(date: string){
+  searchAlbumsFiltredPublicationDate(date: string) {
     const songsFiltredPublicationDate = this.getAlbumsService.getAlbumsFiltredByPublicationDate(date)
     this.albums.set(songsFiltredPublicationDate)
-}
+  }
 
-  
+
 }

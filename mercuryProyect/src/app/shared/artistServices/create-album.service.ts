@@ -23,15 +23,15 @@ export class CreateAlbumService {
 
 
   constructor(private user: GetUserService,
-              private addToAlbumsOfArtist: AddToAlbumsOfArtistService
+    private addToAlbumsOfArtist: AddToAlbumsOfArtistService
   ) {
-    
+
     this.supabase = createClient(enviroment.supabaseConfig.url, enviroment.supabaseConfig.apikey);
 
   }
 
 
-  
+
   private getAlbumsLocalStorage(): Album[] {
     const storedAlbums = localStorage.getItem(this.ALBUM_STORAGE_KEY);
     return storedAlbums ? JSON.parse(storedAlbums) : [];
@@ -48,7 +48,6 @@ export class CreateAlbumService {
   }
 
   async configAlbum(albumData: { name: string, genre: Genres, image: File, songs: Song[] }) {
-    console.log(albumData.genre.id)
     const id = this.generateId();
     const imageUrl = await this.addAlbumSupabase({ id, image: albumData.image });
     const newAlbum: Album = {
@@ -65,28 +64,28 @@ export class CreateAlbumService {
   }
 
 
-  private addIdAlbumToSong(idAlbum: string, songs: Song[]){
+  private addIdAlbumToSong(idAlbum: string, songs: Song[]) {
     const storedSongs: Song[] = this.getSongsFromLocalStorage();
-  
+
     const updatedSongs = storedSongs.map(storedSong => {
       const songToUpdate = songs.find(song => song.id === storedSong.id);
-      
+
       if (songToUpdate) {
         const updatedIdAlbum = storedSong.idAlbum ? [...storedSong.idAlbum] : [];
-        
+
         if (!updatedIdAlbum.includes(idAlbum)) {
           updatedIdAlbum.push(idAlbum);
         }
-        
+
         return { ...storedSong, idAlbum: updatedIdAlbum };
       }
-  
+
       return storedSong;
     });
-  
+
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(updatedSongs));
   }
-  
+
 
 
   async addAlbumSupabase(albumSupabase: { id: string, image: File }) {

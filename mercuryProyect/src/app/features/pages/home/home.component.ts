@@ -15,19 +15,19 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  
-    constructor(private router: Router, 
-                private getUser: GetUserService) {
-           
 
-    }
-
-    isMainRoute() {
-        const user = this.getUser.getUser();
-        return this.router.url === `/home/${user.id}` || this.router.url === `/home/artist/${user.id}`;
-      
-    }
+  constructor(private router: Router,
+    private getUser: GetUserService) {
 
 
   }
+
+  isMainRoute() {
+    const user = this.getUser.getUser();
+    return this.router.url === `/home/${user.id}` || this.router.url === `/home/artist/${user.id}`;
+
+  }
+
+
+}
 

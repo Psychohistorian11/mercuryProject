@@ -31,7 +31,7 @@ export class PlaySongService {
     }*/
   }
 
-  setSong(song: Song){
+  setSong(song: Song) {
     this.songSubject.next(song)
   }
 
@@ -52,7 +52,7 @@ export class PlaySongService {
       });
   }
 
-  setImageSupabase(image: string){
+  setImageSupabase(image: string) {
     let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}')
     tempData.currentImageInPlay = image
     this.imageSubject.next(image);
@@ -70,12 +70,12 @@ export class PlaySongService {
   }*/
 
 
-    getAudio(){
-      let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}')
-       return tempData.currentAudioInPlay
-    }
+  getAudio() {
+    let tempData: TemporaryData = JSON.parse(localStorage.getItem('temporaryData') || '{}')
+    return tempData.currentAudioInPlay
+  }
 
-  
+
 
   resizeBase64Img(base64Str: string, maxWidth: number, maxHeight: number): Promise<string> {
     return new Promise((resolve, reject) => {

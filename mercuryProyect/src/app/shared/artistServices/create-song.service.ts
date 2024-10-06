@@ -37,8 +37,8 @@ export class CreateSongService {
     const { audioUrl, imageUrl } = await this.addSongSupabase({ id, audio: songData.audio, image: songData.image });
     const newSong: Song = {
       id: id,
-      name: songData.name,
       audio: audioUrl,
+      name: songData.name,
       image: imageUrl,
       by: this.user.getUser().userName,
       time: await this.getAudioDuration(audioUrl),
@@ -127,11 +127,8 @@ export class CreateSongService {
 
   private addSongLocalStorage(newSong: Song) {
     const currentSongs = this.getSongsLocalStorage();
-    console.log("las canciones: ", currentSongs)
-
     this.addToSongsOfArtist.addSongArtistLocalStorage(this.user.getUser().id, newSong.id);
     currentSongs.push(newSong);
-    console.log("las nuevas canciones: ", currentSongs)
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(currentSongs));
   }
 

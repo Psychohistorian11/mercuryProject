@@ -1,17 +1,16 @@
 aside {
-    width: 5rem; /* Narrow vertical sidebar */
-  }
-  
-  button {
-    background-color: #2D3748; /* Adjust color as needed */
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #4A5568;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
+  width: 5rem;
+}
+
+button {
+  background-color: #2D3748;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4A5568;
+}
+
+.hidden {
+  display: none;
+}

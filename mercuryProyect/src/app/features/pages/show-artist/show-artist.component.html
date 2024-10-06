@@ -14,38 +14,39 @@
     </div>
 
     <div class="mb-12">
-    <h2 class="text-3xl font-semibold mb-6">Álbumes</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div (click)="onSelectAlbum(album)" *ngFor="let album of albums()" class="p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 cursor-pointer">
-        
-        <div class="mb-4 w-full h-48 bg-gray-700 flex items-center justify-center rounded-lg overflow-hidden">
-          <img [src]="album.image" alt="{{ album.name }}" class="w-full h-full object-cover">
-        </div>
+      <h2 class="text-3xl font-semibold mb-6">Álbumes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div (click)="onSelectAlbum(album)" *ngFor="let album of albums()"
+          class="p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 cursor-pointer">
 
-        <h3 class="text-xl font-semibold mb-2">{{ album.name }}</h3>
-        <p class="text-gray-400">{{ album.datePublished }}</p>
-        <p class="text-gray-500 text-sm">Género: {{ getGenreByIdGenre(album.idGenre).name || 'Desconocido' }}</p>
+          <div class="mb-4 w-full h-48 bg-gray-700 flex items-center justify-center rounded-lg overflow-hidden">
+            <img [src]="album.image" alt="{{ album.name }}" class="w-full h-full object-cover">
+          </div>
+
+          <h3 class="text-xl font-semibold mb-2">{{ album.name }}</h3>
+          <p class="text-gray-400">{{ album.datePublished }}</p>
+          <p class="text-gray-500 text-sm">Género: {{ getGenreByIdGenre(album.idGenre).name || 'Desconocido' }}</p>
+        </div>
       </div>
     </div>
-  </div> 
 
     <div>
       <h2 class="text-3xl font-semibold mb-6">Canciones</h2>
       <div class="space-y-4">
         <div *ngFor="let song of songs()"
           class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-700">
-            <a (dblclick)="onPlaySong(song)" class="cursor-pointer">
-                <div class="flex">
-                  <img [src]="song.image" class="h-[70px] w-[70px] p-2">
-                
-                <div class="ml-5">
-                  <h3 class="text-xl font-medium">{{ song.name }}</h3>
-                  <p class="text-gray-400 text-sm">Duración: {{ song.time }}</p>
-                  <p class="text-gray-500 text-sm">{{ albumNames()[song.id] }}
-                  </p>
-                </div>
+          <a (dblclick)="onPlaySong(song)" class="cursor-pointer">
+            <div class="flex">
+              <img [src]="song.image" class="h-[70px] w-[70px] p-2">
+
+              <div class="ml-5">
+                <h3 class="text-xl font-medium">{{ song.name }}</h3>
+                <p class="text-gray-400 text-sm">Duración: {{ song.time }}</p>
+                <p class="text-gray-500 text-sm">{{ albumNames()[song.id] }}
+                </p>
               </div>
-        </a>
+            </div>
+          </a>
 
           <button (click)="onPlaySong(song)" class="text-white hover:text-indigo-400">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"

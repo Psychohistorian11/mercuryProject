@@ -19,11 +19,11 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
 })
 export class ShowArtistComponent implements OnInit {
   private user: User
-  idArtist: string = ''; 
-  artist = signal<Artist | null>(null); 
+  idArtist: string = '';
+  artist = signal<Artist | null>(null);
   songs = signal<Song[]>([]);
   albums = signal<Album[]>([])
-  albumNames = signal<{ [songId: string]: string }>({}); 
+  albumNames = signal<{ [songId: string]: string }>({});
 
 
   constructor(
@@ -42,10 +42,10 @@ export class ShowArtistComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.idArtist = params['id'];
-      this.loadArtist(this.idArtist);  
+      this.loadArtist(this.idArtist);
       this.loadSongsOfArtist(this.idArtist)
       this.loadAlbumsOfArtist(this.idArtist)
-     
+
     });
 
   }
@@ -54,17 +54,17 @@ export class ShowArtistComponent implements OnInit {
 
   loadArtist(idArtist: string) {
     const artist = this.getArtistsService.getArtistById(idArtist);
-    this.artist.set(artist); 
+    this.artist.set(artist);
   }
 
-  loadSongsOfArtist(idArtist: string){
+  loadSongsOfArtist(idArtist: string) {
     const songs = this.getSongsService.getSongsByIdArtist(idArtist)
     this.songs.set(songs)
-    this.loadAlbumNames(); 
+    this.loadAlbumNames();
 
   }
 
-  loadAlbumsOfArtist(idArtist: string){
+  loadAlbumsOfArtist(idArtist: string) {
     const albums = this.getAlbumsService.getAlbumsByIdArtist(idArtist)
     this.albums.set(albums)
   }
@@ -79,19 +79,19 @@ export class ShowArtistComponent implements OnInit {
         newAlbumNames[song.id] = 'Sin álbum';
       }
     });
-    this.albumNames.set(newAlbumNames); // Actualizamos el signal
+    this.albumNames.set(newAlbumNames);
   }
 
 
-  onPlaySong(song: Song){
+  onPlaySong(song: Song) {
     //this.playSongService.setAudio(song.audio)
     //this.playSongService.setImageSupabase(song.image)
   }
 
-  onSelectAlbum(album: Album){
-    if(this.user.role === 'artist'){
-            this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
-    }else{
+  onSelectAlbum(album: Album) {
+    if (this.user.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
+    } else {
       this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
     }
   }
@@ -101,9 +101,9 @@ export class ShowArtistComponent implements OnInit {
     console.log(albums)
     return albums && albums.length > 0 ? albums[0] : null;
   }
-  
 
-  getGenreByIdGenre(idGenre: string): Genres{
-      return this.getGenreService.getGenreByIdGenre(idGenre)
+
+  getGenreByIdGenre(idGenre: string): Genres {
+    return this.getGenreService.getGenreByIdGenre(idGenre)
   }
 }

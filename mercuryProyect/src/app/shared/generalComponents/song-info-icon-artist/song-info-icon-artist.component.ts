@@ -8,18 +8,18 @@ import { PlaySongService } from '../../generalServices/play-song.service';
   imports: [],
   templateUrl: './song-info-icon-artist.component.html'
 })
-export class SongInfoIconArtistComponent{
-  
-        currentSong = signal<Song | null>(null)
+export class SongInfoIconArtistComponent {
+
+  currentSong = signal<Song | null>(null)
 
 
-        constructor(private playSongervice: PlaySongService){
+  constructor(private playSongervice: PlaySongService) {
 
-          this.playSongervice.song.subscribe((song) => {
-            if(song){
-              this.currentSong.set(song)
-            }
-          })
-        }
+    this.playSongervice.song.subscribe((song) => {
+      if (song) {
+        this.currentSong.set(song)
+      }
+    })
+  }
 
 }

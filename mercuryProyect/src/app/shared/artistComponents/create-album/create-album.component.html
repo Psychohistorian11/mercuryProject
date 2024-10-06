@@ -1,56 +1,60 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="items-center p-10 bg-gray-900 rounded-xl shadow-lg">
-  
+
   <div class="flex p-2">
     <label class="relative w-full">
-      <input formControlName="name" 
-             type="text" 
-             required 
-             placeholder=""
-             class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer focus:border-blue-500 bg-gray-800 text-white w-full">
-      <span class="flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide peer-focus:text-blue-500 pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm bg-gray-900 rounded-2xl ml-2 text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+      <input formControlName="name" type="text" required placeholder=""
+        class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 peer focus:border-blue-500 bg-gray-800 text-white w-full">
+      <span
+        class="flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide peer-focus:text-blue-500 pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 peer-valid:text-sm bg-gray-900 rounded-2xl ml-2 text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="mr-2 size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
         </svg>
         Nombre del Álbum
       </span>
     </label>
   </div>
 
-  <div class="flex mb-8 p-2">  
+  <div class="flex mb-8 p-2">
     <label class="relative w-full">
       <div class="text-lg flex flex-auto text-white">
         Portada del álbum
-      </div>  
-      <input type="file" (change)="onImageSelect($event)" accept="file/*" required class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 bg-gray-800 text-white w-full">
+      </div>
+      <input type="file" (change)="onImageSelect($event)" accept="file/*" required
+        class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 duration-200 bg-gray-800 text-white w-full">
     </label>
   </div>
 
   <div class="relative mb-8 p-2">
     <div class="text-lg flex flex-auto text-white">
       Género del álbum
-    </div>  
+    </div>
     <div class="relative">
-      <select formControlName="genre" required class="block appearance-none w-full bg-gray-800 text-white border-2 border-gray-400 hover:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 rounded px-4 py-2 pr-10 leading-tight transition duration-300">
+      <select formControlName="genre" required
+        class="block appearance-none w-full bg-gray-800 text-white border-2 border-gray-400 hover:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 rounded px-4 py-2 pr-10 leading-tight transition duration-300">
         <option *ngFor="let genre of genres()" [ngValue]="genre">{{genre.name}}</option>
       </select>
-  
+
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="h-5 w-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
         </svg>
       </div>
     </div>
   </div>
- 
+
   <div class="pl-8 text-xl text-white">
     <h2>Ingresa los sencillos de tu galería</h2>
     <app-song-list (songSelectedToAdd)="onSongSelectToAdd($event)"
-                    (songSelectedToRemove)="onSongSelectToRemove($event)"></app-song-list>
+      (songSelectedToRemove)="onSongSelectToRemove($event)"></app-song-list>
 
   </div>
- 
+
   <div class="w-full flex justify-end p-4">
-    <button type="submit" class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-300">
+    <button type="submit"
+      class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-300">
       Publicar Álbum
     </button>
   </div>

@@ -26,7 +26,7 @@ export class SongListComponent {
   private genreFiltredQuery: string = this.searchService.getGenreFiltredLocalStorage()
   private publicationDateQuery: string = this.searchService.getPublicationDateFiltredLocalStorage()
 
-  createAlbumSubscription:  Subscription | null = null
+  createAlbumSubscription: Subscription | null = null
   searchInputSubscription: Subscription | null = null
   searchTriggeredSubscription: Subscription | null = null;
   genreFiltredTriggeredSubscription: Subscription | null = null;
@@ -38,10 +38,10 @@ export class SongListComponent {
   @Output() songSelectedToAdd = new EventEmitter<Song>();
   @Output() songSelectedToRemove = new EventEmitter<Song>();
   showArtisComponents = true
-  
-  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
 
-  addedSongs = new Set<string>(); 
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
+
+  addedSongs = new Set<string>();
 
 
 
@@ -54,17 +54,17 @@ export class SongListComponent {
     private router: Router,
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-  ){
+  ) {
     this.artist = this.getUserService.getUser();
     this.createAlbumSubscription = this.searchService.alarm$.subscribe((bool) => {
-    this.createAlbum = bool;
+      this.createAlbum = bool;
     });
     this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
       if (triggered) {
         this.searchQuery = this.searchService.getInputLocalStorage();
-        this.searchSongs(this.searchQuery); 
-        this.showArtisComponents = false 
-      }if(!triggered){
+        this.searchSongs(this.searchQuery);
+        this.showArtisComponents = false
+      } if (!triggered) {
         this.getSongsByCurrentArtist()
       }
     });
@@ -74,9 +74,9 @@ export class SongListComponent {
     this.genreFiltredTriggeredSubscription = this.searchService.genreFiltredTriggered$.subscribe((triggered) => {
       if (triggered) {
         this.genreFiltredQuery = this.searchService.getGenreFiltredLocalStorage();
-        this.searchSongsFiltredGenre(this.genreFiltredQuery); 
-        this.showArtisComponents = false 
-      }if(!triggered){
+        this.searchSongsFiltredGenre(this.genreFiltredQuery);
+        this.showArtisComponents = false
+      } if (!triggered) {
         this.getSongsByCurrentArtist()
       }
     });
@@ -86,22 +86,22 @@ export class SongListComponent {
     this.publicationDateFiltredTriggeredSubscription = this.searchService.publicationDateFiltredTriggered$.subscribe((triggered) => {
       if (triggered) {
         this.publicationDateQuery = this.searchService.getPublicationDateFiltredLocalStorage();
-        this.searchSongsFiltredPublicationDate(this.publicationDateQuery); 
-        this.showArtisComponents = false 
-      }if(!triggered){
+        this.searchSongsFiltredPublicationDate(this.publicationDateQuery);
+        this.showArtisComponents = false
+      } if (!triggered) {
         this.getSongsByCurrentArtist()
       }
     });
 
     this.searchService.resetPublicationDateFiltredTriggered()
 
-     
+
   }
 
   handleDblClick(song: Song) {
     // Permitir que el reproductor reproduzca una nueva canción
     //this.playSongService.setAudioPlaying(false);
-    
+
     //this.playSongService.setAudio(song.audio);
     //this.playSongService.setImageSupabase(song.image);
   }
@@ -160,22 +160,22 @@ export class SongListComponent {
     this.router.navigate([`/home/artist/${this.getUserService.getUser().id}/my-songs/edit-song/${song.id}`]);
   }
 
-  onAddSong(){
+  onAddSong() {
     this.router.navigate([`/home/artist/${this.getUserService.getUser().id}/my-songs/create-song`]);
   }
 
   onAddToAlbumSong(song: Song) {
     this.songSelectedToAdd.emit(song);
-    this.addedSongs.add(song.id); 
+    this.addedSongs.add(song.id);
   }
 
-  onRemoveToAlbumSong(song: Song){
+  onRemoveToAlbumSong(song: Song) {
     this.songSelectedToRemove.emit(song);
     this.addedSongs.delete(song.id)
   }
 
   isSongAdded(song: Song): boolean {
-    return this.addedSongs.has(song.id); 
+    return this.addedSongs.has(song.id);
   }
 
   getSongsByCurrentArtist() {
@@ -190,14 +190,14 @@ export class SongListComponent {
   }
 
 
-  searchSongsFiltredGenre(idGenre: string){
-      const songsFiltredGenre = this.getSongsService.getSongsFiltredByGenre(idGenre)
-      this.songs.set(songsFiltredGenre)
-      this.cdRef.detectChanges();
+  searchSongsFiltredGenre(idGenre: string) {
+    const songsFiltredGenre = this.getSongsService.getSongsFiltredByGenre(idGenre)
+    this.songs.set(songsFiltredGenre)
+    this.cdRef.detectChanges();
   }
 
-  searchSongsFiltredPublicationDate(date: string){
-      const songsFiltredPublicationDate = this.getSongsService.getSongsFiltredByPublicationDate(date)
-      this.songs.set(songsFiltredPublicationDate)
+  searchSongsFiltredPublicationDate(date: string) {
+    const songsFiltredPublicationDate = this.getSongsService.getSongsFiltredByPublicationDate(date)
+    this.songs.set(songsFiltredPublicationDate)
   }
 }

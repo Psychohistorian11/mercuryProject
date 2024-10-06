@@ -10,17 +10,17 @@ export class AddToAlbumsOfArtistService {
 
   constructor() { }
 
-  getAlbumsOfArtist(): albumsOfArtist[]{
+  getAlbumsOfArtist(): albumsOfArtist[] {
     const storedAlbumsArtist = localStorage.getItem(this.ALBUM_ARTIST_STORAGE_KEY);
-  return storedAlbumsArtist ? JSON.parse(storedAlbumsArtist) : [];
+    return storedAlbumsArtist ? JSON.parse(storedAlbumsArtist) : [];
   }
 
-  addAlbumArtistLocalStorage(idArtist: string, idAlbum: string){
+  addAlbumArtistLocalStorage(idArtist: string, idAlbum: string) {
     const currentAlbumsArtist = this.getAlbumsOfArtist()
 
     const albumOfArtist: albumsOfArtist = {
-        idArtist: idArtist,
-        idAlbum: idAlbum
+      idArtist: idArtist,
+      idAlbum: idAlbum
     }
 
     currentAlbumsArtist.push(albumOfArtist)

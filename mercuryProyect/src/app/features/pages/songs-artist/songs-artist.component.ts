@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { PlaySongService } from '../../../shared/generalServices/play-song.service';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
-import {User} from '../../../auth/interfaces/user.interface'
+import { User } from '../../../auth/interfaces/user.interface'
 import { CreateSongComponent } from "../../../shared/artistComponents/create-song/create-song.component";
 import { SearchService } from '../../services/search.service';
 
@@ -24,17 +24,16 @@ export class SongsArtistComponent {
   private imageSubscription: Subscription | null = null;
   private actualUser: User
 
-  constructor(private router: Router, 
-              private playSongService: PlaySongService, 
-              private user: GetUserService,
-              private search: SearchService) 
-              { 
-                this.imageSubscription = this.playSongService.image$.subscribe((image) => {
-                  this.selectedSong = image;
-                });
-                
-                this.actualUser = this.user.getUser()
-              }
+  constructor(private router: Router,
+    private playSongService: PlaySongService,
+    private user: GetUserService,
+    private search: SearchService) {
+    this.imageSubscription = this.playSongService.image$.subscribe((image) => {
+      this.selectedSong = image;
+    });
+
+    this.actualUser = this.user.getUser()
+  }
 
 
 
@@ -75,13 +74,13 @@ export class SongsArtistComponent {
       }
     });
   }
- 
-  onMySongsClick(){
+
+  onMySongsClick() {
     this.search.deactivateAlarm()
     this.router.navigate([`home/artist/${this.actualUser.id}/my-songs`])
   }
 
-  onMyAlbumsClick(){
+  onMyAlbumsClick() {
     this.router.navigate([`home/artist/${this.actualUser.id}/my-songs/my-albums`])
   }
 
@@ -89,7 +88,7 @@ export class SongsArtistComponent {
     Swal.close();
     this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-song`]);
 
-  } 
+  }
 
   selectAlbum() {
     Swal.close();

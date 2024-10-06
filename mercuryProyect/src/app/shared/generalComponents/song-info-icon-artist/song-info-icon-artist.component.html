@@ -3,7 +3,8 @@
     <span class="font-bold text-xl">{{currentSong()?.name ?? 'Unknown Song'}}</span><br>
     <span class="text-[12px]">{{currentSong()?.by ?? 'Unknown Artist'}}</span>
   </div>
-  <div class="flex justify-between items-center p-10" >
-    <img [src]="currentSong()?.image ?? './../../../../assets/songs/logo.png'"  class="w-[200px] h-[200px] rounded-full object-cover border-2 border-white transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center p-10">
+    <img [src]="currentSong()?.image ?? './../../../../assets/songs/logo.png'"
+      class="w-[200px] h-[200px] rounded-full object-cover border-2 border-white transition-all duration-300 ease-in-out">
   </div>
 </div>

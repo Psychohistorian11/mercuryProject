@@ -1,15 +1,19 @@
 <div *ngIf="selectedImage != null" class="bg-gray-700 p-3 rounded-3xl mx-auto flex items-center space-x-4 sm:space-x-6">
   <div class="w-8 sm:w-10 h-8 sm:h-10">
-    <img [src]="selectedImage || './../../../../assets/songs/logo.png'" alt="Cover Image" class="w-full h-full rounded-full object-cover">
+    <img [src]="selectedImage || './../../../../assets/songs/logo.png'" alt="Cover Image"
+      class="w-full h-full rounded-full object-cover">
   </div>
   <button (click)="togglePlay()" class="text-lg sm:text-2xl text-white ml-2">
     <span *ngIf="!isPlaying">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
       </svg>
     </span>
     <span *ngIf="isPlaying">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
       </svg>
     </span>
@@ -17,5 +21,6 @@
   <span class="text-white">{{ currentTime }}</span>
   <input type="range" [value]="progress" (input)="changeProgress($event)" class="flex-1 h-1 bg-gray-600 rounded-lg">
   <span class="text-white pr-4">{{ totalTime }}</span>
-  <input type="range" min="0" max="100" [value]="volume * 100" (input)="changeVolume($event)" class="w-12 sm:w-16 h-1 bg-gray-600 rounded-lg">
+  <input type="range" min="0" max="100" [value]="volume * 100" (input)="changeVolume($event)"
+    class="w-12 sm:w-16 h-1 bg-gray-600 rounded-lg">
 </div>

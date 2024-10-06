@@ -5,7 +5,7 @@ import { ActivateLaboratoryService } from '../../../auth/services/activate-labor
 import { NgIf } from '@angular/common';
 import { PlaySongComponent } from '../../../shared/generalComponents/play-song/play-song.component';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
-import {User} from '../../../auth/interfaces/user.interface'
+import { User } from '../../../auth/interfaces/user.interface'
 import { SearchService } from '../../../features/services/search.service';
 
 @Component({
@@ -20,41 +20,41 @@ export class HeaderComponent {
   actualUser: User
 
   constructor(private activate: ActivateLaboratoryService,
-              private router: Router, 
-              private user: GetUserService,
-              private search: SearchService) {
+    private router: Router,
+    private user: GetUserService,
+    private search: SearchService) {
     this.activate.decision$.subscribe((decision: boolean) => {
       this.showLaboratory = decision;
       console.log("eeeeoscddv: ", this.showLaboratory)
-    })  
+    })
     this.actualUser = this.user.getUser()
   }
 
-  onBackMenu(){
-    if(this.actualUser.role === 'artist'){
+  onBackMenu() {
+    if (this.actualUser.role === 'artist') {
       this.router.navigate([`/home/artist/${this.actualUser.id}`])
-    }else{
+    } else {
       this.router.navigate([`/home/${this.actualUser.id}`])
 
-    } 
-    
+    }
+
   }
 
-  onMysongsClick(){
+  onMysongsClick() {
     this.search.deactivateAlarm()
     this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs`])
   }
 
-  onProfileClick(){
-    if(this.actualUser.role === 'artist'){
+  onProfileClick() {
+    if (this.actualUser.role === 'artist') {
       this.router.navigate([`/home/artist/${this.actualUser.id}/profile`])
-    }else{
+    } else {
       this.router.navigate([`/home/${this.actualUser.id}/profile`])
 
-    } 
+    }
   }
 
-  onExitClick(){
+  onExitClick() {
     localStorage.removeItem('user');
     localStorage.removeItem('currentAudio')
     localStorage.removeItem('currentImage')
@@ -62,8 +62,8 @@ export class HeaderComponent {
   }
 
 
-  
 
 
-  }
+
+}
 

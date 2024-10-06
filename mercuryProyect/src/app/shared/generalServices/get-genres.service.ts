@@ -80,14 +80,14 @@ export class GetGenresService {
     }
   ];
 
-  constructor() {}
+  constructor() { }
 
   getGenres(): Genres[] {
     return this.musicGenres;
   }
 
-  getGenreByIdGenre(idGenre: string): Genres{
-      const genre = this.musicGenres.find(genre => genre.id === idGenre)
-      return genre!
+  getGenreByIdGenre(idGenre: string): Genres {
+    const genre = this.musicGenres.find(genre => genre.id === idGenre)
+    return genre!
   }
 }

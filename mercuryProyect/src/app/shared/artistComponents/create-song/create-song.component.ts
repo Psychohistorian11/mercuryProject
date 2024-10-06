@@ -117,7 +117,6 @@ export class CreateSongComponent implements OnInit {
             showCancelButton: false,
           });
         } else {
-          console.log(songData)
           await this.createSongService.configSong(songData);
           Swal.fire({
             html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">

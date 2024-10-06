@@ -21,10 +21,10 @@ export class ShowAlbumComponent {
   songs = signal<Song[]>([])
 
   constructor(private route: ActivatedRoute,
-              private getGenresService: GetGenresService,
-              private getSongsService: GetSongsService,
-              private getAlbumService: GetAlbumsService,
-              private playSongService: PlaySongService
+    private getGenresService: GetGenresService,
+    private getSongsService: GetSongsService,
+    private getAlbumService: GetAlbumsService,
+    private playSongService: PlaySongService
   ) {
 
   }
@@ -38,24 +38,24 @@ export class ShowAlbumComponent {
     });
 
   }
-  loadAlbum(idAlbum: string){
-      const album = this.getAlbumService.getAlbumById(idAlbum)
-      this.album.set(album)
+  loadAlbum(idAlbum: string) {
+    const album = this.getAlbumService.getAlbumById(idAlbum)
+    this.album.set(album)
   }
 
-  loadSongsOfAlbum(idAlbum: string){
-        const songs = this.getSongsService.getSongsByIdAlbum(idAlbum)
-        this.songs.set(songs)
+  loadSongsOfAlbum(idAlbum: string) {
+    const songs = this.getSongsService.getSongsByIdAlbum(idAlbum)
+    this.songs.set(songs)
   }
 
 
-  onPlaySong(song: Song){
+  onPlaySong(song: Song) {
     //this.playSongService.setAudio(song.audio)
     //this.playSongService.setImageSupabase(song.image)
   }
 
-  getGenreByIdGenre(idGenre: string): Genres{
-        const genre = this.getGenresService.getGenreByIdGenre(idGenre)
-        return genre
+  getGenreByIdGenre(idGenre: string): Genres {
+    const genre = this.getGenresService.getGenreByIdGenre(idGenre)
+    return genre
   }
 }

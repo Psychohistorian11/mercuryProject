@@ -23,7 +23,7 @@ export class CreateAlbumComponent implements OnInit {
   genres = signal<Genres[]>([]);
   idAlbum: string | null = null;
 
-  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent; 
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -37,20 +37,20 @@ export class CreateAlbumComponent implements OnInit {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       image: [null, Validators.required],
-      genre: [null, Validators.required], 
+      genre: [null, Validators.required],
       songs: this.fb.array([], Validators.required)
-    }); 
+    });
   }
 
   ngOnInit() {
-    this.loadGenres(); 
+    this.loadGenres();
     this.idAlbum = this.route.snapshot.paramMap.get('id');
     if (this.idAlbum) {
       this.loadAlbumData(this.idAlbum);
     }
   }
 
-  loadAlbumData(idAlbum: string){
+  loadAlbumData(idAlbum: string) {
 
   }
 
@@ -64,13 +64,13 @@ export class CreateAlbumComponent implements OnInit {
     songsFormArray.push(this.fb.control(song));
   }
 
-  onSongSelectToRemove(song: Song){
+  onSongSelectToRemove(song: Song) {
     const songsFormArray = this.registerForm.get('songs') as FormArray;
     const index = songsFormArray.value.findIndex((s: Song) => s.id === song.id);
 
-  if (index !== -1) {
-    songsFormArray.removeAt(index); 
-  }
+    if (index !== -1) {
+      songsFormArray.removeAt(index);
+    }
   }
 
   onImageSelect(event: Event) {
@@ -93,51 +93,51 @@ export class CreateAlbumComponent implements OnInit {
 
   async onSubmit() {
 
-      if (this.registerForm.valid) {
-        this.loadingComponent.showLoading();
-  
-        const albumData = {
-          name: this.registerForm.value.name,
-          genre: this.registerForm.value.genre,
-          image: this.registerForm.value.image, 
-          songs: this.registerForm.value.songs
-        };
-  
-        try {
-          if (this.idAlbum) {
-             await this.createAlbumService.configUpdateAlbum(this.idAlbum, albumData);
-            Swal.fire({
-              html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
+    if (this.registerForm.valid) {
+      this.loadingComponent.showLoading();
+
+      const albumData = {
+        name: this.registerForm.value.name,
+        genre: this.registerForm.value.genre,
+        image: this.registerForm.value.image,
+        songs: this.registerForm.value.songs
+      };
+
+      try {
+        if (this.idAlbum) {
+          await this.createAlbumService.configUpdateAlbum(this.idAlbum, albumData);
+          Swal.fire({
+            html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
                       <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
                         Album actualizado con éxito
                       </div>
                     </div>`,
-              background: 'rgb(75 85 99 / var(--tw-border-opacity))',
-              showConfirmButton: false,
-              showCancelButton: false,
-            });
-          } else {
-            await this.createAlbumService.configAlbum(albumData);
-            Swal.fire({
-              html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
+            background: 'rgb(75 85 99 / var(--tw-border-opacity))',
+            showConfirmButton: false,
+            showCancelButton: false,
+          });
+        } else {
+          await this.createAlbumService.configAlbum(albumData);
+          Swal.fire({
+            html: `<div class="bg-slate-700 p-10 rounded-lg max-w-lg mx-auto">
                       <div class="mb-8 text-3xl text-left text-white border-b border-white pb-2">
                         Album publicado con éxito
                       </div>
                     </div>`,
-              background: 'rgb(75 85 99 / var(--tw-border-opacity))',
-              showConfirmButton: false,
-              showCancelButton: false,
-            });
-          }
-  
-  
-          this.loadingComponent.hideLoading();
-          this.router.navigate([`/home/artist/${this.user.getUser().id}/my-songs/my-albums`]);
-        } catch (error) {
-  
-          this.loadingComponent.hideLoading();
-          Swal.fire('Error', ` Hubo un problema al publicar el sencillo error ${error}`);
+            background: 'rgb(75 85 99 / var(--tw-border-opacity))',
+            showConfirmButton: false,
+            showCancelButton: false,
+          });
         }
+
+
+        this.loadingComponent.hideLoading();
+        this.router.navigate([`/home/artist/${this.user.getUser().id}/my-songs/my-albums`]);
+      } catch (error) {
+
+        this.loadingComponent.hideLoading();
+        Swal.fire('Error', ` Hubo un problema al publicar el sencillo error ${error}`);
       }
+    }
   }
 }

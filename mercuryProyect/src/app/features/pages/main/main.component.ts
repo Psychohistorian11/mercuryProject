@@ -11,5 +11,5 @@ import { PlaySongComponent } from "../../../shared/generalComponents/play-song/p
   templateUrl: './main.component.html',
 })
 export class MainComponent {
-      
+
 }

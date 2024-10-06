@@ -11,14 +11,14 @@ import { Song } from '../../../auth/interfaces/song.interface';
   imports: [NgIf, NgFor],
   templateUrl: './album-item.component.html'
 })
-export class AlbumItemComponent implements OnInit{
+export class AlbumItemComponent implements OnInit {
   album = signal<Album | null>(null);
   songs = signal<Song[] | null>(null)
 
   constructor(
     private route: ActivatedRoute,
     private getAlbumsService: GetAlbumsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const albumId = this.route.snapshot.paramMap.get('id');
@@ -42,28 +42,28 @@ export class AlbumItemComponent implements OnInit{
     return true;
   }
 
-  onAddSong(){
+  onAddSong() {
 
   }
 
 
-  handleDblClick(song: Song){
+  handleDblClick(song: Song) {
 
   }
 
-  onDeleteSong(song: Song){
+  onDeleteSong(song: Song) {
 
   }
 
-  onEditSong(song: Song){
+  onEditSong(song: Song) {
 
   }
 
-  onAddToAlbumSong(song: Song){
+  onAddToAlbumSong(song: Song) {
 
   }
 
-  onRemoveToAlbumSong(song: Song){
+  onRemoveToAlbumSong(song: Song) {
 
   }
 

@@ -11,12 +11,11 @@ import { NgClass, NgIf } from '@angular/common';
 export class AsideComponent {
   openMenu: number | null = null;
 
-  // Toggles the menu based on button clicked
   toggleMenu(buttonNumber: number): void {
     if (this.openMenu === buttonNumber) {
-      this.openMenu = null; // Closes the menu if already opened
+      this.openMenu = null;
     } else {
-      this.openMenu = buttonNumber; // Opens the respective menu
+      this.openMenu = buttonNumber;
     }
   }
 
