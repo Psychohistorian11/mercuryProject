@@ -1,13 +1,14 @@
-<div class=" items-center pl-14 flex flex-row sm:flex-row sm:items-center sm:pl-24 sm:pt-10 sm:gap-10">
+<div class=" mt-4 items-center pl-14 flex flex-row sm:flex-row sm:items-center w-[300px] sm:w-[400px]">
+  <div class="text-center text-sm sm:text-base sm:max-h-[50px] sm:min-h-[50px] sm:max-w-[200px] sm:min-w-[200px]
+   ">
 
-  <div class="text-center text-sm sm:text-base">
     <span class="font-bold text-lg sm:text-xl">{{currentSong()?.name ?? 'Canción desconocida'}}</span><br>
-    <span class="text-[10px] sm:text-[12px]">{{currentSong()?.by ?? 'Artista desconocido'}}</span>
+    <span class="text-[10px] sm:text-[12px] truncate block w-full">{{currentSong()?.by ?? 'Artista desconocido'}}</span>
   </div>
 
-  <div class="flex justify-center sm:justify-between items-center p-5 sm:p-10">
+  <div class="ms-center p-5 ">
     <img [src]="currentSong()?.image ?? './../../../../assets/songs/logo.png'"
-      class="w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] rounded-full object-cover border-2 border-white transition-all duration-300 ease-in-out">
+      class="w-[120px] h-[120px] sm:w-[200px] sm:h-[100px] rounded-lg object-cover border-2
+       border-white transition-all duration-300 ease-in-out">
   </div>
-
 </div>

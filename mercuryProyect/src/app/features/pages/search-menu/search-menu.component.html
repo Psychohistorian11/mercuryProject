@@ -1,20 +1,22 @@
-<div class="container mx-auto mt-16 min-h-[700px]">
+<div class="container mx-auto mt-5 min-h-[600px]">
   <div class="text-center mb-10">
-    <h1 class="text-4xl font-bold text-white">Música y Artistas</h1>
-    <p class="text-lg text-gray-400 mt-2">Explora artistas, canciones y álbumes</p>
+    <h1 class="text-2xl font-bold text-white">Música y Artistas</h1>
+    <p class="text-sm text-gray-400 mt-2">Explora artistas, canciones y álbumes</p>
   </div>
 
-  <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
+  <div class="bg-gray-800 p-6 rounded-lg shadow-lg m-4 sm:mr-28 sm:ml-28">
     <form [formGroup]="registerForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
       <div>
-        <label for="genre" class=" text-white ">Filtrar por Género:</label>
+        <label for="genre" class=" text-white text-sm">Filtrar por Género:</label>
         <div class="relative  mt-2">
 
 
           <div class="relative">
             <select formControlName="genre"
-              class="appearance-none w-full bg-gray-800 text-white border-2 border-gray-400 hover:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 rounded px-4 py-2 pr-10 leading-tight transition duration-300">
+              class=" appearance-none w-full bg-gray-800 text-white border-2
+               border-gray-400 hover:border-gray-600 focus:border-blue-500 focus:ring-2
+                focus:ring-blue-500 rounded px-4 py-2 pr-10 leading-tight transition duration-300">
               <option value="" disabled>Seleccione un género</option>
               <option *ngFor="let genre of genres()" [value]="genre.id">{{ genre.name }}</option>
             </select>
@@ -31,19 +33,19 @@
       </div>
 
       <div>
-        <label for="date" class="block text-white mb-2">Filtrar por Fecha de Publicación:</label>
+        <label for="date" class="block text-white mb-2 text-sm">Filtrar por Fecha de Publicación:</label>
         <input type="date" [(ngModel)]="selectedDate" formControlName="publicationDate"
           class="w-full p-2 bg-gray-700 text-white rounded">
       </div>
 
-      <div class="md:col-span-2 lg:col-span-1 flex items-end">
+      <div class="md:col-span-2 lg:col-span-1 flex items-end text-sm">
         <button (click)="onSubmit()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700"
           id="applyFilters">
           Aplicar Filtros
         </button>
       </div>
 
-      <div class="md:col-span-2 lg:col-span-1 flex items-end">
+      <div class="md:col-span-2 lg:col-span-1 flex items-end text-sm">
         <button (click)="clearFilters(); registerForm.reset();"
           class="w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
           Limpiar Filtros
@@ -53,10 +55,11 @@
     </form>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 m-6 sm:mr-32 sm:ml-32 mt-4">
+
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-      <h2 class="text-2xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Artistas</h2>
-      <div class="overflow-y-auto max-h-[600px]">
+      <h2 class="text-xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Artistas</h2>
+      <div class="overflow-y-auto max-h-[400px]">
         <ul>
           <app-artist-list />
         </ul>
@@ -64,7 +67,7 @@
     </div>
 
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-      <h2 class="text-2xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Canciones</h2>
+      <h2 class="text-xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Canciones</h2>
       <div class="overflow-y-auto max-h-[600px]">
         <ul class="mt-4">
           <app-song-list />
@@ -73,7 +76,7 @@
     </div>
 
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-      <h2 class="text-2xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Álbumes</h2>
+      <h2 class="text-xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Álbumes</h2>
       <div class="overflow-y-auto max-h-[600px]">
         <ul class="mt-4">
           <app-album-list />

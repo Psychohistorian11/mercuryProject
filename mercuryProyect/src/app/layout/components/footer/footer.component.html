@@ -1,6 +1,6 @@
 <footer class="flex flex-col bg-gray-800      
   mt-2 ml-2 w-[370px]
-  sm:p-6 sm:mr-20 sm:ml-32 sm:mt-2 rounded-lg sm:w-[1630px]">
+  sm:p-6 sm:mr-20 sm:ml-32 sm:mt-2 rounded-lg sm:w-[1300px]">
   <h2 class="text-white pl-2 pt-2 sm:pt-0 text-xl sm:text-2xl font-semibold mb-4">Últimos Albums</h2>
 
   <div class="flex flex-wrap justify-center gap-10 sm:gap-4">
@@ -9,12 +9,12 @@
         class="bg-transparent border-none cursor-pointer transition-transform duration-300 hover:scale-105">
         <div id="img" class="rounded-2xl overflow-hidden shadow-lg">
           <img [src]="album.image ? album.image : './../../../../assets/songs/logo2.png'"
-            class="w-[130px] h-[50px] sm:w-[150px] sm:h-[150px] lg:w-[200px] lg:h-[200px] object-cover rounded-2xl">
+            class="w-[130px] h-[50px] sm:w-[150px] sm:h-[150px] lg:w-[150px] lg:h-[150px] object-cover rounded-2xl">
         </div>
         <div class="bg-gray-800 w-full rounded-b-2xl text-center mt-2">
 
           <p class="text-[12px] font-bold text-white sm:text-base lg:text-lg 
-            w-[60px] sm:w-[150px] lg:w-[200px] 
+            w-[60px] sm:w-[100px] lg:w-[150px] 
             whitespace-nowrap overflow-hidden text-ellipsis">
             {{album.name}}
           </p>

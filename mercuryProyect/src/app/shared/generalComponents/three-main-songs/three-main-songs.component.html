@@ -1,10 +1,11 @@
 <div
-  class="bg-white p-10 gap-2 rounded-t-lg items-center flex flex-row sm:flex-row sm:items-center sm:rounded-2xl sm:p-6 sm:gap-10">
+  class="bg-white p-10 gap-2 rounded-t-lg items-center flex flex-row sm:flex-row sm:items-center
+   sm:rounded-2xl sm:p-6 sm:gap-10 sm:h-[285px]">
 
   <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-all"
     (click)="moveLeft(); playSong(currentSong())">
     <img [src]="leftSong()?.image ?? './../../../../assets/songs/logo2.png'"
-      class="w-[80px] h-[80px] sm:w-[150px] sm:h-[150px] md:w-[200px] md:h-[200px] object-cover rounded-2xl transition-all duration-500 ease-in-out"
+      class="w-[80px] h-[80px] sm:w-[150px] sm:h-[150px] md:w-[150px] md:h-[150px] object-cover rounded-2xl transition-all duration-500 ease-in-out"
       alt="Left Song Image">
     <div class="text-black text-center mt-2">
       <p class="text-[10px] font-bold sm:text-base md:text-lg md:font-bold">{{leftSong()?.name ?? 'Unknown Song'}}</p>
@@ -14,7 +15,7 @@
 
   <div class="flex flex-col items-center">
     <img [src]="currentSong()?.image ?? './../../../../assets/songs/logo2.png'"
-      class="w-[120px] h-[120px] sm:w-[250px] sm:h-[250px] md:w-[320px] md:h-[320px] object-cover rounded-2xl transition-all duration-500 ease-in-out"
+      class="w-[120px] h-[120px] sm:w-[250px] sm:h-[250px] md:w-[200px] md:h-[200px] object-cover rounded-2xl transition-all duration-500 ease-in-out"
       alt="Current Song Image">
     <div class="text-black text-center mt-2">
       <p class="text-[10px] font-bold sm:text-base md:text-lg md:font-bold">{{currentSong()?.name ?? 'Unknown Song'}}
@@ -26,7 +27,7 @@
   <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-all"
     (click)="moveRight(); playSong(currentSong())">
     <img [src]="rightSong()?.image ?? './../../../../assets/songs/logo2.png'"
-      class="w-[80px] h-[80px] sm:w-[150px] sm:h-[150px] md:w-[200px] md:h-[200px] object-cover rounded-2xl transition-all duration-500 ease-in-out"
+      class="w-[80px] h-[80px] sm:w-[150px] sm:h-[150px] md:w-[150px] md:h-[150px] object-cover rounded-2xl transition-all duration-500 ease-in-out"
       alt="Right Song Image">
     <div class="text-black text-center mt-2">
       <p class="text-[10px] font-bold sm:text-base md:text-lg md:font-bold">{{rightSong()?.name ?? 'Unknown Song'}}</p>
