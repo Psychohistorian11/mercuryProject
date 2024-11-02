@@ -1,18 +1,17 @@
 <div class="container mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between  px-4 lg:px-20">
-  <!-- Sección de Información de Usuario -->
+
   <div class="w-full lg:w-1/2 p-6 lg:p-10 bg-gradient-to-br lg:mt-10  lg:ml-20
   bg-gray-800 rounded-lg shadow-2xl">
-    <!-- Nombre de Usuario -->
-    <a class="button hvr-underline-from-center text-2xl font-bold uppercase border-b-2 border-gray-600
+
+  <a class="button hvr-underline-from-center text-2xl font-bold uppercase border-b-2 border-gray-600
      text-gray-300 hover:text-white hover:border-white transition duration-300
      ease-in-out transform hover:scale-105
       w-full text-center pb-2 block mb-4">
       {{ currentUser.userName }}
     </a>
 
-    <!-- Formulario de Perfil -->
     <form class="mt-4" [formGroup]="profileForm" (ngSubmit)="editProfile()">
-      <!-- Inputs conservados sin cambios -->
+
       <div class="flex mb-8 p-2">
         <label class="relative w-full">
           <input formControlName="userName" type="text" placeholder="{{currentUser.userName}}" required
@@ -90,7 +89,6 @@
         </div>
       </div>
       
-      <!-- Botón Guardar Cambios -->
       <div class="flex justify-end mt-4">
         <button type="submit"
           class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-400 hover:scale-105 hover:shadow-xl transition-all duration-300">
@@ -100,7 +98,6 @@
     </form>
   </div>
 
-  <!-- Sección de Foto de Perfil -->
   <div class="hidden lg:flex flex-col items-center lg:ml-20 mt-10 lg:mt-10 space-y-4 w-full lg:w-1/2 ">
     <a class="text-2xl font-bold uppercase border-b-2 border-gray-600  text-center pb-2 lg:mr-20
     button hvr-underline-from-center">
@@ -115,6 +112,5 @@
     </div>
   </div>
 
-  <!-- Componente de Carga -->
   <app-loading></app-loading>
 </div>

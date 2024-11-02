@@ -11,6 +11,7 @@ import { CreateAlbumComponent } from './shared/artistComponents/create-album/cre
 import { SearchMenuComponent } from './features/pages/search-menu/search-menu.component';
 import { AlbumItemComponent } from './shared/artistComponents/album-item/album-item.component';
 import { ShowArtistComponent } from './features/pages/show-artist/show-artist.component';
+import { CreatePlayListComponent } from './shared/artistComponents/create-play-list/create-play-list.component';
 
 export const routes: Routes = [
   {
@@ -23,8 +24,10 @@ export const routes: Routes = [
     path: 'home/artist/:id', component: HomeComponent, children: [
       { path: 'search/:input', component: SearchMenuComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'create-playList', component: CreatePlayListComponent},
       { path: 'album/:id', component: ShowAlbumComponent },
       { path: 'artist/:id', component: ShowArtistComponent },
+      
       {
         path: 'my-songs', component: SongsArtistComponent, children: [
           { path: 'my-albums', component: AlbumListComponent },
@@ -41,6 +44,7 @@ export const routes: Routes = [
     path: 'home/:id', component: HomeComponent, children: [
       { path: 'search/:input', component: SearchMenuComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'create-playList', component: CreatePlayListComponent},
       { path: 'album/:id', component: ShowAlbumComponent },
       { path: 'artist/:id', component: ShowArtistComponent },
 

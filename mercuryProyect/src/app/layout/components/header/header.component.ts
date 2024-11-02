@@ -18,7 +18,7 @@ export class HeaderComponent {
 
   showLaboratory = false;
   actualUser: User;
-  menuOpen = false; // Estado del menú hamburguesa
+  menuOpen = false;
 
   constructor(
     private activate: ActivateLaboratoryService,
@@ -44,7 +44,7 @@ export class HeaderComponent {
   onMysongsClick() {
     this.search.deactivateAlarm();
     this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs`]);
-    this.closeMenu(); // Cerrar menú al hacer clic en una opción
+    this.closeMenu(); 
   }
 
   onProfileClick() {
@@ -53,7 +53,7 @@ export class HeaderComponent {
     } else {
       this.router.navigate([`/home/${this.actualUser.id}/profile`]);
     }
-    this.closeMenu(); // Cerrar menú al hacer clic en una opción
+    this.closeMenu(); 
   }
 
   onExitClick() {
@@ -61,15 +61,13 @@ export class HeaderComponent {
     localStorage.removeItem('currentAudio');
     localStorage.removeItem('currentImage');
     this.router.navigate(['/login']);
-    this.closeMenu(); // Cerrar menú al hacer clic en una opción
+    this.closeMenu();
   }
 
-  // Método para alternar el estado del menú hamburguesa
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  // Método para cerrar el menú
   closeMenu() {
     this.menuOpen = false;
   }

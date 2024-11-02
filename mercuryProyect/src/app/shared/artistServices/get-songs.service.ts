@@ -139,6 +139,31 @@ export class GetSongsService {
     return songs.filter(song => song.datePublished === date)
   }
 
+  getSongsByIdPlayList(idPlayList: string): Song[]{
+    return [{
+      id: "111",
+      audio: "https://qgjoyydixskkohmjmcme.supabase.co/storage/v1/object/public/Songs/audios/0c2107fd-f13d-4814-ae69-269d48fb92c9/theLastOfTheStark.mp3",
+      image: "https://qgjoyydixskkohmjmcme.supabase.co/storage/v1/object/public/Songs/images/0c2107fd-f13d-4814-ae69-269d48fb92c9/juegodetronos.jpg",
+      by: "Mora",
+      name: "The last of stark",
+      time: "2:38",
+      datePublished: "01-11-2024",
+      idAlbum: ["23"],
+      idGenre: "1"
+    },
+    {
+      id: "111",
+      audio: "https://qgjoyydixskkohmjmcme.supabase.co/storage/v1/object/public/Songs/audios/0c2107fd-f13d-4814-ae69-269d48fb92c9/theLastOfTheStark.mp3",
+      image: "https://qgjoyydixskkohmjmcme.supabase.co/storage/v1/object/public/Songs/images/0c2107fd-f13d-4814-ae69-269d48fb92c9/juegodetronos.jpg",
+      by: "Mora",
+      name: "The last of stark",
+      time: "2:38",
+      datePublished: "01-11-2024",
+      idAlbum: ["23"],
+      idGenre: "1"
+  }]
+  }
+
   getRandomSongs() {
     const storedSongs = localStorage.getItem(this.SONG_STORAGE_KEY);
 

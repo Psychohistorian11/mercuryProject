@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FooterComponent } from '../../../layout/components/footer/footer.component';
 import { HeaderComponent } from "../../../layout/components/header/header.component";
 import { AsideComponent } from "../../../layout/components/aside/aside.component";
+import { AsideChatComponent } from '../../../layout/components/aside-chat/aside-chat.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { MainComponent } from '../main/main.component';
 import { NgIf } from '@angular/common';
@@ -11,7 +12,7 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent, AsideComponent, MainComponent, RouterOutlet, NgIf],
+  imports: [FooterComponent, HeaderComponent, AsideComponent, MainComponent, RouterOutlet, NgIf, AsideChatComponent],
   templateUrl: './home.component.html'
 })
 export class HomeComponent {

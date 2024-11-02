@@ -32,7 +32,7 @@ export class ShowAlbumComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.idAlbum = params['id'];
-      this.loadAlbum(this.idAlbum);
+      this.loadAlbum(this.idAlbum); 
       this.loadSongsOfAlbum(this.idAlbum)
 
     });
