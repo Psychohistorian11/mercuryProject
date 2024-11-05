@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { GetTokenService } from '../../generalServices/get-token.service';
 
 @Component({
   selector: 'app-search',
@@ -13,19 +14,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class SearchComponent {
   @ViewChild('searchInput') searchInput!: ElementRef;
-  private currentUser: User;
+  token: any;
 
-  constructor(private router: Router, private user: GetUserService) {
-    this.currentUser = user.getUser();
+  constructor(private router: Router, private getToken: GetTokenService) {
+    this.token = this.getToken.getToken()
   }
 
   search(input: string) {
     if (!input) {
       Swal.fire('Error', 'Por favor, Ingrese valores en el buscador.');
-    } else if (this.currentUser.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.currentUser.id}/search/${input}`]);
-    } else if (this.currentUser.role === 'hearer') {
-      this.router.navigate([`/home/${this.currentUser.id}/search/${input}`]);
+    } else if (this.token.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.token.sub}/search/${input}`]);
+    } else if (this.token.role === 'user') {
+      this.router.navigate([`/home/${this.token.sub}/search/${input}`]);
     }
   }
 

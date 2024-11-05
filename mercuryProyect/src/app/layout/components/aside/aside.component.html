@@ -8,14 +8,13 @@
         </svg>
         
       </button>
-      @if(playLists){
-        <div *ngFor="let playList of playLists">
+     
+        <div *ngFor="let playList of playLists()">
           <button class="mb-2 rounded-lg" (click)="toggleMenu(2, playList)">
             <img [src]="playList.image" class="min-h-12 max-h-12 max-w-12 min-w-12 rounded-lg hover:scale-105 transition-all">
           </button>
          </div>
-      } 
-       
+            
       <button class="mb-2 p-3 rounded-lg" (click)="onCreatePlayList()" >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
@@ -36,25 +35,33 @@
           <img [src]="currentPlayList.image" class="w-16 h-16 rounded-lg object-cover">
           <div class="flex flex-col">
             <h2 class="text-xl font-semibold">{{ currentPlayList.name }}</h2>
-            <p class="text-sm text-gray-400">Publicado: {{ currentPlayList.datePublished }}</p>
-            <p class="text-sm text-gray-400" *ngIf="!currentPlayList.isPublic">Privada</p>
-            <p class="text-sm text-gray-400" *ngIf="currentPlayList.isPublic">Pública</p>
+            <p class="text-sm text-gray-400">Publicado: {{ currentPlayList.created_at }}</p>
+            <p class="text-sm text-gray-400" *ngIf="!currentPlayList.is_public">Privada</p>
+            <p class="text-sm text-gray-400" *ngIf="currentPlayList.is_public">Pública</p>
           </div>
         </div>
       
         <div class="mt-4 bg-gray-800 p-4 rounded-l-lg">
           <h3 class="text-lg font-medium mb-2">Canciones agregadas</h3>
-          <div *ngFor="let song of currentSongs" class="flex items-center gap-3 mb-2 p-2 hover:bg-gray-700 rounded transition-all">
-            <img [src]="song.image" class="w-12 h-12 rounded-lg object-cover">
-            <div class="flex flex-col">
-              <span class="font-medium">{{ song.name }}</span>
-              <span class="text-sm text-gray-400">{{ song.by }}</span>
+          <div *ngFor="let song of currentSongs()" class="flex items-center gap-3 mb-2 p-2 hover:bg-gray-700 rounded transition-all  justify-between">
+            <div class="flex">
+              <img [src]="song.song_image" class="w-12 h-12 rounded-lg object-cover">
+              <div class="flex flex-col ml-2">
+                <span class="font-medium">{{ song.song_name }}</span>
+                <span class="text-sm text-gray-400">{{ song.by }}</span>
+              </div>
+              
+            </div>
+            <div class=" float-right">
+              <button (click)="playSong(song)" class="rounded-full accent-black p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      
+      </div>   
     </div>
-
   </div>
 </div>

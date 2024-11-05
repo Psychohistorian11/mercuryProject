@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { enviroment } from '../../enviroments/enviroment';
 import { GetUserService } from '../generalServices/get-user.service';
 import { AddToAlbumsOfArtistService } from './add-to-albums-of-artist.service';
+import { AlbumAPIService } from '../../API/album/album-api.service';
+import { SongAPIService } from '../../API/song/song-api.service';
 
 
 
@@ -23,7 +25,9 @@ export class CreateAlbumService {
 
 
   constructor(private user: GetUserService,
-    private addToAlbumsOfArtist: AddToAlbumsOfArtistService
+              private addToAlbumsOfArtist: AddToAlbumsOfArtistService,
+              private albumAPIService: AlbumAPIService,
+              private songAPIService: SongAPIService
   ) {
 
     this.supabase = createClient(enviroment.supabaseConfig.url, enviroment.supabaseConfig.apikey);
@@ -48,20 +52,55 @@ export class CreateAlbumService {
   }
 
   async configAlbum(albumData: { name: string, genre: Genres, image: File, songs: Song[] }) {
-    const id = this.generateId();
-    const imageUrl = await this.addAlbumSupabase({ id, image: albumData.image });
-    const newAlbum: Album = {
-      id: id,
-      name: albumData.name,
-      by: this.user.getUser().userName,
-      image: imageUrl,
-      datePublished: new Date().toISOString().split('T')[0],
-      idGenre: albumData.genre.id
-    }
+    try{
+        const id = this.generateId();
+        const imageUrl = await this.addAlbumSupabase({ id, image: albumData.image });
 
-    this.addAlbumLocalStorage(newAlbum);
-    this.addIdAlbumToSong(id, albumData.songs)
+        const newAlbum: Album = {
+          id: id,
+          name: albumData.name,
+          by: "felipe",
+          image: imageUrl,
+          datePublished: new Date().toISOString().split('T')[0],
+          idGenre: albumData.genre.id
+
+          }
+
+        this.createAndAddAlbum(newAlbum, albumData.songs)
+    }catch (error) {
+    console.error('Error al configurar el album:', error);
+    
+  } 
+}
+
+  private createAndAddAlbum(newAlbum: Album, songs: any) {
+    this.albumAPIService.createAlbum(newAlbum).subscribe({
+      next: (response) => {
+        console.log('Album creado exitosamente:', response);
+        console.log("id: ", response.data[0].id);
+        
+        this.addSongToAlbum(response.data[0].id, songs);
+      },
+      error: (error) => {
+        console.error('Error al crear el sencillo:', error);
+      }
+    });
   }
+  
+  private addSongToAlbum(albumId: string, songs: any) {
+    for(let song of songs){
+      this.songAPIService.addSongToAlbum(song.song_id, albumId).subscribe({
+        next: (secondResponse) => {
+          console.log("Sencillo agregado a Album con éxito: ", secondResponse);
+        },
+        error: (error) => {
+          console.error("Error al agregar canción a album: ", error);
+        }
+      });
+    }
+    
+  }
+
 
 
   private addIdAlbumToSong(idAlbum: string, songs: Song[]) {

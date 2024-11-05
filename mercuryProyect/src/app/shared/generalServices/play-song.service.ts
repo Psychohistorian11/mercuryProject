@@ -16,7 +16,7 @@ export class PlaySongService {
   private audioSubject = new BehaviorSubject<string | null>(null);
   public audio$ = this.audioSubject.asObservable()
 
-  private songSubject = new BehaviorSubject<Song | null>(null);
+  private songSubject = new BehaviorSubject<any>(null);
   public song = this.songSubject.asObservable()
 
 
@@ -31,8 +31,14 @@ export class PlaySongService {
     }*/
   }
 
-  setSong(song: Song) {
+  setSong(song: any) {
     this.songSubject.next(song)
+    console.log("LLegue aquí tambien")
+  }
+
+  getSong(){
+    console.log("lelgue ")
+    return this.songSubject.asObservable()
   }
 
   setAudio(audio: string) {

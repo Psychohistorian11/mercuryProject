@@ -10,6 +10,7 @@ import { LoadingComponent } from './../../../shared/generalComponents/loading/lo
 import { GetGenresService } from '../../generalServices/get-genres.service';
 import { Genres } from '../../../auth/interfaces/album.interface';
 import { NgFor } from '@angular/common';
+import { GetTokenService } from '../../generalServices/get-token.service';
 
 @Component({
   selector: 'app-register-song',
@@ -19,6 +20,7 @@ import { NgFor } from '@angular/common';
 })
 export class CreateSongComponent implements OnInit {
 
+  token: any
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
   registerForm: FormGroup;
   songId: string | null = null;
@@ -32,10 +34,12 @@ export class CreateSongComponent implements OnInit {
     private createSongService: CreateSongService,
     private route: ActivatedRoute,
     private router: Router,
-    private user: GetUserService,
+    //private user: GetUserService,
+    private getToken: GetTokenService,
     private getGenresService: GetGenresService,
 
   ) {
+    this.token = this.getToken.getToken()
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       audio: [null, Validators.required],
@@ -132,7 +136,7 @@ export class CreateSongComponent implements OnInit {
 
 
         this.loadingComponent.hideLoading();
-        this.router.navigate([`home/artist/${this.user.getUser().id}/my-songs`]);
+        this.router.navigate([`home/artist/${this.token.sub}/my-songs`]);
       } catch (error) {
 
         this.loadingComponent.hideLoading();

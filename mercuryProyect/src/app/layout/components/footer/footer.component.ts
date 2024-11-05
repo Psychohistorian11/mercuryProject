@@ -5,6 +5,8 @@ import { GetAlbumsService } from '../../../shared/artistServices/get-albums.serv
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
 import { User } from '../../../auth/interfaces/user.interface';
 import { Router } from '@angular/router';
+import { AlbumAPIService } from '../../../API/album/album-api.service';
+import { GetTokenService } from '../../../shared/generalServices/get-token.service';
 
 @Component({
   selector: 'app-footer',
@@ -14,14 +16,15 @@ import { Router } from '@angular/router';
 })
 export class FooterComponent implements OnInit {
 
+  token: any
   albums = signal<Album[]>([])
-  user: User
 
   constructor(private getAlbumsService: GetAlbumsService,
-    private getUserService: GetUserService,
+    private getToken : GetTokenService,
     private router: Router,
+    private albumAPIService: AlbumAPIService
   ) {
-    this.user = getUserService.getUser()
+    this.token = this.getToken.getToken()
   }
 
   ngOnInit() {
@@ -37,6 +40,7 @@ export class FooterComponent implements OnInit {
 
   loadAlbums(numAlbums: number = 7) {
     const albums = this.getAlbumsService.getAllAlbums();
+
     if (albums && albums.length > 0) {
       const lastAlbums = albums.slice(-numAlbums);
       this.albums.set(lastAlbums);
@@ -49,17 +53,17 @@ export class FooterComponent implements OnInit {
   checkScreenSize() {
     const width = window.innerWidth;
     if (width < 640) {
-      this.loadAlbums(4);
+      this.loadAlbums(4); 
     } else {
       this.loadAlbums(7);
     }
   }
 
   onShowAlbum(album: Album) {
-    if (this.user.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
+    if (this.token.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.token.sub}/album/${album.id}`])
     } else {
-      this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
+      this.router.navigate([`/home/${this.token.sub}/album/${album.id}`])
     }
   }
 

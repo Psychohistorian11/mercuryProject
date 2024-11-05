@@ -9,6 +9,7 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
 import { User } from '../../../auth/interfaces/user.interface'
 import { CreateSongComponent } from "../../../shared/artistComponents/create-song/create-song.component";
 import { SearchService } from '../../services/search.service';
+import { GetTokenService } from '../../../shared/generalServices/get-token.service';
 
 
 @Component({
@@ -22,17 +23,18 @@ export class SongsArtistComponent {
   selectedSong: string | null = '';
   seeSongs = false;
   private imageSubscription: Subscription | null = null;
-  private actualUser: User
+  private currentToken: any
 
   constructor(private router: Router,
     private playSongService: PlaySongService,
-    private user: GetUserService,
+    //private user: GetUserService,
+    private token: GetTokenService,
     private search: SearchService) {
     this.imageSubscription = this.playSongService.image$.subscribe((image) => {
       this.selectedSong = image;
     });
 
-    this.actualUser = this.user.getUser()
+    this.currentToken = this.token.getToken()
   }
 
 
@@ -77,27 +79,27 @@ export class SongsArtistComponent {
 
   onMySongsClick() {
     this.search.deactivateAlarm()
-    this.router.navigate([`home/artist/${this.actualUser.id}/my-songs`])
+    this.router.navigate([`home/artist/${this.currentToken.sub}/my-songs`])
   }
 
   onMyAlbumsClick() {
-    this.router.navigate([`home/artist/${this.actualUser.id}/my-songs/my-albums`])
+    this.router.navigate([`home/artist/${this.currentToken.sub}/my-songs/my-albums`])
   }
 
   selectSencillo() {
     Swal.close();
-    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-song`]);
+    this.router.navigate([`/home/artist/${this.currentToken.sub}/my-songs/create-song`]);
 
   }
 
   selectAlbum() {
     Swal.close();
     this.search.activateCreateAlbum()
-    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs/create-album`]);
+    this.router.navigate([`/home/artist/${this.currentToken.sub}/my-songs/create-album`]);
   }
 
   isMainRoute() {
-    return this.router.url === `/home/artist/${this.actualUser.id}/my-songs`;
+    return this.router.url === `/home/artist/${this.currentToken.sub}/my-songs`;
   }
 
 

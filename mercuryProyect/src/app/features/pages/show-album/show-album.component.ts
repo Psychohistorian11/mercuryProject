@@ -5,9 +5,9 @@ import { Song } from '../../../auth/interfaces/song.interface';
 import { GetGenresService } from '../../../shared/generalServices/get-genres.service';
 import { NgFor } from '@angular/common';
 import { GetSongsService } from '../../../shared/artistServices/get-songs.service';
-import { SongsArtistComponent } from '../songs-artist/songs-artist.component';
-import { GetAlbumsService } from '../../../shared/artistServices/get-albums.service';
-import { PlaySongService } from '../../../shared/generalServices/play-song.service';
+import { AlbumAPIService } from '../../../API/album/album-api.service';
+import { SongAPIService } from '../../../API/song/song-api.service';
+import { MusicPlayerService } from '../../../shared/generalServices/music-player.service';
 
 @Component({
   selector: 'app-showAlbum',
@@ -17,14 +17,14 @@ import { PlaySongService } from '../../../shared/generalServices/play-song.servi
 })
 export class ShowAlbumComponent {
   idAlbum: string = ''
-  album = signal<Album | null>(null)
-  songs = signal<Song[]>([])
+  album = signal<any>(null)
+  songs = signal<any[]>([])
 
   constructor(private route: ActivatedRoute,
     private getGenresService: GetGenresService,
-    private getSongsService: GetSongsService,
-    private getAlbumService: GetAlbumsService,
-    private playSongService: PlaySongService
+    private albumAPIService: AlbumAPIService,
+    private songAPIService: SongAPIService,
+    private musicPlayerService: MusicPlayerService
   ) {
 
   }
@@ -38,20 +38,27 @@ export class ShowAlbumComponent {
     });
 
   }
+
   loadAlbum(idAlbum: string) {
-    const album = this.getAlbumService.getAlbumById(idAlbum)
-    this.album.set(album)
+    this.albumAPIService.getAlbumById(idAlbum).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.album.set(response)
+      }
+    })
   }
 
   loadSongsOfAlbum(idAlbum: string) {
-    const songs = this.getSongsService.getSongsByIdAlbum(idAlbum)
-    this.songs.set(songs)
+    this.songAPIService.getSongsFromAlbum(idAlbum).subscribe({
+        next: (response) => {
+          console.log("eee: ", response.data)
+            this.songs.set(response.data)
+        }
+    })
   }
 
-
   onPlaySong(song: Song) {
-    //this.playSongService.setAudio(song.audio)
-    //this.playSongService.setImageSupabase(song.image)
+    this.musicPlayerService.setCurrentSong(song)
   }
 
   getGenreByIdGenre(idGenre: string): Genres {

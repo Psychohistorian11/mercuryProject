@@ -10,6 +10,11 @@ import { Album, Genres } from '../../../auth/interfaces/album.interface';
 import { GetGenresService } from '../../../shared/generalServices/get-genres.service';
 import { PlaySongService } from '../../../shared/generalServices/play-song.service';
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
+import { ArtistAPIService } from '../../../API/artist/artist-api.service';
+import { AlbumAPIService } from '../../../API/album/album-api.service';
+import { SongAPIService } from '../../../API/song/song-api.service';
+import { GetTokenService } from '../../../shared/generalServices/get-token.service';
+import { MusicPlayerService } from '../../../shared/generalServices/music-player.service';
 
 @Component({
   selector: 'app-showArtist',
@@ -18,30 +23,33 @@ import { GetUserService } from '../../../shared/generalServices/get-user.service
   templateUrl: './show-artist.component.html'
 })
 export class ShowArtistComponent implements OnInit {
-  private user: User
+  token: any
   idArtist: string = '';
-  artist = signal<Artist | null>(null);
-  songs = signal<Song[]>([]);
-  albums = signal<Album[]>([])
+  artist = signal<any>(null);
+  songs = signal<any[]>([]);
+  albums = signal<any[]>([])
   albumNames = signal<{ [songId: string]: string }>({});
 
 
   constructor(
     private route: ActivatedRoute,
-    private getArtistsService: GetArtistsService,
-    private getSongsService: GetSongsService,
+    private getToken : GetTokenService,
     private getAlbumsService: GetAlbumsService,
     private getGenreService: GetGenresService,
-    private playSongService: PlaySongService,
-    private getUserService: GetUserService,
+    private artistAPIService: ArtistAPIService,
+    private albumAPIService: AlbumAPIService,
+    private songAPIService: SongAPIService,
     private router: Router,
+    private musicPlayService: MusicPlayerService
+
   ) {
-    this.user = getUserService.getUser()
   }
 
   ngOnInit() {
+    this.token = this.getToken.getToken()
     this.route.params.subscribe(params => {
       this.idArtist = params['id'];
+
       this.loadArtist(this.idArtist);
       this.loadSongsOfArtist(this.idArtist)
       this.loadAlbumsOfArtist(this.idArtist)
@@ -50,23 +58,39 @@ export class ShowArtistComponent implements OnInit {
 
   }
 
-
-
   loadArtist(idArtist: string) {
-    const artist = this.getArtistsService.getArtistById(idArtist);
-    this.artist.set(artist);
+    this.artistAPIService.getArtistById(idArtist).subscribe({
+      next: (response) => {
+        this.artist.set(response)
+      },
+      error: (error) => {
+        console.log("Error al traer al artista: ", error)
+      }
+    })
   }
 
   loadSongsOfArtist(idArtist: string) {
-    const songs = this.getSongsService.getSongsByIdArtist(idArtist)
-    this.songs.set(songs)
+    this.songAPIService.getSongsFromArtist(idArtist).subscribe({
+      next: (response) => {
+        this.songs.set(response.data)
+      },
+      error: (error) => {
+        console.log("Error al traer las canciones: ", error)
+      }
+    })
     this.loadAlbumNames();
 
   }
 
   loadAlbumsOfArtist(idArtist: string) {
-    const albums = this.getAlbumsService.getAlbumsByIdArtist(idArtist)
-    this.albums.set(albums)
+    this.albumAPIService.getAlbumByArtistId(idArtist).subscribe({
+      next: (response) => {
+        this.albums.set(response.data)
+      },
+      error: (error) => {
+        console.log("Error al taer los albums: ", error)
+      }
+    })
   }
 
   loadAlbumNames() {
@@ -84,15 +108,16 @@ export class ShowArtistComponent implements OnInit {
 
 
   onPlaySong(song: Song) {
+    this.musicPlayService.setCurrentSong(song)
     //this.playSongService.setAudio(song.audio)
     //this.playSongService.setImageSupabase(song.image)
   }
 
-  onSelectAlbum(album: Album) {
-    if (this.user.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
+  onSelectAlbum(album: any) {
+    if (this.token.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.token.sub}/album/${album.album_id}`])
     } else {
-      this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
+      this.router.navigate([`/home/${this.token.sub}/album/${album.album_id}`])
     }
   }
 

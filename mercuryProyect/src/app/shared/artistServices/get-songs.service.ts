@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Song } from '../../auth/interfaces/song.interface';
 import { enviroment } from '../../enviroments/enviroment';
+import { SongAPIService } from '../../API/song/song-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,12 @@ export class GetSongsService {
   private readonly SONG_ARTIST_STORAGE_KEY = enviroment.localStorageConfig.songsArtist.key;
   private supabase: SupabaseClient;
 
-  constructor() {
+  constructor(private songAPIservice: SongAPIService) {
     this.supabase = createClient(
       enviroment.supabaseConfig.url,
       enviroment.supabaseConfig.apikey
     );
+    
 
   }
 
@@ -57,7 +59,24 @@ export class GetSongsService {
     }
 
     return [];
+
   }
+
+  getSongByArtist(id: string){
+    let data: any
+    this.songAPIservice.getSongsFromArtist(id).subscribe({
+      next: (response) => {
+        console.log(response.data[0])
+          data = response
+      },
+      error: (error) => {
+          console.log(error)
+      }
+    })
+
+    return data
+  }
+  
 
 
 
@@ -176,7 +195,6 @@ export class GetSongsService {
       const j = Math.floor(Math.random() * (i + 1));
       [songs[i], songs[j]] = [songs[j], songs[i]];
     }
-
     return songs;
   }
 

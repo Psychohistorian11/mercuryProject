@@ -7,6 +7,8 @@ import { GetAlbumsService } from '../../artistServices/get-albums.service';
 import { User } from '../../../auth/interfaces/user.interface';
 import { SearchService } from '../../../features/services/search.service';
 import { Subscription } from 'rxjs';
+import { GetTokenService } from '../../generalServices/get-token.service';
+import { AlbumAPIService } from '../../../API/album/album-api.service';
 
 
 @Component({
@@ -16,8 +18,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './album-list.component.html'
 })
 export class AlbumListComponent {
-  user: User
-  albums = signal<Album[]>([]);
+  token: any
+  albums = signal<any[]>([]);
   searchQuery: string = '';
   showThereArentAlbums = true
   private genreFiltredQuery: string = this.searchService.getGenreFiltredLocalStorage()
@@ -31,12 +33,16 @@ export class AlbumListComponent {
 
   constructor(private currentUserService: GetUserService,
     private router: Router,
-    private userService: GetUserService,
+    //private userService: GetUserService,
+    private getToken: GetTokenService,
     private searchService: SearchService,
-    private getAlbumsService: GetAlbumsService,) {
+    private getAlbumsService: GetAlbumsService,
+    private albumAPIService: AlbumAPIService) {
 
-    this.user = this.userService.getUser();
-    this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
+    this.token = this.getToken.getToken();
+    this.getAlbumsByCurrentArtist()
+
+    /*this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
       if (triggered) {
         this.searchQuery = this.searchService.getInputLocalStorage();
         this.searchAlbums(this.searchQuery);
@@ -69,7 +75,7 @@ export class AlbumListComponent {
       }
     });
 
-    this.searchService.resetPublicationDateFiltredTriggered()
+    this.searchService.resetPublicationDateFiltredTriggered()*/
   }
 
 
@@ -77,30 +83,32 @@ export class AlbumListComponent {
 
 
   getAlbumsByCurrentArtist() {
-    const albumsLocal = this.getAlbumsService.getAlbumsByIdArtist(this.user.id);
-    this.albums.set(albumsLocal);
+
+    this.albumAPIService.getAlbumByArtistId(this.token.sub).subscribe({
+      next: (response) => {
+        console.log(response.data[0])
+        this.albums.set(response.data)
+          
+      },
+      error: (error) => {
+          console.log(error)
+      }
+    })
   }
 
-  onShowAlbum(album: Album) {
-    if (this.user.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.user.id}/album/${album.id}`])
-    } else {
-      this.router.navigate([`/home/${this.user.id}/album/${album.id}`])
-    }
 
-  }
 
-  onShowAlbumLikeArtist(album: Album) {
-    this.router.navigate([`/home/artist/${this.user.id}/my-songs/my-albums/${album.id}`])
+  onShowAlbumLikeArtist(album: any) {
+    this.router.navigate([`/home/artist/${this.token.sub}/my-songs/my-albums/${album.album_id}`])
   }
 
 
   onAddAlbum() {
     this.searchService.activateCreateAlbum()
-    this.router.navigate([`/home/artist/${this.currentUserService.getUser().id}/my-songs/create-album`])
+    this.router.navigate([`/home/artist/${this.token.sub}/my-songs/create-album`])
   }
 
-  searchAlbums(input: string) {
+  /*searchAlbums(input: string) {
     const albumsByInput = this.getAlbumsService.getAlbumsFilteredByInput(input)
     this.albums.set(albumsByInput)
   }
@@ -113,7 +121,7 @@ export class AlbumListComponent {
   searchAlbumsFiltredPublicationDate(date: string) {
     const songsFiltredPublicationDate = this.getAlbumsService.getAlbumsFiltredByPublicationDate(date)
     this.albums.set(songsFiltredPublicationDate)
-  }
+  }*/
 
 
 }

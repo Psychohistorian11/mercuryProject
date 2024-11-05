@@ -18,7 +18,7 @@ export class GetPlayListService {
       }]
   }
 
-  getPlayListsByIdArtist(idUser: string){
+  getPlayListsByIdArtist(idUser: string){ 
     return [{id: "1",
       userId: "1",
       name: "Un verano sin ti",

@@ -1,0 +1,85 @@
+<div class="container mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between  px-4 lg:px-20">
+
+    <div class="w-full lg:w-1/2 p-6 lg:p-10 bg-gradient-to-br lg:mt-10  lg:ml-20
+    bg-gray-800 rounded-lg shadow-2xl">
+  
+    <a class="button hvr-underline-from-center text-2xl font-bold uppercase border-b-2 border-gray-600
+       text-gray-300 hover:text-white hover:border-white transition duration-300
+       ease-in-out transform hover:scale-105
+        w-full text-center pb-2 block mb-4">
+        {{ currentArtist?.username }}
+      </a>
+  
+      <form class="mt-4" [formGroup]="profileForm" (ngSubmit)="editProfileArtist()">
+  
+        <div class="flex mb-8 p-2">
+          <label class="relative w-full">
+            <input formControlName="username" type="text" placeholder="{{currentArtist?.username}}" required
+              class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 
+              duration-200 peer bg-inherit w-full placeholder-black focus:placeholder-gray-600"
+              (keydown.enter)="editProfileArtist()">
+            <span
+              class="absolute left-0 top-2 px-1 text-lg tracking-wide text-white bg-gradient-to-br 
+              bg-gray-800  rounded-2xl ml-2 peer-focus:text-sm peer-focus:-translate-y-5 pointer-events-none duration-200">
+              Nombre de usuario *
+            </span>
+          </label>
+        </div>
+        
+        <div class="flex mb-8 p-2">
+          <label class="relative w-full">
+            <input formControlName="email" type="email" placeholder="{{currentArtist?.email}}" required
+              class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600
+               duration-200 peer bg-inherit w-full placeholder-black focus:placeholder-gray-600"
+              (keydown.enter)="editProfileArtist()">
+            <span
+              class="bg-gray-800 flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide
+               peer-focus:text-firstColor pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5
+                peer-valid:-translate-y-5 peer-valid:text-sm rounded-2xl ml-2 text-white">
+              Correo electrónico*
+            </span>
+          </label>
+        </div>
+
+  
+        <div class="flex mb-8 p-2">
+          <label class="relative w-full">
+            <input formControlName="country" type="text" placeholder="{{currentArtist?.country}}"
+              class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600
+               duration-200 peer focus:border-firstColor bg-inherit w-full"
+              (keydown.enter)="editProfileArtist()">
+            <span
+              class="flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide peer-focus:text-firstColor 
+              pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5
+               peer-valid:text-sm bg-gray-800 rounded-2xl ml-2 text-white">
+              País de origen
+            </span>
+          </label>
+        </div>
+        
+        <div class="flex justify-end mt-4">
+          <button type="submit"
+            class="bg-white text-black rounded px-4 py-2 cursor-pointer hover:bg-blue-400 hover:scale-105 hover:shadow-xl transition-all duration-300">
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  
+    <div class="hidden lg:flex flex-col items-center lg:ml-20 mt-10 lg:mt-10 space-y-4 w-full lg:w-1/2 ">
+      <a class="text-2xl font-bold uppercase border-b-2 border-gray-600  text-center pb-2 lg:mr-20
+      button hvr-underline-from-center">
+        Foto de perfil
+      </a>
+      <div class="flex justify-center">
+        <img [src]="currentArtist?.profile_picture || './../../../../assets/songs/logo.png'" alt="Profile picture"
+          class="w-[300px] lg:w-[400px] h-[400px] lg:h-[500px] object-cover border border-gray-700
+           rounded-lg shadow-2xl cursor-pointer transition duration-500 ease-in-out transform hover:scale-105"
+          (click)="triggerFileInput()">
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" hidden>
+      </div>
+    </div>
+  
+    <app-loading></app-loading>
+  </div>
+  

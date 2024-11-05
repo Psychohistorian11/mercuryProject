@@ -13,6 +13,9 @@ import { LoadingComponent } from '../../generalComponents/loading/loading.compon
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { PlaySongComponent } from "../../generalComponents/play-song/play-song.component";
+import { GetTokenService } from '../../generalServices/get-token.service';
+import { SongAPIService } from '../../../API/song/song-api.service';
+import { MusicPlayerService } from '../../generalServices/music-player.service';
 
 @Component({
   selector: 'app-song-list',
@@ -21,7 +24,7 @@ import { PlaySongComponent } from "../../generalComponents/play-song/play-song.c
   templateUrl: './song-list.component.html'
 })
 export class SongListComponent {
-  private artist: User;
+  private token :any
   private searchQuery: string = this.searchService.getInputLocalStorage();
   private genreFiltredQuery: string = this.searchService.getGenreFiltredLocalStorage()
   private publicationDateQuery: string = this.searchService.getPublicationDateFiltredLocalStorage()
@@ -34,16 +37,12 @@ export class SongListComponent {
 
 
   createAlbum = false;
-  songs = signal<Song[]>([]);
-  @Output() songSelectedToAdd = new EventEmitter<Song>();
-  @Output() songSelectedToRemove = new EventEmitter<Song>();
+  songs = signal<any[]>([]);
   showArtisComponents = true
 
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
 
   addedSongs = new Set<string>();
-
-
 
   constructor(
     private getSongsService: GetSongsService,
@@ -54,9 +53,14 @@ export class SongListComponent {
     private router: Router,
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
+    private getToken: GetTokenService,
+    private songAPIservice: SongAPIService,
+    private musicPlayerService: MusicPlayerService
   ) {
-    this.artist = this.getUserService.getUser();
-    this.createAlbumSubscription = this.searchService.alarm$.subscribe((bool) => {
+    this.token = this.getToken.getToken();
+    this.getSongsByCurrentArtist()
+
+    /*this.createAlbumSubscription = this.searchService.alarm$.subscribe((bool) => {
       this.createAlbum = bool;
     });
     this.searchTriggeredSubscription = this.searchService.searchTriggered$.subscribe((triggered) => {
@@ -64,8 +68,6 @@ export class SongListComponent {
         this.searchQuery = this.searchService.getInputLocalStorage();
         this.searchSongs(this.searchQuery);
         this.showArtisComponents = false
-      } if (!triggered) {
-        this.getSongsByCurrentArtist()
       }
     });
 
@@ -76,9 +78,7 @@ export class SongListComponent {
         this.genreFiltredQuery = this.searchService.getGenreFiltredLocalStorage();
         this.searchSongsFiltredGenre(this.genreFiltredQuery);
         this.showArtisComponents = false
-      } if (!triggered) {
-        this.getSongsByCurrentArtist()
-      }
+      } 
     });
 
     this.searchService.resetGenreFiltredTriggered()
@@ -88,22 +88,16 @@ export class SongListComponent {
         this.publicationDateQuery = this.searchService.getPublicationDateFiltredLocalStorage();
         this.searchSongsFiltredPublicationDate(this.publicationDateQuery);
         this.showArtisComponents = false
-      } if (!triggered) {
-        this.getSongsByCurrentArtist()
       }
     });
 
-    this.searchService.resetPublicationDateFiltredTriggered()
+    this.searchService.resetPublicationDateFiltredTriggered()*/
 
 
   }
 
-  handleDblClick(song: Song) {
-    // Permitir que el reproductor reproduzca una nueva canción
-    //this.playSongService.setAudioPlaying(false);
-
-    //this.playSongService.setAudio(song.audio);
-    //this.playSongService.setImageSupabase(song.image);
+  handleDblClick(song: any) {
+    this.musicPlayerService.setCurrentSong(song);
   }
 
 
@@ -138,7 +132,7 @@ export class SongListComponent {
     Swal.close();
     this.loadingComponent.showLoading();
     try {
-      await this.deleteSongService.deleteSong(song);
+      //await this.deleteSongService.deleteSong(song);
     } catch (error) {
       console.error('Error al borrar la canción:', error);
     } finally {
@@ -157,38 +151,31 @@ export class SongListComponent {
   }
 
   onEditSong(song: EditSong) {
-    this.router.navigate([`/home/artist/${this.getUserService.getUser().id}/my-songs/edit-song/${song.id}`]);
+    this.router.navigate([`/home/artist/${this.token.sub}/my-songs/edit-song/${song.id}`]);
   }
 
   onAddSong() {
-    this.router.navigate([`/home/artist/${this.getUserService.getUser().id}/my-songs/create-song`]);
+    this.router.navigate([`/home/artist/${this.token.sub}/my-songs/create-song`]);
   }
 
-  onAddToAlbumSong(song: Song) {
-    this.songSelectedToAdd.emit(song);
-    this.addedSongs.add(song.id);
+  getSongsByCurrentArtist(){
+    this.songAPIservice.getSongsFromArtist(this.token.sub).subscribe({
+      next: (response) => {
+        this.songs.set(response.data)
+          
+      },
+      error: (error) => {
+          console.log(error)
+      }
+    })
   }
 
-  onRemoveToAlbumSong(song: Song) {
-    this.songSelectedToRemove.emit(song);
-    this.addedSongs.delete(song.id)
-  }
 
-  isSongAdded(song: Song): boolean {
-    return this.addedSongs.has(song.id);
-  }
-
-  getSongsByCurrentArtist() {
-    const songsLocal = this.getSongsService.getSongsByIdArtist(this.artist.id);
-    this.songs.set(songsLocal);
-  }
-
-  async searchSongs(input: string) {
+ /* async searchSongs(input: string) {
     const songsByInput = this.getSongsService.getSongsFilteredByInput(input)
     this.songs.set(songsByInput)
 
   }
-
 
   searchSongsFiltredGenre(idGenre: string) {
     const songsFiltredGenre = this.getSongsService.getSongsFiltredByGenre(idGenre)
@@ -199,5 +186,5 @@ export class SongListComponent {
   searchSongsFiltredPublicationDate(date: string) {
     const songsFiltredPublicationDate = this.getSongsService.getSongsFiltredByPublicationDate(date)
     this.songs.set(songsFiltredPublicationDate)
-  }
+  }*/
 }

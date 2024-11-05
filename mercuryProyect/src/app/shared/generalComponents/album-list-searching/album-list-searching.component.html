@@ -1,0 +1,19 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div *ngFor="let album of albums()"
+      class="group border border-gray-700 rounded-lg overflow-hidden hover:bg-gray-700 transition-colors duration-300">
+      <a (click)="onShowAlbum(album)" class="cursor-pointer">
+        <img [src]="album.image" alt="{{ album.name }}"
+          class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="p-4">
+          <span class="block text-lg font-semibold text-white">{{ album.name }}</span>
+          <span class="text-sm text-gray-400">{{ album.by }}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="albums().length === 0" class=" flex flex-col ">
+    <div>
+      <h2 class="text-base mb-4">No se han encontrado albums con el filtro: "{{input}}"</h2>
+    </div>
+  </div>

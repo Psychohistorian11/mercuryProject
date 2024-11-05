@@ -11,14 +11,17 @@ import { Song } from '../../../auth/interfaces/song.interface';
 import { GetUserService } from '../../generalServices/get-user.service';
 import { CreateAlbumService } from '../../artistServices/create-album.service';
 import { PlaySongService } from '../../generalServices/play-song.service';
+import { GetTokenService } from '../../generalServices/get-token.service';
+import { SongListAddAlbumComponent } from "../song-list-add-album/song-list-add-album.component";
 
 @Component({
   selector: 'app-create-album',
   standalone: true,
-  imports: [ReactiveFormsModule, SongListComponent, NgFor, LoadingComponent],
+  imports: [ReactiveFormsModule, SongListComponent, NgFor, LoadingComponent, SongListAddAlbumComponent],
   templateUrl: './create-album.component.html'
 })
 export class CreateAlbumComponent implements OnInit {
+  token: any 
   registerForm: FormGroup;
   genres = signal<Genres[]>([]);
   idAlbum: string | null = null;
@@ -30,10 +33,13 @@ export class CreateAlbumComponent implements OnInit {
     private getGenresService: GetGenresService,
     private router: Router,
     private route: ActivatedRoute,
-    private user: GetUserService,
+    //private user: GetUserService,
+    private getToken: GetTokenService,
     private playSongService: PlaySongService,
     private createAlbumService: CreateAlbumService
   ) {
+
+    this.token = this.getToken.getToken()
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       image: [null, Validators.required],
@@ -59,12 +65,12 @@ export class CreateAlbumComponent implements OnInit {
     this.genres.set(genres);
   }
 
-  onSongSelectToAdd(song: Song) {
+  onSongSelectToAdd(song: any) {
     const songsFormArray = this.registerForm.get('songs') as FormArray;
     songsFormArray.push(this.fb.control(song));
   }
 
-  onSongSelectToRemove(song: Song) {
+  onSongSelectToRemove(song: any) {
     const songsFormArray = this.registerForm.get('songs') as FormArray;
     const index = songsFormArray.value.findIndex((s: Song) => s.id === song.id);
 
@@ -132,7 +138,7 @@ export class CreateAlbumComponent implements OnInit {
 
 
         this.loadingComponent.hideLoading();
-        this.router.navigate([`/home/artist/${this.user.getUser().id}/my-songs/my-albums`]);
+        this.router.navigate([`/home/artist/${this.token.sub}/my-songs/my-albums`]);
       } catch (error) {
 
         this.loadingComponent.hideLoading();

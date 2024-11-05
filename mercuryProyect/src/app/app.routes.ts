@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/pages/home/home.component';
 import { LoginComponent } from './auth/pages/login/login.component';
 import { SignUpComponent } from './auth/pages/sign-up/sign-up.component';
-import { ProfileComponent } from './features/pages/profile/profile.component';
+import { ProfileUserComponent } from './features/pages/profile-user/profileUser.component';
+import { ProfileArtistComponent } from './features/pages/profile-artist/profile-artist.component';
 import { ShowAlbumComponent } from './features/pages/show-album/show-album.component';
 import { SongsArtistComponent } from './features/pages/songs-artist/songs-artist.component';
 import { AlbumListComponent } from './shared/artistComponents/album-list/album-list.component';
@@ -12,6 +13,7 @@ import { SearchMenuComponent } from './features/pages/search-menu/search-menu.co
 import { AlbumItemComponent } from './shared/artistComponents/album-item/album-item.component';
 import { ShowArtistComponent } from './features/pages/show-artist/show-artist.component';
 import { CreatePlayListComponent } from './shared/artistComponents/create-play-list/create-play-list.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,10 +23,10 @@ export const routes: Routes = [
     path: 'sign-up', component: SignUpComponent
   },
   {
-    path: 'home/artist/:id', component: HomeComponent, children: [
+    path: 'home/artist/:id', component: HomeComponent, canActivate: [authGuard], children: [
       { path: 'search/:input', component: SearchMenuComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'create-playList', component: CreatePlayListComponent},
+      { path: 'profile', component: ProfileArtistComponent },
+      { path: 'create-playList/:id', component: CreatePlayListComponent},
       { path: 'album/:id', component: ShowAlbumComponent },
       { path: 'artist/:id', component: ShowArtistComponent },
       
@@ -41,10 +43,10 @@ export const routes: Routes = [
   },
 
   {
-    path: 'home/:id', component: HomeComponent, children: [
+    path: 'home/:id', component: HomeComponent, canActivate: [authGuard], children: [
       { path: 'search/:input', component: SearchMenuComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'create-playList', component: CreatePlayListComponent},
+      { path: 'profile', component: ProfileUserComponent },
+      { path: 'create-playList/:id', component: CreatePlayListComponent},
       { path: 'album/:id', component: ShowAlbumComponent },
       { path: 'artist/:id', component: ShowArtistComponent },
 

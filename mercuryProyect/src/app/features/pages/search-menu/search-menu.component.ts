@@ -1,9 +1,6 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
-import { ArtistListComponent } from "../../../shared/artistComponents/artist-list/artist-list.component";
-import { SongListComponent } from '../../../shared/artistComponents/song-list/song-list.component';
-import { AlbumListComponent } from "../../../shared/artistComponents/album-list/album-list.component";
 import { GetGenresService } from '../../../shared/generalServices/get-genres.service';
 import { Genres } from '../../../auth/interfaces/album.interface';
 import { NgFor } from '@angular/common';
@@ -12,12 +9,15 @@ import { LoadingComponent } from '../../../shared/generalComponents/loading/load
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import Swal from 'sweetalert2';
+import { AlbumListSearchingComponent } from "../../../shared/generalComponents/album-list-searching/album-list-searching.component";
+import { SongListSearchingComponent } from "../../../shared/generalComponents/song-list-searching/song-list-searching.component";
+import { ArtistListSearchingComponent } from "../../../shared/generalComponents/artist-list-searching/artist-list-searching.component";
 
 @Component({
   selector: 'app-search-menu',
   standalone: true,
-  imports: [ArtistListComponent, SongListComponent, AlbumListComponent,
-    NgFor, FormsModule, ReactiveFormsModule, LoadingComponent],
+  imports: [NgFor, FormsModule, ReactiveFormsModule, LoadingComponent, 
+    AlbumListSearchingComponent, SongListSearchingComponent, ArtistListSearchingComponent],
   templateUrl: './search-menu.component.html'
 })
 export class SearchMenuComponent implements OnInit {
@@ -36,7 +36,6 @@ export class SearchMenuComponent implements OnInit {
     this.searchInput = ''
     this.registerForm = this.fb.group({
       genre: [null],
-      publicationDate: [null],
     });
 
   }
@@ -52,7 +51,7 @@ export class SearchMenuComponent implements OnInit {
         })
       )
       .subscribe(input => {
-        this.searchService.setInputLocalStorage(input);
+        this.searchService.setInputSearching(input);
       });
   }
 
@@ -75,24 +74,17 @@ export class SearchMenuComponent implements OnInit {
 
       const filterData = {
         genre: this.registerForm.value.genre,
-        publicationDate: this.registerForm.value.publicationDate
       }
       try {
 
-        if (filterData.genre && filterData.publicationDate) {
-          Swal.fire('Error', 'Por favor, selecciona solo un filtro: género o fecha de publicación.');
-        } else if (filterData.genre) {
-          this.searchService.setGenreFiltred(filterData.genre);
-        } else if (filterData.publicationDate) {
-          this.searchService.setPublicationDataFiltred(filterData.publicationDate);
-        } else {
-          Swal.fire('Advertencia', 'Debes seleccionar al menos un filtro.');
-        }
+          if(filterData.genre){
+            this.searchService.setGenreFiltredSearching(filterData.genre);
+          }else {
+            Swal.fire('Advertencia', 'Debes seleccionar un filtro.');
+          }
 
         this.registerForm.reset();
         this.clearFilters();
-
-
 
         this.loadingComponent.hideLoading();
       } catch (error) {

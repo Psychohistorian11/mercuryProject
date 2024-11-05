@@ -22,6 +22,8 @@
     "@supabase/supabase-js": "^2.45.4",
     "aws-amplify": "^6.6.2",
     "aws-sdk": "^2.1691.0",
+    "jwt-decode": "^4.0.0",
+    "ngx-cookie-service": "^18.0.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.6.13",
     "tslib": "^2.3.0",

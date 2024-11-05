@@ -2,10 +2,14 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { Router, RouterLinkWithHref, RouterOutlet } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { User } from '../../interfaces/user.interface'
 import Swal from 'sweetalert2';
 import { WelcomeComponent } from '../../../shared/generalComponents/welcome/welcome.component';
 import { ActivateLaboratoryService } from '../../services/activate-laboratory.service';
+import { AuthService } from '../../../API/auth/auth.service';
+import * as jwtDecode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
+
+
 
 @Component({
   selector: 'app-login',
@@ -19,7 +23,9 @@ export class LoginComponent {
   constructor(
     private activateLaboratory: ActivateLaboratoryService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private cookieService: CookieService
   ) {
 
     this.userForm = this.formBuilder.group({
@@ -33,35 +39,35 @@ export class LoginComponent {
     if (this.userForm.valid) {
       const email = this.userForm.get('email')?.value;
       const password = this.userForm.get('password')?.value;
-
-      const users: User[] = JSON.parse(localStorage.getItem('users') || '[]');
-      const user = users.find(user => user.email === email && user.password === password);
-
-      if (user) {
-        const userId: string = user.id;
-
-        if (this.userService.login(email, password) === 'hearer') {
-          this.router.navigate([`/home/${userId}`]);
-          this.makeDecision(false);
-        } else if (this.userService.login(email, password) === 'artist') {
-          this.router.navigate([`/home/artist/${userId}`]);
-          this.makeDecision(true);
+  
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          const token = response.access_token;
+          const decodedToken: any = jwtDecode.jwtDecode(token);
+  
+          this.cookieService.set('token', token);
+  
+          const role = decodedToken.role;
+          const userId = decodedToken.sub;
+  
+          if (role === 'user') {
+            this.router.navigate([`/home/${userId}`]);
+            this.makeDecision(false);
+          } else if (role === 'artist') {
+            this.router.navigate([`/home/artist/${userId}`]);
+            this.makeDecision(true);
+          }
         }
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "The user or password are not correct",
-          icon: "warning"
-        });
-      }
+      });
     } else {
       Swal.fire({
-        title: "Error",
-        text: "The form is not valid",
-        icon: "warning"
+        title: 'Error',
+        text: 'The form is not valid',
+        icon: 'warning'
       });
     }
   }
+
 
 
   makeDecision(value: boolean) {

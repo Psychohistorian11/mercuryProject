@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
-import { User } from '../interfaces/user.interface';
+import { Artist, User } from '../interfaces/user.interface';
+import { UserAPIService } from '../../API/user/user-api.service';
+import { Router } from '@angular/router';
+import { ArtistAPIService } from '../../API/artist/artist-api.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor() { }
+
+  constructor(private userAPIService: UserAPIService,
+              private artistAPIService: ArtistAPIService, 
+              private router: Router
+
+  ) { }
 
   login(email: string, password: string) {
     if (this.isUserAndPasswordCorrect(email, password)) {
@@ -21,15 +30,12 @@ export class UserService {
   }
 
   register(user: User) {
-    if (
-      this.mailIsRepeated(user.email) ||
-      this.usernameIsRepeated(user.userName)
-    ) {
-      return false;
-    } else {
-      this.addUser(user);
-      return true;
-    }
+      if(user.role === "hearer"){
+        this.addUser(user);
+      }else if(user.role === "artist"){
+        this.addArtist(user)
+      }
+
   }
 
   private isUserAndPasswordCorrect(mail: string, password: string) {
@@ -66,7 +72,31 @@ export class UserService {
     return isRepeated;
   }
   private addUser(user: User) {
-    const users = [...this.getUsers(), user];
-    localStorage.setItem('users', JSON.stringify(users));
+
+    this.userAPIService.createUser(user).subscribe({
+      next: (response) => {
+        console.log('Usuario creado exitosamente:', response);
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Error al crear el usuario:', error);
+      }
+    });
+    //const users = [...this.getUsers(), user];
+    //localStorage.setItem('users', JSON.stringify(users));
+
   }
+
+  private addArtist(user: Artist){
+    this.artistAPIService.createArtist(user).subscribe({
+      next: (response) => {
+        console.log('Artista creado exitosamente:', response);
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Error al crear el artista:', error);
+      }
+    })
+  }
+
 }

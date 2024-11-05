@@ -4,8 +4,8 @@
     <p class="text-sm text-gray-400 mt-2">Explora artistas, canciones y álbumes</p>
   </div>
 
-  <div class="bg-gray-800 p-6 rounded-lg shadow-lg m-4 sm:mr-28 sm:ml-28">
-    <form [formGroup]="registerForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <div class="bg-gray-800 p-6 rounded-lg shadow-lg m-4 sm:mr-28 sm:ml-28 ">
+    <form [formGroup]="registerForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
       <div>
         <label for="genre" class=" text-white text-sm">Filtrar por Género:</label>
@@ -32,11 +32,6 @@
         </div>
       </div>
 
-      <div>
-        <label for="date" class="block text-white mb-2 text-sm">Filtrar por Fecha de Publicación:</label>
-        <input type="date" [(ngModel)]="selectedDate" formControlName="publicationDate"
-          class="w-full p-2 bg-gray-700 text-white rounded">
-      </div>
 
       <div class="md:col-span-2 lg:col-span-1 flex items-end text-sm">
         <button (click)="onSubmit()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700"
@@ -57,29 +52,29 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 m-6 sm:mr-32 sm:ml-32 mt-4">
 
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 class="text-xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Artistas</h2>
       <div class="overflow-y-auto max-h-[400px]">
         <ul>
-          <app-artist-list />
+          <app-artist-list-searching />
         </ul>
       </div>
     </div>
 
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 class="text-xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Canciones</h2>
       <div class="overflow-y-auto max-h-[600px]">
         <ul class="mt-4">
-          <app-song-list />
+          <app-song-list-searching />
         </ul>
       </div>
     </div>
 
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 class="text-xl text-white mb-4 text-center border-b-2 border-gray-600 pb-4">Álbumes</h2>
       <div class="overflow-y-auto max-h-[600px]">
         <ul class="mt-4">
-          <app-album-list />
+          <app-album-list-searching />
         </ul>
       </div>
     </div>

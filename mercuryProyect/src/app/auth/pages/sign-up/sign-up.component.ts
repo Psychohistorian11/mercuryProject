@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user.interface';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -20,7 +21,6 @@ import Swal from 'sweetalert2';
   
     constructor(
       private formBuilder: FormBuilder,
-      private router: Router
     ) {
       const today = new Date();
       this.maxDate = today.toISOString().split('T')[0];
@@ -140,15 +140,9 @@ import Swal from 'sweetalert2';
         role: role === 'artista' ? 'artist' : 'hearer'
       };
   
-      if (this.userService.register(user)) {
-        this.router.navigate(['/login']);
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "The username or email already exists.",
-          icon: "warning"
-        });
-      }
+      this.userService.register(user)
+        
+
     }
   
     private generateId(): string {

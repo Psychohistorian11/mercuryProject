@@ -7,6 +7,8 @@ import { PlaySongComponent } from '../../../shared/generalComponents/play-song/p
 import { GetUserService } from '../../../shared/generalServices/get-user.service';
 import { User } from '../../../auth/interfaces/user.interface'
 import { SearchService } from '../../../features/services/search.service';
+import { GetTokenService } from '../../../shared/generalServices/get-token.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -17,51 +19,60 @@ import { SearchService } from '../../../features/services/search.service';
 export class HeaderComponent {
 
   showLaboratory = false;
-  actualUser: User;
+  currentToken: any;
   menuOpen = false;
 
   constructor(
     private activate: ActivateLaboratoryService,
     private router: Router,
-    private user: GetUserService,
-    private search: SearchService
+    private token: GetTokenService,
+    private search: SearchService,
+    private cookieService: CookieService
   ) {
     this.activate.decision$.subscribe((decision: boolean) => {
       this.showLaboratory = decision;
-      console.log("Laboratorio activado: ", this.showLaboratory);
     });
-    this.actualUser = this.user.getUser();
+    this.currentToken = this.token.getToken();
   }
 
   onBackMenu() {
-    if (this.actualUser.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.actualUser.id}`]);
+    if (this.currentToken.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.currentToken.sub}`]);
     } else {
-      this.router.navigate([`/home/${this.actualUser.id}`]);
+      this.router.navigate([`/home/${this.currentToken.sub}`]);
     }
   }
 
   onMysongsClick() {
     this.search.deactivateAlarm();
-    this.router.navigate([`/home/artist/${this.actualUser.id}/my-songs`]);
+    this.router.navigate([`/home/artist/${this.currentToken.sub}/my-songs`]);
     this.closeMenu(); 
   }
 
   onProfileClick() {
-    if (this.actualUser.role === 'artist') {
-      this.router.navigate([`/home/artist/${this.actualUser.id}/profile`]);
+    if (this.currentToken.role === 'artist') {
+      this.router.navigate([`/home/artist/${this.currentToken.sub}/profile`]);
     } else {
-      this.router.navigate([`/home/${this.actualUser.id}/profile`]);
+      this.router.navigate([`/home/${this.currentToken.sub}/profile`]);
     }
     this.closeMenu(); 
   }
 
   onExitClick() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('currentAudio');
-    localStorage.removeItem('currentImage');
+    localStorage.removeItem('currentSong');
+    this.clearCookies();
     this.router.navigate(['/login']);
     this.closeMenu();
+  }
+
+  private clearCookies() {
+    const allCookies = this.cookieService.getAll();
+    
+    for (const cookieName in allCookies) {
+      if (allCookies.hasOwnProperty(cookieName)) {
+        this.cookieService.delete(cookieName); 
+      }
+    }
   }
 
   toggleMenu() {

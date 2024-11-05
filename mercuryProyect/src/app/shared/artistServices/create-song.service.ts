@@ -7,22 +7,27 @@ import { GetUserService } from '../generalServices/get-user.service';
 import { GetSongsService } from './get-songs.service';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Genres } from '../../auth/interfaces/album.interface';
+import { GetTokenService } from '../generalServices/get-token.service';
+import { SongAPIService } from '../../API/song/song-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateSongService {
   private readonly SONG_STORAGE_KEY = enviroment.localStorageConfig.songs.key;
-  private idArtist: string;
   private supabase: SupabaseClient;
   private bucket = enviroment.supabaseBucket.Songs;
 
+  token: any
+
   constructor(
-    private addToSongsOfArtist: AddToSongsOfArtistService,
-    private user: GetUserService,
+    private songAPIservice: SongAPIService,
+    //private addToSongsOfArtist: AddToSongsOfArtistService,
+    //private user: GetUserService,
+    private getToken: GetTokenService,
     private songs: GetSongsService
   ) {
-    this.idArtist = this.user.getUser().id;
+    this.token = this.getToken.getToken();
     this.supabase = createClient(enviroment.supabaseConfig.url, enviroment.supabaseConfig.apikey);
   }
 
@@ -33,21 +38,56 @@ export class CreateSongService {
 
 
   async configSong(songData: { name: string, genre: Genres, audio: File, image: File }) {
+  try {
     const id = this.generateId();
     const { audioUrl, imageUrl } = await this.addSongSupabase({ id, audio: songData.audio, image: songData.image });
-    const newSong: Song = {
-      id: id,
-      audio: audioUrl,
-      name: songData.name,
-      image: imageUrl,
-      by: this.user.getUser().userName,
-      time: await this.getAudioDuration(audioUrl),
-      datePublished: new Date().toISOString().split('T')[0],
-      idGenre: songData.genre.id
-    };
-    this.addSongLocalStorage(newSong);
+    
+    const newSong: Song = await this.createSongObject(id, songData, audioUrl, imageUrl);
 
+    this.createAndAddSong(newSong);
+  } catch (error) {
+    console.error('Error al configurar la canción:', error);
   }
+}
+
+private async createSongObject(id: string, songData: { name: string, genre: Genres }, audioUrl: string, imageUrl: string): Promise<Song> {
+  const time = await this.getAudioDuration(audioUrl);
+  return {
+    id: id,
+    audio: audioUrl,
+    name: songData.name,
+    image: imageUrl,
+    time: time,
+    datePublished: new Date().toISOString().split('T')[0],
+    idGenre: songData.genre.id
+  };
+}
+
+private createAndAddSong(newSong: Song) {
+  this.songAPIservice.createSong(newSong).subscribe({
+    next: (response) => {
+      console.log('Sencillo creado exitosamente:', response);
+      console.log("id: ", response.data[0].id);
+      
+      this.addSongToArtist(response.data[0].id);
+    },
+    error: (error) => {
+      console.error('Error al crear el sencillo:', error);
+    }
+  });
+}
+
+private addSongToArtist(songId: string) {
+  this.songAPIservice.addSongToArtist(songId, this.token.sub).subscribe({
+    next: (secondResponse) => {
+      console.log("Sencillo agregado a Artista con éxito: ", secondResponse);
+    },
+    error: (error) => {
+      console.error("Error al agregar canción a artista: ", error);
+    }
+  });
+}
+
 
   async configUpdateSong(id: string, songData: { name: string, genre: Genres, audio: File, image: File }) {
     const songs = this.getSongsLocalStorage();
@@ -125,12 +165,12 @@ export class CreateSongService {
     }
   }
 
-  private addSongLocalStorage(newSong: Song) {
+  /*private addSongLocalStorage(newSong: Song) {
     const currentSongs = this.getSongsLocalStorage();
     this.addToSongsOfArtist.addSongArtistLocalStorage(this.user.getUser().id, newSong.id);
     currentSongs.push(newSong);
     localStorage.setItem(this.SONG_STORAGE_KEY, JSON.stringify(currentSongs));
-  }
+  }*/
 
   private generateId(): string {
     return uuidv4();

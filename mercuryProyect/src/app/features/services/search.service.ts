@@ -2,7 +2,6 @@
   import { GetSongsService } from '../../shared/artistServices/get-songs.service';
   import { BehaviorSubject } from 'rxjs';
   import { TemporaryData } from '../../auth/interfaces/temporaryData.interface';
-  import { Genres } from '../../auth/interfaces/album.interface';
 import { enviroment } from '../../enviroments/enviroment';
 
 
@@ -111,5 +110,44 @@ import { enviroment } from '../../enviroments/enviroment';
     }
 
 
+
+
+
+    //Empecemos de nuevo
+
+    private inputSearching = new BehaviorSubject<string>('')
+
+    setInputSearching(input: string){
+        this.inputSearching.next(input)
+        localStorage.setItem('currentInput', input);
+
+    }
+    getInputSearching(){
+      return this.inputSearching.asObservable()
+    }
+
+    private genredFiltredSearching = new BehaviorSubject<string>('')
+
+    setGenreFiltredSearching(genreId: string){
+        this.genredFiltredSearching.next(genreId)
+        localStorage.setItem('currentGenreFiltred', genreId)
+    }
+
+    getGenredFiltredSearching(){
+      return this.genredFiltredSearching.asObservable()
+    }
+
+
+    loadFromStorage(): void {
+      const storedInput = localStorage.getItem('currentInput');
+      const storedGenre = localStorage.getItem('currentGenreFiltred');
+  
+      if (storedInput) {
+        this.inputSearching.next(storedInput);
+      }
+      if (storedGenre) {
+        this.genredFiltredSearching.next(storedGenre);
+      }
+    }
 
   }

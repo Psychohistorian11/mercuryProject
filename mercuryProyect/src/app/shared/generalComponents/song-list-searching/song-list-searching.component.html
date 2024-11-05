@@ -1,0 +1,26 @@
+<div *ngIf="songs().length === 0" class=" flex flex-col ">
+    <div>
+      <h2 class="text-base mb-4">No se han encontrado canciones con el filtro: "{{input}}"</h2>
+    </div>
+
+  </div>
+  
+  <div *ngFor="let song of songs()">
+    <div>
+      <div class="m-2 border-b-2 border-gray-600 flex items-center hover:bg-gray-700 transition-colors duration-300"
+        (click)="handleDblClick(song)">
+        <div class="h-[70px] w-[70px] p-2">
+          <img [src]="song.image" alt="song image" class="w-full h-full object-cover">
+        </div>
+  
+        <a class="ml-4 flex flex-col justify-center text-base text-white">
+          {{ song.name }}<br>
+          <span class="text-[14px] text-[#bbb] mt-1">{{ song.time }}</span>
+        </a>
+
+      </div>
+  
+    </div>
+  </div>
+  
+  

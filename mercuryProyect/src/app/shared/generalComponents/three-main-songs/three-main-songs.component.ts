@@ -1,27 +1,33 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { GetSongsService } from '../../artistServices/get-songs.service';
 import { Song } from '../../../auth/interfaces/song.interface';
 import { PlaySongService } from '../../generalServices/play-song.service';
+import { MusicPlayerFooterComponent } from '../music-player-footer/music-player-footer.component';
+import { MusicPlayerService } from '../../generalServices/music-player.service';
 
 @Component({
   selector: 'app-three-main-songs',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf,MusicPlayerFooterComponent],
   templateUrl: './three-main-songs.component.html'
 })
 export class ThreeMainSongsComponent implements OnInit {
 
+
+  isPlaySong: boolean = false
+
   constructor(private getSongsService: GetSongsService,
-    private playSongService: PlaySongService
-  ) { }
+              private musicPlayerService: MusicPlayerService
+  ) { 
+  }
 
   songs: Song[] = [];
   currentIndex = 1;
 
-  leftSong = signal<Song | null>(null);
-  currentSong = signal<Song | null>(null);
-  rightSong = signal<Song | null>(null);
+  leftSong = signal<any>(null);
+  currentSong = signal<any>(null);
+  rightSong = signal<any>(null);
 
   ngOnInit(): void {
     this.loadSongs();
@@ -45,12 +51,12 @@ export class ThreeMainSongsComponent implements OnInit {
     this.rightSong.set(this.mapSongToThreeSongs(this.songs[rightIndex]));
   }
 
-  mapSongToThreeSongs(song: Song): Song {
+  mapSongToThreeSongs(song: any) {
     return {
-      name: song.name,
+      song_name: song.song_name,
       by: song.by,
-      image: song.image,
-      audio: song.audio,
+      song_image: song.song_image,
+      mp3: song.mp3,
       datePublished: song.datePublished,
       id: song.id,
       time: song.time,
@@ -72,10 +78,10 @@ export class ThreeMainSongsComponent implements OnInit {
     this.updateDisplayedSongs();
   }
 
-  playSong(song: Song | null) {
+  playSong(song: any) {
     if (song) {
-      this.playSongService.setSong(song)
-
+      this.isPlaySong = true
+      this.musicPlayerService.setCurrentSong(song)
     }
   }
 }

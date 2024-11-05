@@ -1,25 +1,36 @@
 import { Component, signal } from '@angular/core';
 import { Song } from '../../../auth/interfaces/song.interface';
 import { PlaySongService } from '../../generalServices/play-song.service';
+import { MusicPlayerService } from '../../generalServices/music-player.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-song-info-icon-artist',
   standalone: true,
-  imports: [],
-  templateUrl: './song-info-icon-artist.component.html'
+  imports: [NgClass],
+  templateUrl: './song-info-icon-artist.component.html',
+  styleUrls: ['./song-info-icon-artist.component.css']
 })
 export class SongInfoIconArtistComponent {
 
-  currentSong = signal<Song | null>(null)
+  currentSong = signal<any>(null)
 
 
-  constructor(private playSongervice: PlaySongService) {
+  constructor(private musicPlayerService: MusicPlayerService
+  ) {
 
-    this.playSongervice.song.subscribe((song) => {
-      if (song) {
-        this.currentSong.set(song)
+    this.musicPlayerService.getCurrentSong().subscribe({
+      next: (data) => {
+          this.currentSong.set(data)
       }
     })
+
   }
+  isImageRotating(): boolean {
+    // Asegúrate de usar la ruta completa y correcta de la imagen predeterminada
+    const defaultImagePath = './../../../../assets/songs/logo.png';
+    return this.currentSong()?.song_image !== defaultImagePath;
+  }
+  
 
 }

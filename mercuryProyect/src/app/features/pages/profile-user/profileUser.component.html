@@ -7,14 +7,14 @@
      text-gray-300 hover:text-white hover:border-white transition duration-300
      ease-in-out transform hover:scale-105
       w-full text-center pb-2 block mb-4">
-      {{ currentUser.userName }}
+      {{ currentUser?.username }}
     </a>
 
     <form class="mt-4" [formGroup]="profileForm" (ngSubmit)="editProfile()">
 
       <div class="flex mb-8 p-2">
         <label class="relative w-full">
-          <input formControlName="userName" type="text" placeholder="{{currentUser.userName}}" required
+          <input formControlName="username" type="text" placeholder="{{currentUser?.username}}" required
             class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 
             duration-200 peer bg-inherit w-full placeholder-black focus:placeholder-gray-600"
             (keydown.enter)="editProfile()">
@@ -28,7 +28,7 @@
       
       <div class="flex mb-8 p-2">
         <label class="relative w-full">
-          <input formControlName="email" type="email" placeholder="{{currentUser.email}}" required
+          <input formControlName="email" type="email" placeholder="{{currentUser?.email}}" required
             class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600
              duration-200 peer bg-inherit w-full placeholder-black focus:placeholder-gray-600"
             (keydown.enter)="editProfile()">
@@ -43,7 +43,7 @@
 
       <div class="flex mb-8 p-2">
         <label class="relative w-full">
-          <input formControlName="dateOfBirth" type="date" required
+          <input formControlName="birth" type="date" required
             class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600 
             duration-200 peer bg-inherit w-full placeholder-black focus:placeholder-gray-600"
             (keydown.enter)="editProfile()">
@@ -51,14 +51,14 @@
             class="flex flex-auto absolute left-0 top-2 px-1 text-lg tracking-wide peer-focus:text-firstColor
              pointer-events-none duration-200 peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 
              peer-valid:text-sm bg-gray-800 rounded-2xl ml-2 text-white">
-            Fecha de {{ currentUser.role === 'artist' ? 'fundación' : 'nacimiento' }}*
+            Fecha de nacimiento
           </span>
         </label>
       </div>
 
       <div class="flex mb-8 p-2">
         <label class="relative w-full">
-          <input formControlName="location" type="text" placeholder="{{currentUser.location}}"
+          <input formControlName="country" type="text" placeholder="{{currentUser?.country}}"
             class="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded hover:border-gray-600
              duration-200 peer focus:border-firstColor bg-inherit w-full"
             (keydown.enter)="editProfile()">
@@ -71,11 +71,11 @@
         </label>
       </div>
 
-      <div *ngIf="isArtist(currentUser)">
+      <div >
         <div class="flex mb-8 p-2">
           <label class="relative w-full">
             <input formControlName="biography" type="text"
-              [placeholder]="currentUser.biography === undefined ? 'Cuentale a la audiencia tu biografía' : currentUser.biography"
+              [placeholder]="currentUser?.biography === undefined ? 'Cuentale a la audiencia tu biografía' : currentUser?.biography"
               class="px-4 py-2 text-lg outline-none border-2 border-blue-300 rounded hover:border-gray-600 duration-200
                peer focus:border-firstColor bg-inherit w-full"
               (keydown.enter)="editProfile()">
@@ -104,7 +104,7 @@
       Foto de perfil
     </a>
     <div class="flex justify-center">
-      <img [src]="profilePicture || './../../../../assets/songs/logo.png'" alt="Profile picture"
+      <img [src]="currentUser?.profile_picture || './../../../../assets/songs/logo.png'" alt="Profile picture"
         class="w-[300px] lg:w-[400px] h-[400px] lg:h-[500px] object-cover border border-gray-700
          rounded-lg shadow-2xl cursor-pointer transition duration-500 ease-in-out transform hover:scale-105"
         (click)="triggerFileInput()">

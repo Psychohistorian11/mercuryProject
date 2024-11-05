@@ -44,6 +44,11 @@ export const enviroment = {
       Albums: {
          name: "Albums",
          images: "images"
+      },
+
+      PlayList: {
+         name: "PlayList",
+         images: "images"
       }
 
    }
