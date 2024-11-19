@@ -1,4 +1,4 @@
-# Entrega_dos
+# Entrega_tres
 
 Para esta entrega es importante tener en cuenta la información que se tiene por defecto en el sistema para una cómoda visualización del mismo, por ende tenemos los siguientes usuarios de acceso a la aplicación:
 
